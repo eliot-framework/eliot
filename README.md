@@ -1,6 +1,7 @@
 Eliot Framework
 =====
 
+![alt tag](https://github.com/eliot-framework/eliot/blob/master/static/img/dashboard.png)
 
 
 Dependências do projeto
