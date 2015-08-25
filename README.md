@@ -1,8 +1,7 @@
 Eliot Framework
 =====
 
-Uma abordagem leve para o desenvolvimento de soluções
-Web/Mobile responsiva!
+Uma abordagem leve para o desenvolvimento de soluções Web/Mobile responsiva!
 
 ![alt tag](https://github.com/eliot-framework/eliot/blob/master/static/img/dashboard.png)
 
@@ -14,7 +13,7 @@ Ambiente de Desenvolvimento Recomendado
 * IDE -- https://eclipse.org/
 * PyDev para Eclipse -- http://www.pydev.org/
 * Python 3.4 -- https://www.python.org/downloads/
-
+* Django 1.7 -- https://www.djangoproject.com/
 
 Dependências do projeto
 ------------------------
