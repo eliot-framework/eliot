@@ -1,2 +1,0 @@
-#/bin/bash
-uwsgi --http :8000 --module eliot.wsgi --ini uwsgi_tcp_164.41.121.30.ini
