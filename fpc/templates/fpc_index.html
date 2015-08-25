@@ -1,0 +1,14 @@
+{% extends "fpc_base.html" %}
+{% block conteudo %}        
+
+   {% if opcao == "pesquisa" %}
+   		{% include "fpc_pesquisa.html" %}
+   {% elif opcao == "cadastro" %}
+   		{% include "fpc_cadastro.html" %}
+   {% elif opcao == "layout" %}
+   		{% include "fpc_layout.html" %}
+   {% else %}
+   		{% include "fpc_painel.html" %}
+   {% endif %}	
+
+{% endblock conteudo %}

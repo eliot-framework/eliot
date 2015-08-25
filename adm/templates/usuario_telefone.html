@@ -1,0 +1,98 @@
+
+
+<fieldset>
+	<legend>Incluir novo telefone</legend>
+
+	<form id="frm_telefone">
+		<input id="txt_matricula" class="form-control" type="hidden" data-field="matricula" data-type="text" value="{{ matricula }}">
+		
+		<label class="control-label">
+			<span>DDD</span>
+			<input id="txt_ddd" class="form-control" type="text" data-field="ddd" maxlength="3" style="width: 45px; data-type="text">
+		</label>
+
+		<label class="control-label">
+			<span>Telefone</span>
+			<input id="txt_numero" class="form-control" type="text" data-field="numero" maxlength="10" style="width: 150px; data-type="text">
+		</label>
+		
+		<button onclick="javascript:incluir_telefone()" type="button" class="btn btn-default btn-xs">
+			 <i class="glyphicon glyphicon-plus"></i>Incluir
+		</button>
+	</form>
+
+</fieldset>
+
+
+<fieldset>
+	<legend>Lista de telefones do usuário</legend>
+
+	<table class="display dataTable">
+	
+		<thead>
+			<tr>
+				<th>DDD</th>
+				<th>Telefone</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{% for telefone in lista_telefones %}
+				<tr>
+					<td>
+						{{ telefone.ddd }}
+					</td>
+					<td>
+						{{ telefone.numero }}
+					</td>
+					<td>
+						<button onclick="javascript:excluir_telefone({{ matricula}}, '{{ telefone.numero }}')" type="button" class="btn btn-default btn-xs">
+		 					<i class="glyphicon glyphicon-trash"></i>Excluir
+				 		</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	
+	</table>
+
+</fieldset>
+
+<script>
+
+	function incluir_telefone(){
+		if (txt_ddd.value == ""){
+			alert('Informe o DDD do telefone!');
+			return;
+		}
+		
+		if (txt_numero.value == ""){
+			alert('Informe o número do telefone!');
+			return;
+		}
+
+		form_s = fpc.serializeForm(frm_telefone);
+		
+		$.ajax({
+			  type: "GET",
+			  url: '/acesso/api1/adm/telefone_usuario/incluir_telefone',
+			  data : form_s
+			}).done(function(msg) {
+				fpc.refreshCurrentTab();
+				if (msg.tipo === "error"){
+					fpc.mensagem(msg.messages, "error");	
+				}
+		    });			
+	}
+
+	function excluir(matricula, numero){
+		$.ajax({
+			  type: "GET",
+			  url: '/acesso/api1/adm/telefone_usuario/excluir_telefone?numero='+ numero + '&matricula=' + matricula
+			}).done(function(response) {
+				fpc.refreshCurrentTab();
+			});
+	}
+
+</script>

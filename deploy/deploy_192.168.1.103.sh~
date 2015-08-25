@@ -1,0 +1,2 @@
+#/bin/bash
+uwsgi --http-socket :8000 --ini uwsgi_tcp_192.168.1.103.ini

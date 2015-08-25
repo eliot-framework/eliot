@@ -1,0 +1,129 @@
+
+<fieldset>
+	<legend>Incluir novo endereço</legend>
+
+	<form id="frm_endereco">
+		<input id="txt_matricula" class="form-control" type="hidden" style="width: 1px" data-field="matricula" data-type="text" value="{{ matricula }}">
+		
+		<label class="control-label">
+			<span>Tipo de Endereço</span>
+			<div class="input-group">
+				<select data-field="tipo" class="form-control" style="width: 100px; background-color: white;" data-value="M" data-required="" data-type="combobox" data-default="R" > 
+					<option value="-">Selecione</option>
+					<option value="R">Residencial</option>
+					<option value="X">Cobrança</option>
+					<option value="C">Comercial</option>
+				</select>
+			</div>
+		</label>
+		
+		<span class="fpc_nl"></span>
+		
+		<label class="control-label">
+			<span>Logradouro</span>
+			<input id="txt_logradouro" class="form-control" type="text" data-field="logradouro" maxlength="100" style="width: 280px; data-type="text">
+		</label>
+
+		<label class="control-label">
+			<span>Município</span>
+			<input id="txt_municipio" class="form-control" type="text" data-field="municipio" maxlength="45" style="width: 150px; data-type="text">
+		</label>
+
+		<label class="control-label">
+			<span>CEP</span>
+			<input id="txt_CEP" class="form-control" type="text" data-field="CEP" maxlength="10" style="width: 86px; data-type="text">
+		</label>
+
+		<label class="control-label">
+			<span>Bairro</span>
+			<input id="txt_bairro" class="form-control" type="text" data-field="bairro" maxlength="10" style="width: 150px; data-type="text">
+		</label>
+
+		<button onclick="javascript:incluir_endereco()" type="button" class="btn btn-default btn-xs">
+			 <i class="glyphicon glyphicon-plus"></i>Incluir
+		</button>
+	</form>
+
+</fieldset>
+
+
+<fieldset>
+	<legend>Lista de endereços do usuário</legend>
+
+	<table class="display dataTable">
+	
+		<thead>
+			<tr>
+				<th>Tipo</th>
+				<th>Logradouro</th>
+				<th>Município</th>
+				<th>CEP</th>
+				<th>Bairro</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{% for endereco in lista_enderecos %}
+				<tr>
+					<td>
+						{% if endereco.tipo == 'R' %} 
+							Residencial
+						{% elif endereco.tipo == 'X' %}
+							Cobrança	
+						{% else %}
+							Comercial
+						{% endif %}
+					</td>
+					<td>
+						{{ endereco.logradouro }}
+					</td>
+					<td>
+						{{ endereco.municipio }}
+					</td>
+					<td>
+						{{ endereco.CEP }}
+					</td>
+					<td>
+						{{ endereco.bairro }}
+					</td>
+					<td>
+						<button onclick="javascript:excluir_endereco({{ matricula}}, '{{ endereco.tipo }}')" type="button" class="btn btn-default btn-xs">
+		 					<i class="glyphicon glyphicon-trash"></i>Excluir
+				 		</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	
+	</table>
+
+</fieldset>
+
+<script>
+
+	function incluir_endereco(){
+		form_s = fpc.serializeForm(frm_endereco);
+		
+		$.ajax({
+			  type: "GET",
+			  url: '/acesso/api1/adm/endereco_usuario/incluir_endereco',
+			  data : form_s
+			}).done(function(msg) {
+				fpc.refreshCurrentTab();
+				if (msg.tipo === "error"){
+					fpc.mensagem(msg.messages, "error");	
+				}
+		    });			
+	}
+
+	function excluir_endereco(matricula, tipo){
+		$.ajax({
+			  type: "GET",
+			  url: '/acesso/api1/adm/endereco_usuario/excluir_endereco?tipo="'+ tipo + '"&matricula=' + matricula
+			}).done(function(response) {
+				fpc.refreshCurrentTab();
+			});
+	}
+
+</script>

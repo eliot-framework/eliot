@@ -1,0 +1,58 @@
+{% load fpc_tags %}
+<div id="openModal" class="modalWindow">
+    <div id="janela_modal">
+        <div id="header_modal" class="modalHeader">
+            <span class="titulo4">Consulta {{ form.titulo }}</span>
+            <a id="btn_close_consulta" href="#" title="Fechar" class="close">X</a>
+        </div>
+        <div class="modalContent">
+	  		<div style="height:20px; margin-bottom: 6px; margin-top: 10px;">
+		  		<div id="barra_botao_consulta" style="width: 260px; float:left" data-ts="{{ ts.id }}">
+			  		<button id="btn_pesquisar_consulta" type="button" onclick="fpc.pesquisar('{{ ts.id }}', true)" >
+			  			<i class="glyphicon glyphicon-search" /> Pesquisar
+			  		</button>
+					<button id="btn_retornar_consulta" style="display:none;" type="button" onclick="fpc.retornaRegistroConsulta()">
+						<i class="glyphicon glyphicon-check"/> Selecionar Registro
+					</button>
+				</div>
+				<div style="float:right;">
+					<button id="btn_nova_pesquisa_consulta" style="display:none;" type="button" onclick="fpc.novaConsulta()">
+						<i class="glyphicon glyphicon-chevron-left"/> Voltar para Pesquisa
+					</button>
+				    <button id="btn_cancelar_consulta" type="button" onclick="btn_close_consulta.click();">
+						<i class="glyphicon glyphicon-remove"/> Cancelar
+					</button>
+				</div>
+			</div>
+			<hr style="margin: 12px 0 12px 0; height: 1px; width: auto;" />
+			<div id="alerta_consulta" class="alert alert-info" style="display:none;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong id="alerta_text_consulta" /></strong>
+			</div>
+			<form  id="filtro_consulta" class="form_consulta">
+				<div id="filtro_pesquisa_consulta">
+			    	{% include "fpc_layout.html" %}
+				</div>
+				<div id="dados_pesquisa_consulta" data-ts="{{ ts.id }}" data-model="{{ form.name }}" data-id="" style="display:none">
+					<table id="dados_consulta" class="display">
+						<thead>
+							<tr>
+								<th style="width:5px" >Seleção</th>
+								{% for field in form.campos_grid_pesquisa %}
+									<th style="width:{{ field.widthGrid }}px">{{ field.label }}</th>
+								{% endfor %}
+							</tr>
+						</thead>
+						<tbody>
+						</tbody> 
+						<tfoot> 
+							<tr>
+								<td rowspan="1" colspan="{{ form.campos_grid_pesquisa|length|fpc_inc }}">&nbsp;</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>	   
+			</form>
+		</div>
+    </div>
+</div>

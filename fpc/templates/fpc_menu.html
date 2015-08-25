@@ -1,0 +1,27 @@
+<ul id="barra_nav" class="nav navbar-nav visible-lg-inline visible-md-inline visible-sm-inline">
+{% for menu in menus %}
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ menu.titulo }} <b class="caret"></b></a> 
+       	{% if menu.tipoTransacao == 'F' %}
+       	<ul class="dropdown-menu">
+		 	{% for submenu in menu.getFilhos %}
+				{% if submenu.tipoTransacao == 'L' %}
+				<li class="divider"></li>
+				{% elif submenu.getFilhos %}
+					<li class="dropdown-submenu">
+			        <a href="#" tabindex="-1">{{ submenu.titulo }}</a>
+			        <ul class="dropdown-menu">
+		              		{% for submenu2 in submenu.getFilhos %}
+					          <li><a href="#" onclick="fpc.exibeForm('{{ submenu.transacao_url }}', { formModel : '{{ submenu.formModel }}' })">{{ submenu2.titulo }}</a></li>
+	              		{% endfor %}
+	              	</ul>	
+				</li>
+				    {% else %}
+					<li><a href="#" onclick="fpc.execTs('{{ submenu.id }}')" >{{ submenu.titulo }}</a></li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+		{% endif %}
+	    </li>
+{% endfor %}
+ </ul>

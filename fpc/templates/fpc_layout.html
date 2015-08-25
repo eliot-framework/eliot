@@ -1,0 +1,29 @@
+{% load fpc_tags %}
+<div class="{{ layout.tipo }}">
+{% if layout.layout|fpc_is_tab %}
+	<!--  monta abas -->
+	<ul id="id_tab_registro" class="nav nav-tabs">
+		{% for tab in layout.layout %}
+		    {% if tab|fpc_tab_is_visible:layout %}
+	        	<li {% if forloop.first %} class="{{ tab_active }}" {% endif %}  >
+	        		<a class="fpc_tab" id="id_htab_{{ forloop.counter }}" {% if tab|fpc_is_ajax_tab:layout %} onclick="fpc.exibeAjaxTab(this, {{ ts.id }}, '{{ tab|fpc_url_tab:layout}}', 'id_tab_{{ forloop.counter }}')" {% endif %} href="#id_tab_{{ forloop.counter }}" data-toggle="tab">{{ tab|fpc_tab_caption:layout }}</a>
+	        	</li>
+	    	{% endif %}
+		{% endfor %}
+	</ul>
+    <!--  monta conteúdo das abas -->
+    <div class="tab-content">  
+   	{% for tab, item in layout.layout.items %}
+	    {% if tab|fpc_tab_is_visible:layout %}
+	    <div class="tab-pane active in" id="id_tab_{{ forloop.counter }}">
+			{% include "fpc_layout_item.html" %}
+		</div>
+		{% endif %}
+	{% endfor %}
+	</div>
+{% else %}
+	{% with layout.layout as item %}
+		{% include "fpc_layout_item.html" %}
+	{% endwith %}
+{% endif %}
+</div>

@@ -1,0 +1,59 @@
+{% load fpc_tags %} 
+<div style="height: 25px;float:right;text-align: right;">
+  		<div id="barra_botao" style="float: left; width: 450px" data-ts="{{ ts.id }}" data-perm="{{ form.perm }}">
+	  		<span>&nbsp;&nbsp;</span>
+	  		<button id="btn_novo" type="button" onclick="fpc.novo('{{ ts.id }}', true)" > 
+	  			<i class="glyphicon glyphicon-plus" /> 
+	  		</button>
+	  		<button id="btn_editar" type="button" onclick="fpc.editar()" >
+	  			<i class="glyphicon glyphicon-pencil" /> 
+	  		</button>
+	  		<button id="btn_visualizar" type="button" onclick="fpc.editar()" >
+	  			<i class="glyphicon glyphicon-list-alt" /> 
+	  		</button>
+	  		<button id="btn_excluir" style="display:none" type="button" >
+	  			<i class="glyphicon glyphicon-trash"/> 
+	  		</button>
+		</div>
+</div>
+<div id="dados_itens" data-ts="{{ ts.id }}" data-model="{{ form.name }}" data-id="" data-jsclass="{{ form.js_class }}" >
+	<table id="tbl_itens" >
+		<thead>
+			<tr>
+				<th style="width:5px" >Seleção</th>
+				{% for field in form.campos_grid_pesquisa %}
+					<th style="width:{{ field.widthGrid }}px">{{ field.verbose_name }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td rowspan="1" colspan="{{ form.campos_grid_pesquisa|length|fpc_inc }}">&nbsp; </td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+<script async="async">
+
+var tbl_itens = $(document.getElementById("tbl_itens"));
+var filtro = "";
+fpcDataTable.createDataTable(
+		tbl = tbl_itens,
+		url = "/fpc.views.fpc_pesquisar?ts={{ ts.id }}" + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=false",
+		is_consulta = false,
+		row = function( nRow, aData, iDataIndex ) {
+					if (nRow.firstChild != undefined){
+	   	   				nRow.onclick = function(){
+	   	   					var divDadosPesquisa = document.getElementById("dados_itens");
+	   	   					var chkSeleciona = this.firstChild.firstChild;
+	   	   					divDadosPesquisa.dataset.id = chkSeleciona.value;
+	   	   					chkSeleciona.checked = true;
+	   	   				};
+					}
+				}
+);
+
+		
+</script>

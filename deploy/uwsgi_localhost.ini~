@@ -1,0 +1,13 @@
+[uwsgi]
+chdir=/var/www/eliot
+module=eliot.wsgi:application
+master=True
+pidfile=/var/www/eliot/project-master.pid
+vacuum=True
+max-requests=5000
+#daemonize=/var/www/eliot/eliot.log
+http=:8080
+callable=eliot
+static-map=/eliot/static=/var/www/eliot/static
+static-gzip-all
+

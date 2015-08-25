@@ -1,0 +1,38 @@
+
+<table class="display dataTable">
+
+	<thead>
+		<tr>
+			<th>Data / Hora</th>
+			<th>Perfil</th>
+			<th>Funcionalidade</th>
+			<th>Sigla Sistema</th>
+			<th>Nome Sistema</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		{% for reg in lista_historico %}
+			<tr>
+				<td>
+					{{ reg.dataHora }}
+				</td>
+				<td>
+					{{ reg.nome_perfil }}
+				</td>
+				<td>
+					{{ reg.nome_funcionalidade }}
+				</td>
+				<td>
+					{{ reg.sigla_sistema }}
+				</td>
+				<td>
+					{{ reg.nome_sistema }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+
+</table>
+
+
