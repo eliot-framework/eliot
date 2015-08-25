@@ -15,7 +15,7 @@ Ambiente de Desenvolvimento Recomendado
 * Python 3.4 -- https://www.python.org/downloads/
 * Django 1.7 -- https://www.djangoproject.com/
 
-Dependências do projeto
+Instalando as dependências do projeto
 ------------------------
 
 * Python 3.4 (ou superior)
@@ -38,7 +38,7 @@ sudo apt-get install python3-psycopg2
 ```
 
 
-Executando o dashboard
+Executando o dashboard do framework
 ------------------------
 ```
 python3.4 manage.py runserver --noreload
