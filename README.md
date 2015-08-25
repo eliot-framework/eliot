@@ -1,4 +1,4 @@
-eliot
+Eliot Framework
 =====
 
 Eliot Framework
