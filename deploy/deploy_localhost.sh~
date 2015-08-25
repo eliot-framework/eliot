@@ -1,2 +1,0 @@
-#/bin/bash
-uwsgi --http-socket :8000 --ini uwsgi_localhost.ini
