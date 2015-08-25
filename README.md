@@ -1,11 +1,29 @@
 Eliot Framework
 =====
 
+Uma abordagem leve para o desenvolvimento de soluções
+Web/Mobile responsiva!
+
 ![alt tag](https://github.com/eliot-framework/eliot/blob/master/static/img/dashboard.png)
+
+
+Ambiente de Desenvolvimento Recomendado
+------------------------
+
+* Ubuntu 64 Bits -- http://www.ubuntu.com/download/desktop
+* IDE -- https://eclipse.org/
+* PyDev para Eclipse -- http://www.pydev.org/
+* Python 3.4 -- https://www.python.org/downloads/
 
 
 Dependências do projeto
 ------------------------
+
+* Python 3.4 (ou superior)
+```
+Python 3 é instalado por padrão em modernas versões do Ubuntu.
+```
+
 
 * Django
 ```
@@ -19,5 +37,13 @@ sudo pip3 install pymysql
 ```
 sudo apt-get install python3-psycopg2
 ```
+
+
+Executando o dashboard
+------------------------
+```
+python3.4 manage.py runserver --noreload
+```
+
 
 
