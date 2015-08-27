@@ -15,7 +15,7 @@ Ambiente de Desenvolvimento Recomendado
 * Python 3.4 -- https://www.python.org/downloads/
 * Django 1.7 -- https://www.djangoproject.com/
 
-Instalando as dependências do projeto
+Instalando as dependências do projeto e o framework
 ------------------------
 
 * Python 3.4 (ou superior)
@@ -35,6 +35,11 @@ sudo pip3 install pymysql
 * Suporte ao Postgresql
 ```
 sudo apt-get install python3-psycopg2
+```
+
+* Fazer download do eliot
+```
+git clone https://github.com/eliot-framework/eliot.git
 ```
 
 
