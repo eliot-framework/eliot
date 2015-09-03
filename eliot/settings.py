@@ -167,7 +167,7 @@ INTERNAL_IPS = ('127.0.0.1')
 
 
 FPC_REGISTER_MODULES = (
-    'adm', 'estoque'
+    'adm', 'estoque', 'sae'
 )
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'

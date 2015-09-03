@@ -662,23 +662,31 @@ var fpc = {
     serializeFormParaPesquisa : function(form){
     	var fields = $.makeArray(form.getElementsByClassName("form-control"));
     	var result = "";
-    	for (var i = 0, len = fields.length; i < len; i++){
-    		var f = fields[i];
-    		var dat = f.dataset;
-    		var dfield = dat.field;
-    		if (dfield != undefined){
-	    		if (dat.type === "lookup" && dat.value !== ""){
-	     			result += dfield + ":" + escape(dat.key) + ".@.";
-	    		}else {
-		    		var value = f.value;
-	    			if (value != undefined && value !== ""){
-		       			result += dfield + ":" + escape(value) + ".@.";
-		    		}
-	    		} 
-    		}
-    	}
-    	if (result !== ""){
-    		result = result.slice(0, result.length-3);
+    	if (fields.length > 0){
+	    	for (var i = 0, len = fields.length; i < len; i++){
+	    		var f = fields[i];
+	    		var dat = f.dataset;
+	    		var dfield = dat.field;
+	    		if (dfield != undefined){
+	        		var dtype = dat.type; 
+	    			var value = f.value;
+	    			if (dtype != undefined && value != undefined){
+			    		if (dtype === "lookup"){
+			    			var dkey = dat.key;
+			    			if (dkey != undefined && value.trim() !== ""){
+			    				result += dfield + ":" + escape(dkey) + ".@.";
+			    			}
+			     		}else {
+			    			if (value.trim() !== "" && value !== "-" && value !== "-1"){
+				       			result += dfield + ":" + escape(value) + ".@.";
+				    		}
+			    		} 
+	    			}
+	    		}
+	    	}
+	    	if (result !== ""){
+	    		result = result.slice(0, result.length-3);
+	    	}
     	}
     	return result;
     },

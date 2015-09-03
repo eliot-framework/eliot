@@ -810,7 +810,7 @@ class FpcModel(models.Model):
     def get_values(self):
         result = {}
         for field in self._meta.fields:
-            if field.name not in ("id", "controle"):
+            if field.name not in ("controle"):
                 result[field.name] = self.get_valor_formatado(field)
         return result
     
