@@ -14,9 +14,6 @@ import shutil
 import sys
 from urllib.parse import urlencode
 
-from fpc import utils
-from fpc.models import Fpc, Transacao
-
 
 class EliotConfig(AppConfig):
     name = 'eliot'
@@ -34,6 +31,9 @@ class EliotConfig(AppConfig):
             """
                 Cadastra o objeto Fpc para armazenar configurações no banco
             """
+            from fpc import utils
+            from fpc.models import Fpc, Transacao
+
             fpc = None
             try:
                 fpc = Fpc.getFpc()

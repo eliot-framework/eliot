@@ -19,12 +19,13 @@ import json
 import operator
 from urllib.parse import unquote
 
+from adm.models import Usuario
 from eliot import settings
 from fpc.forms import AutenticarForm, FpcOperacaoForm, FpcForm
-from fpc.models import Fpc, Transacao, FpcValidation, FpcModel
+from fpc.models import Fpc, Transacao, FpcValidation, FpcModel, EmsModel
 from fpc.services import FpcService
 from fpc.utils import FpcCache
-from adm.models import Usuario
+
 
 def json_encode(obj):
     if isinstance(obj, decimal.Decimal):
@@ -209,6 +210,7 @@ def fpc_index(request):
 @fpc_request    
 def fpc_pesquisar(request):
     form = FpcForm.get_form(request)
+
     field = None
     filtro = None
     model = None
@@ -231,84 +233,86 @@ def fpc_pesquisar(request):
     
     tuplaCamposGrid = form.getTuplaCamposGrid()
 
-    # Verifica os filtros a incluir  
-    if filtro != None and len(filtro) > 0: 
-        expr = []
-        campos = filtro.split(".@.")
-        result = None
-        for c in campos:
-            fname, fvalue = c.split(":") 
-            fvalue = unquote(fvalue)
-            expr.append(("%s__contains" % fname, fvalue))
-        
-        q_expr = [Q(x) for x in expr]    
-        q_expr = reduce(operator.and_, q_expr)
-
-        # Verifica filtro de ids inseridos
-        if filtroIds != "":
-            listaIds = filtroIds.split(",")
-            q_expr2 = Q(("id__in", listaIds))    
-            result = model.objects.values_list(*tuplaCamposGrid).filter(q_expr | q_expr2)
-        else:
-            result = model.objects.values_list(*tuplaCamposGrid).filter(q_expr)
+    if model.Meta == EmsModel.Meta:
+        jstr =  model.objects.pesquisar(filtro, tuplaCamposGrid, limit_ini, limit_fim)
     else:
-        result = model.objects.values_list(*tuplaCamposGrid).all()
-        
-        
-    # Verifica se foi incluído filtro na grid
-    if request.GET['search[value]'] != "":
-        expr = []
-        fvalue = request.GET['search[value]']
-        for c in tuplaCamposGrid:
-            fname = c
-            expr.append(("%s__contains" % fname, fvalue))
-        q_expr = [Q(x) for x in expr]    
-        result = result.filter(reduce(operator.or_, q_expr))
+        # Verifica os filtros a incluir  
+        if filtro != None and len(filtro) > 0: 
+            expr = []
+            campos = filtro.split(".@.")
+            result = None
+            for c in campos:
+                fname, fvalue = c.split(":") 
+                fvalue = unquote(fvalue)
+                expr.append(("%s__contains" % fname, fvalue))
+            
+            q_expr = [Q(x) for x in expr]    
+            q_expr = reduce(operator.and_, q_expr)
     
-
-    if result.exists():
+            # Verifica filtro de ids inseridos
+            if filtroIds != "":
+                listaIds = filtroIds.split(",")
+                q_expr2 = Q(("id__in", listaIds))    
+                result = model.objects.values_list(*tuplaCamposGrid).filter(q_expr | q_expr2)
+            else:
+                result = model.objects.values_list(*tuplaCamposGrid).filter(q_expr)
+        else:
+            result = model.objects.values_list(*tuplaCamposGrid).all()
+            
+            
+        # Verifica se foi incluído filtro na grid
+        if request.GET['search[value]'] != "":
+            expr = []
+            fvalue = request.GET['search[value]']
+            for c in tuplaCamposGrid:
+                fname = c
+                expr.append(("%s__contains" % fname, fvalue))
+            q_expr = [Q(x) for x in expr]    
+            result = result.filter(reduce(operator.or_, q_expr))
         
-        # Verificar se deve ordenar os dados
-        if 'order[0][column]' in request.GET:
-            for i in range(0, len(tuplaCamposGrid)):
-                if 'order[%d][column]' % i in request.GET:  
-                    if request.GET['order[%d][dir]' % i] == "asc": 
-                        result = result.order_by(tuplaCamposGrid[i])
-                    else:
-                        result = result.order_by("-" + tuplaCamposGrid[i])
-                    
-       
-        result = result[limit_ini:limit_fim]
-        qtdRegistros = result.count()
-        jstr_row = StringIO()
-        jstr_row.write('{"draw": %s,"recordsTotal": "%s","recordsFiltered": "%s","data" : [' % (request.GET['draw'], qtdRegistros, qtdRegistros))
-        is_consulta = request.GET["isconsulta"] == 'true'
-        for x in range(0, len(result)):
-            row = result[x]
-            value_cod = row[0]
-            if is_consulta:
-                value_desc = row[2]
-                if value_desc == None:
-                    value_desc = ""
-                jstr_row.write('["<input type=\'radio\' data-str=\'%s - %s\' name=\'f_id\' value=\'%s\'/>",' % (value_cod, value_desc, value_cod))
-            else:
-                jstr_row.write('["<input type=\'radio\' name=\'f_id\' value=\'%s\'/>",' % value_cod)
-            for i in range(1, len(tuplaCamposGrid)-1):
-                value_row = row[i]
-                if value_row == None:
-                    value_row = ""
-                jstr_row.write('"%s",' % value_row)
-            desc_lookup = row[len(tuplaCamposGrid)-1]
-            if desc_lookup == None: 
-                desc_lookup = ""
-            if x < qtdRegistros-1:
-                jstr_row.write('"%s"],' % desc_lookup)
-            else:
-                jstr_row.write('"%s"]]}' % desc_lookup)
-        jstr = jstr_row.getvalue()
-        jstr_row.close()
-    else:
-        jstr = '{"draw": %s,"recordsTotal": "0","recordsFiltered": "0","data" : []}' % request.GET['draw']
+        if result.exists():
+            
+            # Verificar se deve ordenar os dados
+            if 'order[0][column]' in request.GET:
+                for i in range(0, len(tuplaCamposGrid)):
+                    if 'order[%d][column]' % i in request.GET:  
+                        if request.GET['order[%d][dir]' % i] == "asc": 
+                            result = result.order_by(tuplaCamposGrid[i])
+                        else:
+                            result = result.order_by("-" + tuplaCamposGrid[i])
+                        
+           
+            result = result[limit_ini:limit_fim]
+            qtdRegistros = result.count()
+            jstr_row = StringIO()
+            jstr_row.write('{"draw": %s,"recordsTotal": "%s","recordsFiltered": "%s","data" : [' % (request.GET['draw'], qtdRegistros, qtdRegistros))
+            is_consulta = request.GET["isconsulta"] == 'true'
+            for x in range(0, len(result)):
+                row = result[x]
+                value_cod = row[0]
+                if is_consulta:
+                    value_desc = row[2]
+                    if value_desc == None:
+                        value_desc = ""
+                    jstr_row.write('["<input type=\'radio\' data-str=\'%s - %s\' name=\'f_id\' value=\'%s\'/>",' % (value_cod, value_desc, value_cod))
+                else:
+                    jstr_row.write('["<input type=\'radio\' name=\'f_id\' value=\'%s\'/>",' % value_cod)
+                for i in range(1, len(tuplaCamposGrid)-1):
+                    value_row = row[i]
+                    if value_row == None:
+                        value_row = ""
+                    jstr_row.write('"%s",' % value_row)
+                desc_lookup = row[len(tuplaCamposGrid)-1]
+                if desc_lookup == None: 
+                    desc_lookup = ""
+                if x < qtdRegistros-1:
+                    jstr_row.write('"%s"],' % desc_lookup)
+                else:
+                    jstr_row.write('"%s"]]}' % desc_lookup)
+            jstr = jstr_row.getvalue()
+            jstr_row.close()
+        else:
+            jstr = '{"draw": %s,"recordsTotal": "0","recordsFiltered": "0","data" : []}' % request.GET['draw']
    
     return HttpResponse(jstr)
 

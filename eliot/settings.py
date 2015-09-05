@@ -152,12 +152,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'debug_toolbar.apps.DebugToolbarConfig',
-    'eliot.apps.EliotConfig',
     'fpc',
     'adm',
     'estoque',  
     'sae',
+    'eliot.apps.EliotConfig',
      
     #'debug_panel',
     
@@ -218,8 +217,13 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 # Configurações específicas do sistema
 
 MANTEM_FORM_CACHE = False
+
 HTML5_CACHE = False
 HTML5_HASH_CACHE = "12"
+
 USE_GZIP = False
 USE_CLOSURE_COMPILE = False
 USE_CSSMINIFIER = False
+
+IP_ERLANGMS = "localhost" 
+PORT_ERLANGMS = 2301

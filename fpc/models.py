@@ -14,6 +14,8 @@ from django.db.models.aggregates import Max
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.query_utils import Q
 from functools import reduce
+import http.client
+import json
 import operator
 
 
@@ -1018,8 +1020,52 @@ class FpcModel(models.Model):
             return self.denominacao
         else:
             return "Denominação não fornecida"
+
+
+"""
+   ErlangMS
+"""
     
+class EmsManager(models.Manager):
+    
+    def pesquisar(self, filtro, fields, limit_ini, limit_fim):
+        if isinstance(fields, tuple):
+            fields = ",".join(fields)
+        url = '/fpc/pesquisar?db_table="%s"&filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
+            (self.model._meta.db_table, filtro, fields, limit_ini, limit_fim)
+        conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
+        conn.request("GET", url)
+        try:
+            response = conn.getresponse().read().decode("utf-8")
+        finally:
+            conn.close()
+        return response
+   
+    def as_object(self, d):
+        p = self.model()
+        p.__dict__.update(d)
+        return p
+   
+    def get(self, pk):
+        url = '/fpc/get?db_table="%s"&pk=%s' % (self.model._meta.db_table, pk)
+        conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
+        conn.request("GET", url)
+        try:
+            obj_json = conn.getresponse().read().decode("utf-8")
+            obj = json.loads(obj_json, object_hook=self.as_object)
+        finally:
+            conn.close()
+        return obj
+        
 
+class EmsModel(FpcModel):
+    """
+        Classe base para os objetos de modelo ErlangMS
+    """
+    class Meta:
+        abstract = True
+        #unique_together = ("codigo", "nome")
 
+    objects = EmsManager()
 
 

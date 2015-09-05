@@ -6,12 +6,12 @@ from fpc.models import FpcModel, FpcTextField, FpcDecimalField, FpcIntegerField
 
 
 class GrupoProduto(FpcModel):
-    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, max_length=10, size=120)
+    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, size=120)
     nome = FpcTextField('Nome', max_length=70, null=False, blank=False, unique=True, size=300, caixa_alta=False)
 
     
 class SubgrupoProduto(FpcModel):
-    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, max_length=10, size=120)
+    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, size=120)
     nome = FpcTextField('Nome', max_length=70, null=False, blank=False, unique=True, size=300, caixa_alta=False)
 
 def codbarraValidator(value):
@@ -19,7 +19,7 @@ def codbarraValidator(value):
 
 
 class ProdutoComposicao(FpcModel):
-    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, max_length=10, size=120)
+    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, size=120)
     nome = FpcTextField('Nome', max_length=70, null=False, blank=False, unique=True, size=300, caixa_alta=False)
     unidade = FpcTextField("Unidade", max_length=3, blank=False)
     produto = models.ForeignKey('Produto', blank=False)
@@ -33,9 +33,9 @@ TIPO_PRODUTO = (
 )
 
 class Produto(FpcModel):
-    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, max_length=10, size=120)
+    codigo = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=True, size=120)
     nome = FpcTextField('Nome', max_length=70, null=False, blank=False, unique=True, size=300, caixa_alta=False)
-    codigoEstruturado = models.IntegerField('Cód. Estruturado', null=True, blank=True, max_length=20, unique=True)
+    codigoEstruturado = models.IntegerField('Cód. Estruturado', null=True, blank=True, unique=True)
     cod_barra = FpcTextField('Cód. Barra', max_length=13, null=True, blank=False, unique=True, size=110, validators=[codbarraValidator])
     descricao = FpcTextField('Descrição', max_length=80, null=True, blank=False, caixa_alta=False, unique=True)
     grupo = models.ForeignKey('GrupoProduto', verbose_name="Grupo", null=True, blank=True)

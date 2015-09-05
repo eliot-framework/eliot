@@ -129,7 +129,7 @@ class Sistema(FpcModel):
         db_table = 'Sistema'
         
   
-    cod_sistema = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=False, max_length=10, size=120)
+    cod_sistema = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=False, size=120)
     nome = FpcTextField('Nome', max_length=70, null=False, blank=False, unique=True, size=300, caixa_alta=False)
     sigla = FpcTextField("Sigla", max_length=3)
     
@@ -139,15 +139,15 @@ class Departamento(FpcModel):
     class Meta:
         db_table = 'Departamento'
   
-    cod_departamento = FpcIntegerField('Código', primary_key=True, db_column="cod_departamento", auto_increment=True, editable=False, insertable=False, max_length=10, size=120)
+    cod_departamento = FpcIntegerField('Código', primary_key=True, db_column="cod_departamento", auto_increment=True, editable=False, insertable=False, size=120)
     denominacao = FpcTextField('Denominação', max_length=100, null=False, blank=False, unique=True, size=300, caixa_alta=False)
 
 
 
 class Usuario(FpcModel):
-    matricula = FpcIntegerField('Matrícula', db_column="usu_matricula", primary_key=True, auto_increment=True, editable=False, insertable=False, max_length=10, size=120)
+    matricula = FpcIntegerField('Matrícula', db_column="usu_matricula", primary_key=True, auto_increment=True, editable=False, insertable=False, size=120)
     nome = FpcTextField('Nome', max_length=70, null=False, blank=False, unique=True, size=300, caixa_alta=False)
-    dt_cadastro = models.DateField("Data Cadastro", auto_now=True, auto_now_add=True)
+    dt_cadastro = models.DateField("Data Cadastro", auto_now=True)
     login = FpcTextField('Login', max_length=10, null=False, blank=False, caixa_alta=False)
     senha = FpcTextField('Senha', max_length=10, null=False, blank=False, caixa_alta=False, mascara_placeholder="*")
     departamento = models.ForeignKey('Departamento', verbose_name="Departamento", db_column="cod_departamento", null=True, blank=True)
