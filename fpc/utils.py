@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.utils.log import getLogger
+import http
 import logging
 import os
 from threading import RLock
-
 
 
 class FpcException(Exception):
@@ -90,4 +91,15 @@ class FpcSingleton(type):
             return self.__instances[self]
 
 
+class EmsRest(object):
+    @staticmethod
+    def call(url, method):
+        conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
+        conn.request(method, url)
+        try:
+            json_str = conn.getresponse().read().decode("utf-8")
+            return json_str
+        finally:
+            conn.close()
 
+        

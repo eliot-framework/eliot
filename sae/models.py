@@ -4,7 +4,7 @@
 from django.db import models
 
 from fpc.models import FpcModel, FpcTextField, FpcDecimalField, \
-    FpcIntegerField, EmsModel
+    FpcIntegerField, EmsModel, EmsManager
 
 
 BOOLEAN = ((0, "Não"), (1, 'Sim'))
@@ -30,7 +30,6 @@ class ValeAlimentacao(FpcModel):
 
 
 class Ocorrencias(EmsModel):
-
     id = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=False, size=120)
     aluno_id = FpcIntegerField('Aluno', null=False, blank=False)
     semestreAno = FpcIntegerField('Semestre/Ano', null=True, blank=True)

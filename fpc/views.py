@@ -362,7 +362,7 @@ def fpc_salvar_cadastro(request):
     try:
         obj = form.DeSerializeForm(vId, values=vForm)
         obj_copy = copy.deepcopy(obj)
-        form.save(obj)
+        obj.save()
         obj.checkUpdateFields(obj_copy)
         update_values = obj.get_update_values()
         grid_dados = "["
@@ -371,9 +371,9 @@ def fpc_salvar_cadastro(request):
             grid_dados = '%s"%s",' % (grid_dados, fld_value)
         grid_dados = grid_dados[0:-1] + "]"
         response = FpcJsonMessage("Registro salvo com sucesso!", "info", {"update_values" : update_values, 
-                                                                                  "grid_dados" : grid_dados, 
-                                                                                  "id" : obj.pk, 
-                                                                                  "ts" : ts.pk })
+                                                                          "grid_dados" : grid_dados, 
+                                                                          "id" : obj.pk, 
+                                                                          "ts" : ts.pk })
     except FpcValidation as e:
         response = FpcJsonMessage(e, "erro")
     except ValidationError as e:

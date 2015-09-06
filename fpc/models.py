@@ -1,8 +1,5 @@
 # -*- coding: UTF-8 -*-
 
-"""
-    Classe principal de configurações do Fpc
-"""
 
 from datetime import datetime
 from decimal import Decimal
@@ -14,12 +11,16 @@ from django.db.models.aggregates import Max
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.query_utils import Q
 from functools import reduce
-import http.client
 import json
 import operator
 
+from fpc.utils import EmsRest
+
 
 class Fpc(models.Model):
+    """
+        Classe principal de configurações do Fpc
+    """
     developer = models.CharField(max_length=40, default="Everton de Vargas Agilar", null=False)
     copyright = models.CharField(max_length=30, default="Copyright 2015 Everton de Vargas Agilar - Todos os direitos reservados.", null=False)
     local = models.CharField(max_length=15, default="Brasília/DF", null=True, blank=True)
@@ -687,8 +688,55 @@ class FpcValidation(Exception):
         self.warnings = warnings
         self.infos = infos
            
+           
+class FpcManager(models.Manager):
+    """
+       Classe base para managers dos modelos
+    """
+    
+    def existe_campo_duplicado(self, obj, field):
+        if type(field) == tuple:
+            q_expr = []
+            for fld in field:
+                value = getattr(obj, fld)
+                if value == None:
+                    return False
+                q = Q(("%s__exact" % fld, value))
+                q_expr.append(q)
+            q_expr = reduce(operator.and_, q_expr)
+            if obj.pk != None and obj.pk > 0:
+                return filter(q_expr).exclude(pk=obj.pk).exists()
+            else:
+                return filter(q_expr).exists()
+        else:
+            value = getattr(obj, field.name) 
+            if value != None: 
+                q = Q(("%s__exact" % field.name, value))
+                if obj.pk != None and obj.pk > 0 and not obj._state.adding:
+                    return filter(q).exclude(pk=obj.pk).exists()
+                else:
+                    return filter(q).exists()
+           
+    def sequence(self, field_name):
+        value = all().aggregate(Max(field_name))["%s__max" % field_name]
+        if value != None:
+            value = value + 1
+        else:
+            value = 1
+        return value
+    
+    def save(self, obj):
+        if not obj._state.adding and obj.pk != None and obj.update_fields != None and len(obj.update_fields) > 0:
+            super(FpcModel, obj).save(obj.update_fields)
+        else:
+            super(FpcModel, obj).save()
+
+        obj.update_fields = []
+
     
 class FpcModel(models.Model):
+    objects = FpcManager()
+
     """
         Classe base para os objetos de modelo
     """
@@ -702,30 +750,24 @@ class FpcModel(models.Model):
     def save(self, *args, **kwargs):
         # Antes de persistir é preciso validar o objeto
         self.clean()
+        manager = type(self).objects
         
         # Gera os campos auto incremento do objeto
         for field in self._meta.fields: 
             if type(field) == FpcIntegerField and field.auto_increment and getattr(self, field.name) == None:
-                manager = type(self).objects
-                value = manager.all().aggregate(Max(field.name))["%s__max" % field.name]
-                if value != None:
-                    value = value + 1
-                else:
-                    value = 1
+                value = manager.sequence(field.name)
                 setattr(self, field.name, value)
             
-        super(FpcModel, self).save(*args, **kwargs)
-        self.update_fields = []
-            
+        manager.save(self)
     
     
     def clean(self):
         errors = []
-
+        manager = type(self).objects
         # Validação para os campos unique a nível de coluna
         for field in self._meta.fields: 
             if field.unique and type(field) != models.AutoField and getattr(self, field.name) != None:
-                if self.existeCampoDuplicado(field):
+                if manager.existe_campo_duplicado(self, field):
                     msg = 'Campo "%s" já está cadastrado.' % field.verbose_name
                     errors.append({'msg' : msg, 'field' : field.name})
         
@@ -733,41 +775,15 @@ class FpcModel(models.Model):
         if self._meta.unique_together != None:
             for fields in self._meta.unique_together:
                 if type(fields) == tuple:
-                    if self.existeCampoDuplicado(fields):
+                    if manager.existe_campo_duplicado(self, fields):
                         verbose_names = ", ".join([self._meta._name_map[fld][0].verbose_name for fld in fields])
                         msg = 'Já existe outro registro com os campos "%s" informados.' % verbose_names
                         errors.append({'msg' : msg})
-                    
                         
         if len(errors) > 0:
             raise FpcValidation(errors, None, None)
                     
    
-    def existeCampoDuplicado(self, field):
-        manager = type(self).objects
-        if type(field) == tuple:
-            q_expr = []
-            for fld in field:
-                value = getattr(self, fld)
-                if value == None:
-                    return False
-                q = Q(("%s__exact" % fld, value))
-                q_expr.append(q)
-            q_expr = reduce(operator.and_, q_expr)
-            if self.pk != None and self.pk > 0:
-                return manager.filter(q_expr).exclude(pk=self.pk).exists()
-            else:
-                return manager.filter(q_expr).exists()
-        else:
-            value = getattr(self, field.name) 
-            if value != None: 
-                q = Q(("%s__exact" % field.name, value))
-                if self.pk != None and self.pk > 0 and not self._state.adding:
-                    return manager.filter(q).exclude(pk=self.pk).exists()
-                else:
-                    return manager.filter(q).exists()
-        
-        
     @classmethod
     def field_by_name(self, field_name):
         if field_name == 'pk':
@@ -1022,50 +1038,66 @@ class FpcModel(models.Model):
             return "Denominação não fornecida"
 
 
-"""
-   ErlangMS
-"""
     
-class EmsManager(models.Manager):
     
+class EmsManager(FpcManager):
+    """
+        Classe base para manager ErlangMS
+    """
+    def get(self, pk):
+        url = '/fpc/get?db_table="%s"&pk=%s' % (self.model._meta.db_table, pk)
+        json_str = EmsRest.call(url, "GET")
+        obj_dict = json.loads(json_str)
+        obj = self.model()
+        obj.set_values(obj_dict)
+        return obj
+
     def pesquisar(self, filtro, fields, limit_ini, limit_fim):
         if isinstance(fields, tuple):
             fields = ",".join(fields)
         url = '/fpc/pesquisar?db_table="%s"&filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
             (self.model._meta.db_table, filtro, fields, limit_ini, limit_fim)
-        conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
-        conn.request("GET", url)
-        try:
-            response = conn.getresponse().read().decode("utf-8")
-        finally:
-            conn.close()
-        return response
+        result = EmsRest.call(url, "GET")
+        return result
    
     def as_object(self, d):
         p = self.model()
         p.__dict__.update(d)
         return p
    
-    def get(self, pk):
-        url = '/fpc/get?db_table="%s"&pk=%s' % (self.model._meta.db_table, pk)
-        conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
-        conn.request("GET", url)
-        try:
-            obj_json = conn.getresponse().read().decode("utf-8")
-            obj = json.loads(obj_json, object_hook=self.as_object)
-        finally:
-            conn.close()
-        return obj
-        
+    def existe_campo_duplicado(self, obj, field):
+        field_name = field.name
+        field_value = getattr(obj, field_name)
+        url = '/fpc/existe_campo_duplicado?db_table="%s"&pk=%s&field_name="%s"&field_value' % \
+            (self.model._meta.db_table, obj.pk, field_name, field_value)
+        result = EmsRest.call(url, "GET")
+        return result == "true"
+
+    def sequence(self, field_name):
+        url = '/fpc/sequence?db_table="%s"&field_name="%s' % (self.model._meta.db_table, field_name)
+        result = EmsRest.call(url, "GET")
+        return int(result)
+    
+    def save(self, obj):
+        url = '/fpc/save?db_table="%s"&pk=%s&update_fields="%s"' % (self.model._meta.db_table, obj.pk, obj.update_fields)
+        EmsRest.call(url, "GET")
+        obj.update_fields = []
+
 
 class EmsModel(FpcModel):
     """
         Classe base para os objetos de modelo ErlangMS
     """
+    objects = EmsManager()
+
     class Meta:
         abstract = True
         #unique_together = ("codigo", "nome")
 
-    objects = EmsManager()
+    def __init__(self, *args, **kwargs):
+        super(FpcModel, self).__init__(*args, **kwargs)
+        pass
+    
+
 
 
