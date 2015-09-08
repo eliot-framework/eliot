@@ -9,32 +9,14 @@ from fpc.forms import *
 class ValeAlimentacaoForm(FpcCrud):
     class Meta:
         model = ValeAlimentacao
-        campos_pesquisa = (
-            'id',
-            'campus',
-            'inicioVigencia',
-            'fimVigencia',
-            'pagaBeneficio',
-            'geraArquivoRU',
-            )
-        campos_grid_pesquisa = (
-            'id',
-            'campus',
-            'inicioVigencia',
-            'fimVigencia',
-            'pagaBeneficio',
-            'geraArquivoRU',
-            )
-        layout = ('id', 'campus', ('inicioVigencia', 'fimVigencia'),
-                  'valorBeneficio', ('pagaBeneficio', 'geraArquivoRU'))
-        layout_pesquisa = (
-            'id',
-            'campus',
-            'inicioVigencia',
-            'fimVigencia',
-            'pagaBeneficio',
-            'geraArquivoRU',
-            )
+        campos_pesquisa = ('id','campus', 'inicioVigencia', 'fimVigencia','pagaBeneficio')
+        campos_grid_pesquisa = ('id','campus', 'inicioVigencia', 'fimVigencia','pagaBeneficio')
+        layout = ('id', 'campus', 
+                  ('inicioVigencia', 'fimVigencia'),
+                  'valorBeneficio', 
+                  'pagaBeneficio', 
+                  "ocorrencia")
+        layout_pesquisa = ('id','campus','inicioVigencia','fimVigencia','pagaBeneficio')
         titulo = "Auxílio Alimentação"
 
 

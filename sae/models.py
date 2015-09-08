@@ -22,12 +22,11 @@ class ValeAlimentacao(FpcModel):
     id = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=False, size=120)
     campus = FpcIntegerField('Campus', null=False, blank=False)
     inicioVigencia = models.DateField("Início Vigência", null=True, blank=True)
-    fimVigencia = models.DateField("Fim Vigência?", null=True, blank=True)
-    pagaBeneficio = FpcIntegerField("Paga Benefício?", size=160, null=False, blank=False, choices=BOOLEAN, default=0)
-    geraArquivoRU = FpcIntegerField(
-        'Gerar Arquivo RU', size=160, null=False, blank=False, choices=BOOLEAN, default=1)
-    valorBeneficio = FpcDecimalField("Valor do Benefício", null=False, blank=False, default=0, max_digits=10, decimal_places=2)
-
+    fimVigencia = models.DateField('Fim Vigência?', null=True, blank=True)
+    pagaBeneficio = FpcIntegerField('Paga Benefício?', size=160, null=False, blank=False, choices=BOOLEAN, default=0)
+    geraArquivoRU = FpcIntegerField('Gerar Arquivo RU', size=160, null=False, blank=False, choices=BOOLEAN, default=1)
+    valorBeneficio = FpcDecimalField('Valor do Benefício', null=False, blank=False, default=0, max_digits=10, decimal_places=2)
+    ocorrencia = models.ForeignKey('Ocorrencias', verbose_name="Ocorrencia ativa", null=True, blank=True)
 
 class Ocorrencias(EmsModel):
     id = FpcIntegerField('Código', primary_key=True, auto_increment=True, editable=False, insertable=False, size=120)

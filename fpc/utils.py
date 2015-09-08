@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+import decimal
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import connection
@@ -92,14 +94,29 @@ class FpcSingleton(type):
 
 
 class EmsRest(object):
+    
     @staticmethod
-    def call(url, method):
+    def get(url):
+        return EmsRest.call("GET", url, "")
+    
+    @staticmethod
+    def post(url, body):
+        return EmsRest.call("POST", url, body)
+
+    @staticmethod
+    def call(method, url, body):
         conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
-        conn.request(method, url)
+        conn.request(method, url, body)
         try:
             json_str = conn.getresponse().read().decode("utf-8")
             return json_str
         finally:
             conn.close()
 
+def json_encode_java(obj):
+    if isinstance(obj, decimal.Decimal):
+        return str(obj)
+    if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
+        return obj.strftime("%d/%m/%Y")
+    raise TypeError(repr(obj) + " is not JSON serializable")
         

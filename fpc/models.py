@@ -3,10 +3,12 @@
 
 from datetime import datetime
 from decimal import Decimal
+import decimal
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.backends.dummy.base import DatabaseError
 from django.db.models.aggregates import Max
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.query_utils import Q
@@ -14,7 +16,7 @@ from functools import reduce
 import json
 import operator
 
-from fpc.utils import EmsRest
+from fpc.utils import EmsRest, json_encode_java
 
 
 class Fpc(models.Model):
@@ -102,7 +104,7 @@ class Transacao(models.Model):
 
     
     """
-        Obtém uma lista de todos os filhos da transação (transação tipo fluxo)
+        Obtem uma lista de todos os filhos da transação (transação tipo fluxo)
     """
     def getFilhos(self):
         if self._filhos == None:
@@ -705,20 +707,20 @@ class FpcManager(models.Manager):
                 q_expr.append(q)
             q_expr = reduce(operator.and_, q_expr)
             if obj.pk != None and obj.pk > 0:
-                return filter(q_expr).exclude(pk=obj.pk).exists()
+                return self.filter(q_expr).exclude(pk=obj.pk).exists()
             else:
-                return filter(q_expr).exists()
+                return self.filter(q_expr).exists()
         else:
             value = getattr(obj, field.name) 
             if value != None: 
                 q = Q(("%s__exact" % field.name, value))
                 if obj.pk != None and obj.pk > 0 and not obj._state.adding:
-                    return filter(q).exclude(pk=obj.pk).exists()
+                    return self.filter(q).exclude(pk=obj.pk).exists()
                 else:
-                    return filter(q).exists()
+                    return self.filter(q).exists()
            
     def sequence(self, field_name):
-        value = all().aggregate(Max(field_name))["%s__max" % field_name]
+        value = self.all().aggregate(Max(field_name))["%s__max" % field_name]
         if value != None:
             value = value + 1
         else:
@@ -727,11 +729,10 @@ class FpcManager(models.Manager):
     
     def save(self, obj):
         if not obj._state.adding and obj.pk != None and obj.update_fields != None and len(obj.update_fields) > 0:
-            super(FpcModel, obj).save(obj.update_fields)
+            super(FpcModel, obj).save(force_insert=False, force_update=False, using=None,
+                                       update_fields=obj.update_fields)
         else:
             super(FpcModel, obj).save()
-
-        obj.update_fields = []
 
     
 class FpcModel(models.Model):
@@ -747,19 +748,19 @@ class FpcModel(models.Model):
     update_fields = None
     lista_models = None
 
-    def save(self, *args, **kwargs):
-        # Antes de persistir é preciso validar o objeto
-        self.clean()
+    def setAutoIncrementFields(self):
         manager = type(self).objects
-        
-        # Gera os campos auto incremento do objeto
         for field in self._meta.fields: 
             if type(field) == FpcIntegerField and field.auto_increment and getattr(self, field.name) == None:
                 value = manager.sequence(field.name)
                 setattr(self, field.name, value)
-            
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        self.setAutoIncrementFields()
+        manager = type(self).objects
         manager.save(self)
-    
+        self.update_fields = []
     
     def clean(self):
         errors = []
@@ -1046,7 +1047,7 @@ class EmsManager(FpcManager):
     """
     def get(self, pk):
         url = '/fpc/get?db_table="%s"&pk=%s' % (self.model._meta.db_table, pk)
-        json_str = EmsRest.call(url, "GET")
+        json_str = EmsRest.get(url)
         obj_dict = json.loads(json_str)
         obj = self.model()
         obj.set_values(obj_dict)
@@ -1057,7 +1058,7 @@ class EmsManager(FpcManager):
             fields = ",".join(fields)
         url = '/fpc/pesquisar?db_table="%s"&filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
             (self.model._meta.db_table, filtro, fields, limit_ini, limit_fim)
-        result = EmsRest.call(url, "GET")
+        result = EmsRest.get(url)
         return result
    
     def as_object(self, d):
@@ -1068,19 +1069,22 @@ class EmsManager(FpcManager):
     def existe_campo_duplicado(self, obj, field):
         field_name = field.name
         field_value = getattr(obj, field_name)
-        url = '/fpc/existe_campo_duplicado?db_table="%s"&pk=%s&field_name="%s"&field_value' % \
+        url = '/fpc/existe_campo_duplicado?db_table="%s"&pk=%s&field_name="%s"&field_value="%s"' % \
             (self.model._meta.db_table, obj.pk, field_name, field_value)
-        result = EmsRest.call(url, "GET")
+        result = EmsRest.get(url)
         return result == "true"
 
     def sequence(self, field_name):
         url = '/fpc/sequence?db_table="%s"&field_name="%s' % (self.model._meta.db_table, field_name)
-        result = EmsRest.call(url, "GET")
+        result = EmsRest.get(url)
         return int(result)
     
     def save(self, obj):
-        url = '/fpc/save?db_table="%s"&pk=%s&update_fields="%s"' % (self.model._meta.db_table, obj.pk, obj.update_fields)
-        EmsRest.call(url, "GET")
+        update_fields = json.dumps(obj.get_update_values(), default=json_encode_java)
+        url = '/fpc/save?db_table="%s"&pk=%s' % (self.model._meta.db_table, obj.pk)
+        result = EmsRest.post(url, update_fields)
+        if result != "ok":
+            raise DatabaseError(result)
         obj.update_fields = []
 
 
