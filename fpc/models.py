@@ -579,6 +579,118 @@ class Transacao(models.Model):
         except:
             pass;
         
+        # menu Estudo socioeconomico
+        ts = Transacao()
+        ts.nome = 'estudosocioeconomico_sae'
+        ts.titulo = 'Estudo Socioeconômico'
+        ts.tipoTransacao = 'F'
+        ts.posicao = 1
+        ts.formModel = 'fpc.forms.PainelForm'
+        ts.image_url = 'class glyphicon glyphicon-list-alt'
+        ts.transacaoPai = Transacao.objects.get(nome='mod_sae')
+        try:
+            ts.save()
+        except:
+            pass;
+        
+        # Preencher formulário do estudo socioeconômico preliminar
+        ts = Transacao()
+        ts.nome = 'estudosocioeconomico_preliminar_sae'
+        ts.titulo = 'Preencher Formulário'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 1
+        ts.formModel = 'sae.forms.EstudoSocioEconomicoPreliminarForm'
+        ts.model = 'sae.models.EstudoSocioEconomico'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')
+        try:
+            ts.save()
+        except:
+            pass;
+
+        # Preencher formulário do estudo socioeconômico
+        ts = Transacao()
+        ts.nome = 'formulario_estudosocioeconomico_dadospessoais_sae'
+        ts.titulo = 'Dados Pessoais'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 4
+        ts.formModel = 'sae.forms.EstudoSocioEconomicoDadosPessoaisForm'
+        ts.model = 'sae.models.EstudoSocioEconomico'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # Preencher formulário do estudo socioeconômico
+        ts = Transacao()
+        ts.nome = 'formulario_estudosocioeconomico_dadosfamiliares_sae'
+        ts.titulo = 'Dados Familiares'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 5
+        ts.formModel = 'sae.forms.EstudoSocioEconomicoDadosFamiliaresForm'
+        ts.model = 'sae.models.EstudoSocioEconomico'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # Preencher formulário do estudo socioeconômico
+        ts = Transacao()
+        ts.nome = 'formulario_estudosocioeconomico_bens_sae'
+        ts.titulo = 'Bens Pertencente a Família'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 6
+        ts.formModel = 'sae.forms.EstudoSocioEconomicoBensForm'
+        ts.model = 'sae.models.EstudoSocioEconomico'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # Imprimir formulário do estudo socioeconômico
+        ts = Transacao()
+        ts.nome = 'imprimir_estudosocioeconomico_sae'
+        ts.titulo = 'Imprimir Formulário'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 2
+        ts.formModel = 'sae.forms.ImprimirEstudoSocioEconomicoForm'
+        ts.model = 'sae.models.EstudoSocioEconomico'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # Preencher formulário do estudo socioeconômico
+        ts = Transacao()
+        ts.nome = 'info_estudosocioeconomico_sae'
+        ts.titulo = 'Informações Sobre o Estudo'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 3
+        ts.formModel = 'sae.forms.InfoEstudoSocioEconomicoForm'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')
+        try:
+            ts.save()
+        except:
+            pass;
                 
 """
     Classe de controle para registrar data e usuário que alterou um registro

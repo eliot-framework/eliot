@@ -4,7 +4,7 @@
 from sae.models import *
 from fpc.forms import *
 
-# CRUDS....
+# Cadastros básicos
 
 class ValeAlimentacaoForm(FpcCrud):
     class Meta:
@@ -54,7 +54,44 @@ class GeraArquivoRUForm(FpcCrud):
         titulo = 'Gerar Arquivo RU'
 
 
-# Consultas / Relatórios
+
+# ########### Estudo socioeconômico # ###########
+
+
+class EstudoSocioEconomicoPreliminarForm(FpcForm):
+    class Meta:
+        titulo = "Estudo Socioeconômico Preliminar"
+        template = 'estudo_socioeconomico_preliminar.html'
+
+class EstudoSocioEconomicoDadosPessoaisForm(FpcForm):
+    class Meta:
+        titulo = "Estudo Socioeconômico"
+        template = 'estudo_socioeconomico_dadospessoais.html'
+
+class EstudoSocioEconomicoDadosFamiliaresForm(FpcForm):
+    class Meta:
+        titulo = "Estudo Socioeconômico"
+        template = 'estudo_socioeconomico_dadosfamiliares.html'
+
+class EstudoSocioEconomicoBensForm(FpcForm):
+    class Meta:
+        titulo = "Estudo Socioeconômico"
+        template = 'estudo_socioeconomico_bens.html'
+
+class ImprimeEstudoSocioEconomicoForm(FpcForm):
+    class Meta:
+        titulo = "Imprimir Estudo Estudo Socioeconômico"
+        template = 'imprime_estudo_socioeconomico.html'
+
+
+class InfoEstudoSocioEconomicoForm(FpcForm):
+    class Meta:
+        titulo = "Informações Sobre o Estudo Socioeconômico"
+        template = 'info_estudo_socioeconomico.html'
+
+
+# ########### Consultas / Relatórios ############
+
 
 class ImprimeAgendamentoForm(FpcForm):
     class Meta:
