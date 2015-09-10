@@ -726,6 +726,10 @@ body {
 	font-size: 12px;
 }
 
+label {
+	font-weight: 400;
+}
+
 .control-label {
 	display: block;
 	margin-bottom: 0;
@@ -1750,15 +1754,18 @@ body {
 }*/
 
 .form-control {
-/*	margin: 2px 4px 2px 5px; */
-    height: 24px;
-    padding: 4px 5px;
+	margin: 2px 4px 2px 5px; 
+    height: 23px;
+    padding: 4px 5px 4px 2px;
     font-size: 12px;
     line-height: 1.5;
-    border-radius: 3px;	
+    border-radius: 2px;	
 }
 
-
+.control-label{
+	margin: 2px 4px 1px 5px;
+	
+}
 
 .form-control-feedback {
 	top: 18px;
@@ -1830,4 +1837,24 @@ body {
 
 .bs-glyphicons li {
     width: 30%;
+}
+
+/* Adições para SAE */
+
+input[type=checkbox], input[type=radio] {
+    margin: 4px 3px 3px 4px;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: WhiteSmoke;
+}
+
+table { 
+           border-collapse: collapse;
+           bordercolor: #CCCCCC;
+}
+
+tr > td
+{
+  padding-left: 2px;
 }

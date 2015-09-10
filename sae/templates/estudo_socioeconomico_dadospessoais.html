@@ -21,11 +21,11 @@
 {% block f_content_form %}
 
 
-<div id="ctl00_painelPrincipal" style="width:100%;">
+<div class="form-inline" align="center">
 		
-       <table border="1" width="720" align="center" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;">
+       <table class="table"border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
             <tr align="left">
-                <td id="ctl00_Td1" colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #cccccc; height: 20px;" align="center">
+                <td id="f_Td1" colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #cccccc; height: 20px;" align="center">
                     DADOS PESSOAIS&nbsp;<br />
                 </td>
 		
@@ -36,38 +36,42 @@
                 </td>
             </tr>
             <tr align="left">
-                <td id="ctl00_Td2" colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #EAEAEA; height: 20px;" align="center">
+                <td id="f_Td2" colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #EAEAEA; height: 20px;" align="center">
                     Identificação&nbsp;<br />
                 </td>
 		
             </tr>
              <tr align="left">
                 <td colspan="4" style="width: 100%; background-color: #fcfcfc;">
-                     <table align="center" border="0" cellspacing="0%" bordercolor="EAEAEA"  bgcolor="FCFCFC" style="border-collapse: collapse; width: 100%;"  >
+                     <table style="border-collapse: collapse; width: 100%;"  >
                      <tr>
                         <td style="width: 30%;">
                             Matrícula:
                         </td>
                         <td colspan="3" style="width: 70%;">
-                            <input name="ctl00$Matricula" type="text" value="14/0180249" readonly="readonly" id="ctl00_Matricula" disabled="disabled" style="background-color:WhiteSmoke;width:100px;" />
-                            &nbsp;
+                            <input name="f_matricula" data-field="matricula" class="form-control" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" style="background-color:WhiteSmoke;width:100px;"/>
                          </td>
                       </tr>
                          <tr>
                              <td style="width: 30%;">
-                                        Nome:</td>
+                             	Nome:
+                             </td>
                              <td colspan="3" style="width: 70%;">
-                                        <input name="ctl00$Nome" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="ctl00_Nome" disabled="disabled" style="background-color:WhiteSmoke;width:371px;" /></td>
+                                 <input name="f_Nome" data-field="nome" class="form-control" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:371px;" />
+                             </td>
                          </tr>
                          <tr>
                              <td style="width: 30%;">
-                                 Nível:</td>
+                                Nível: 
+                             </td>
                              <td style="width: 57px; height: 26px;">
-                                 <input name="ctl00$Nivel" type="text" value="Mestrado" readonly="readonly" id="ctl00_Nivel" disabled="disabled" style="background-color:WhiteSmoke;width:100px;" /></td>
+                                 <input name="f_Nivel" data-field="nivel" class="form-control" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" style="width:100px;" /></td>
                              <td style="width: 20%;">
-                                 Data:</td>
+                                 Data:
+                             </td>
                              <td style="width: 50%;">
-                                 <input name="ctl00$Data" type="text" value="9/9/2015" readonly="readonly" id="ctl00_Data" disabled="disabled" style="background-color:WhiteSmoke;width:100px;" /></td>
+                                 <input name="f_Data" data-field="data" data-type="data" data-format="dd/MM/yyyy" class="form-control" type="text" value="9/9/2015" readonly="readonly" id="f_Data" disabled="disabled" style="width:100px;" />
+                             </td>
                          </tr>
                          
                      </table>
@@ -76,12 +80,10 @@
                          
            <tr align="left">
                <td style="width: 20%; background-color: #fcfcfc;">
-                   Motivo<span style="color: #ff0000">*</span>:
+               	  Motivo<span style="color: #ff0000">*</span>:
                </td>
                 <td colspan="3" style="width: 80%;">
-                     <input id="ctl00_Motivo1" type="checkbox" name="ctl00$Motivo1" /><label for="ctl00_Motivo1">Bolsa Alimentação</label>
-                     
-                     
+                     <input id="f_Motivo1" data-field="motivo" class="form-control" type="checkbox" name="f_Motivo1" /><label for="f_Motivo1">Bolsa Alimentação</label>
                  </td>
            </tr>
            <tr align="left">
@@ -89,9 +91,9 @@
                      Solicitou isenção da taxa de vestibular e/ou PAS? <span style="color: #ff0000">*<span
                          style="color: #000000; background-color: #fcfcfc">:</span></span></td>
                  <td colspan="3" style="width: 80%;">
-                        <table id="ctl00_IsencaoTxVestibular" border="0">
+                        <table id="f_IsencaoTxVestibular" border="0">
 			<tr>
-				<td><input id="ctl00_IsencaoTxVestibular_0" type="radio" name="ctl00$IsencaoTxVestibular" value="Sim" onclick="controletrTeveAbatimento();" /><label for="ctl00_IsencaoTxVestibular_0">Sim</label></td><td><input id="ctl00_IsencaoTxVestibular_1" type="radio" name="ctl00$IsencaoTxVestibular" value="Não" onclick="controletrTeveAbatimento();" /><label for="ctl00_IsencaoTxVestibular_1">Não</label></td>
+				<td><input id="f_IsencaoTxVestibular_0" data-field="IsencaoTxVestibular" class="form-control" type="radio" name="f_IsencaoTxVestibular" value="Sim" onclick="controletrTeveAbatimento();" /><label for="f_IsencaoTxVestibular_0">Sim</label></td><td><input id="f_IsencaoTxVestibular_1" type="radio" name="f_IsencaoTxVestibular" value="Não" onclick="controletrTeveAbatimento();" /><label for="f_IsencaoTxVestibular_1">Não</label></td>
 			</tr>
 		</table>
                      &nbsp;
@@ -102,9 +104,9 @@
                          Teve abatimento?<span style="color: #ff0000">*</span>:
                </td>
                <td colspan="3" style="width: 70%;" align="left">
-                            <table id="ctl00_TeveAbatimento" border="0">
+                            <table id="f_TeveAbatimento" border="0">
 			<tr>
-				<td><input id="ctl00_TeveAbatimento_0" type="radio" name="ctl00$TeveAbatimento" value="Sim" /><label for="ctl00_TeveAbatimento_0">Sim</label></td><td><input id="ctl00_TeveAbatimento_1" type="radio" name="ctl00$TeveAbatimento" value="Não" /><label for="ctl00_TeveAbatimento_1">Não</label></td>
+				<td><input id="f_TeveAbatimento_0"  data-field="TeveAbatimento" class="form-control" type="radio" name="f_TeveAbatimento" value="Sim" /><label for="f_TeveAbatimento_0">Sim</label></td><td><input id="f_TeveAbatimento_1" type="radio" name="f_TeveAbatimento" value="Não" /><label for="f_TeveAbatimento_1">Não</label></td>
 			</tr>
 		</table>
               </td>
@@ -114,9 +116,9 @@
                      Cor ou Raça<span style="color: #ff0000">*</span>:
                  </td>
                  <td colspan="3" style="width: 80%;">                                  
-                       <table id="ctl00_Raca" MaxLength="10" border="0">
+                       <table id="f_Raca" MaxLength="10" border="0">
 			<tr>
-				<td><input id="ctl00_Raca_0" type="radio" name="ctl00$Raca" value="08Branca" /><label for="ctl00_Raca_0">Branca</label></td><td><input id="ctl00_Raca_1" type="radio" name="ctl00$Raca" value="09Preta" /><label for="ctl00_Raca_1">Preta</label></td><td><input id="ctl00_Raca_2" type="radio" name="ctl00$Raca" value="10Parda" /><label for="ctl00_Raca_2">Parda</label></td><td><input id="ctl00_Raca_3" type="radio" name="ctl00$Raca" value="11Indígena" /><label for="ctl00_Raca_3">Indígena</label></td><td><input id="ctl00_Raca_4" type="radio" name="ctl00$Raca" value="12Amarela" /><label for="ctl00_Raca_4">Amarela</label></td>
+				<td><input id="f_Raca_0" data-field="raca" class="form-control" type="radio" name="f_Raca" value="08Branca" /><label for="f_Raca_0">Branca</label></td><td><input id="f_Raca_1" type="radio" name="f_Raca" value="09Preta" /><label for="f_Raca_1">Preta</label></td><td><input id="f_Raca_2" type="radio" name="f_Raca" value="10Parda" /><label for="f_Raca_2">Parda</label></td><td><input id="f_Raca_3" type="radio" name="f_Raca" value="11Indígena" /><label for="f_Raca_3">Indígena</label></td><td><input id="f_Raca_4" type="radio" name="f_Raca" value="12Amarela" /><label for="f_Raca_4">Amarela</label></td>
 			</tr>
 		</table>
                  </td>
@@ -137,9 +139,9 @@
            </tr>
            <tr align="left">
                <td colspan="4" style="width: 100%;">
-                    <table id="ctl00_EnsinoMedio" border="0">
+                    <table id="f_EnsinoMedio" border="0">
 			<tr>
-				<td><input id="ctl00_EnsinoMedio_0" type="radio" name="ctl00$EnsinoMedio" value="0Escola Pública" /><label for="ctl00_EnsinoMedio_0">Escola Pública</label></td><td><input id="ctl00_EnsinoMedio_1" type="radio" name="ctl00$EnsinoMedio" value="1Escola Particular com Bolsa" /><label for="ctl00_EnsinoMedio_1">Escola Particular com Bolsa*</label></td><td><input id="ctl00_EnsinoMedio_2" type="radio" name="ctl00$EnsinoMedio" value="2Escola Particular sem Bolsa" /><label for="ctl00_EnsinoMedio_2">Escola Particular sem Bolsa</label></td>
+				<td><input id="f_EnsinoMedio_0" data-field="EnsinoMedio" class="form-control" type="radio" name="f_EnsinoMedio" value="0Escola Pública" /><label for="f_EnsinoMedio_0">Escola Pública</label></td><td><input id="f_EnsinoMedio_1" type="radio" name="f_EnsinoMedio" value="1Escola Particular com Bolsa" /><label for="f_EnsinoMedio_1">Escola Particular com Bolsa*</label></td><td><input id="f_EnsinoMedio_2" type="radio" name="f_EnsinoMedio" value="2Escola Particular sem Bolsa" /><label for="f_EnsinoMedio_2">Escola Particular sem Bolsa</label></td>
 			</tr>
 		</table><font size="1"> *A bolsa de estudo deverá ser comprovada</font></td>
 
@@ -148,48 +150,47 @@
                <td style="width: 30%; background-color: #fcfcfc;">
                    Nome da Escola<span style="color: #ff0000">*</span>:</td>
                <td colspan="3" style="width: 70%;">
-                   <input name="ctl00$EscolaNome" type="text" maxlength="50" id="ctl00_EscolaNome" style="width:90%;" /></td>
+                   <input name="f_EscolaNome" data-field="EscolaNome" class="form-control" type="text" maxlength="50" id="f_EscolaNome" style="width:90%;" /></td>
            </tr>
            <tr align="left">
                <td style="width: 30%; background-color: #fcfcfc;">
                    Cidade<span style="color: #ff0000">*</span>:</td>
                <td style="width: 40%; height: 27px">
-                   <input name="ctl00$EscolaCidade" type="text" maxlength="30" id="ctl00_EscolaCidade" style="width:80%;" />
+                   <input name="f_EscolaCidade" data-field="EscolaCidade" class="form-control" type="text" maxlength="30" id="f_EscolaCidade" style="width:80%;" />
                </td>
                <td style="width: 5%; background-color: #fcfcfc;">
                    UF<span style="color: #ff0000">*</span>:</td>
                <td style="width: 20%; height: 27px;">
-                    <select name="ctl00$EscolaUF" id="ctl00_EscolaUF">
-			<option selected="selected" value=""></option>
-			<option value="1">AC</option>
-			<option value="2">AL</option>
-			<option value="3">AP</option>
-			<option value="4">AM</option>
-			<option value="5">BA</option>
-			<option value="6">CE</option>
-			<option value="7">DF</option>
-			<option value="8">ES</option>
-			<option value="9">GO</option>
-			<option value="10">MA</option>
-			<option value="11">MT</option>
-			<option value="12">MS</option>
-			<option value="13">MG</option>
-			<option value="14">PA</option>
-			<option value="15">PB</option>
-			<option value="16">PR</option>
-			<option value="17">PE</option>
-			<option value="18">PI</option>
-			<option value="19">RJ</option>
-			<option value="20">RN</option>
-			<option value="21">RS</option>
-			<option value="22">RO</option>
-			<option value="23">RR</option>
-			<option value="24">SC</option>
-			<option value="25">SP</option>
-			<option value="26">SE</option>
-			<option value="27">TO</option>
-
-		</select></td>
+                    <select name="f_EscolaUF" data-field="EscolaUF" class="form-control" id="f_EscolaUF">
+						<option selected="selected" value=""></option>
+						<option value="1">AC</option>
+						<option value="2">AL</option>
+						<option value="3">AP</option>
+						<option value="4">AM</option>
+						<option value="5">BA</option>
+						<option value="6">CE</option>
+						<option value="7">DF</option>
+						<option value="8">ES</option>
+						<option value="9">GO</option>
+						<option value="10">MA</option>
+						<option value="11">MT</option>
+						<option value="12">MS</option>
+						<option value="13">MG</option>
+						<option value="14">PA</option>
+						<option value="15">PB</option>
+						<option value="16">PR</option>
+						<option value="17">PE</option>
+						<option value="18">PI</option>
+						<option value="19">RJ</option>
+						<option value="20">RN</option>
+						<option value="21">RS</option>
+						<option value="22">RO</option>
+						<option value="23">RR</option>
+						<option value="24">SC</option>
+						<option value="25">SP</option>
+						<option value="26">SE</option>
+						<option value="27">TO</option>
+					</select></td>
            </tr>
            <tr align="left">
                <td colspan="4" style="font-weight: bold; width: 100%; background-color: #fcfcfc">
@@ -201,22 +202,22 @@
            </tr>
            <tr align="left">
                <td colspan="4" style="width: 100%;">
-                   <table id="ctl00_PreVestibular" border="0">
+                   <table id="f_PreVestibular" border="0">
 			<tr>
-				<td><input id="ctl00_PreVestibular_0" type="radio" name="ctl00$PreVestibular" value="3Não" /><label for="ctl00_PreVestibular_0">Não</label></td><td><input id="ctl00_PreVestibular_1" type="radio" name="ctl00$PreVestibular" value="4Escola Particular com Bolsa" /><label for="ctl00_PreVestibular_1">Escola Particular com Bolsa*</label></td><td><input id="ctl00_PreVestibular_2" type="radio" name="ctl00$PreVestibular" value="5Escola Particular sem Bolsa" /><label for="ctl00_PreVestibular_2">Escola Particular sem Bolsa</label></td>
+				<td><input id="f_PreVestibular_0" data-field="PreVestibular" class="form-control" type="radio" name="f_PreVestibular" value="3Não" /><label for="f_PreVestibular_0">Não</label></td><td><input id="f_PreVestibular_1" type="radio" name="f_PreVestibular" value="4Escola Particular com Bolsa" /><label for="f_PreVestibular_1">Escola Particular com Bolsa*</label></td><td><input id="f_PreVestibular_2" type="radio" name="f_PreVestibular" value="5Escola Particular sem Bolsa" /><label for="f_PreVestibular_2">Escola Particular sem Bolsa</label></td>
 			</tr>
 		</table><font size="1"> *A bolsa de estudo deverá ser comprovada</font></td>
            </tr>
-           <div id="ctl00_painelEnsinoSuperior">
+           <div id="f_painelEnsinoSuperior">
 			
                <tr align="left">
                    <td colspan="4" style="font-weight: bold; height: 22px; background-color: #fcfcfc">
                        Ensino Superior<span style="color: #ff0000">*</span></td>
                </tr>
                <tr align="left">
-                   <td colspan="4"><table id="ctl00_EnsinoSuperior" border="0">
+                   <td colspan="4"><table id="f_EnsinoSuperior" border="0">
 				<tr>
-					<td><input id="ctl00_EnsinoSuperior_0" type="radio" name="ctl00$EnsinoSuperior" value="6Instituição Pública" /><label for="ctl00_EnsinoSuperior_0">Instituição Pública</label></td><td><input id="ctl00_EnsinoSuperior_1" type="radio" name="ctl00$EnsinoSuperior" value="7Instituição Particular com Bolsa" /><label for="ctl00_EnsinoSuperior_1">Instituição Particular com Bolsa*</label></td><td><input id="ctl00_EnsinoSuperior_2" type="radio" name="ctl00$EnsinoSuperior" value="8Instituição Particular sem Bolsa" /><label for="ctl00_EnsinoSuperior_2">Instituição Particular sem Bolsa</label></td>
+					<td><input id="f_EnsinoSuperior_0" data-field="EnsinoSuperior" class="form-control" type="radio" name="f_EnsinoSuperior" value="6Instituição Pública" /><label for="f_EnsinoSuperior_0">Instituição Pública</label></td><td><input id="f_EnsinoSuperior_1" type="radio" name="f_EnsinoSuperior" value="7Instituição Particular com Bolsa" /><label for="f_EnsinoSuperior_1">Instituição Particular com Bolsa*</label></td><td><input id="f_EnsinoSuperior_2" type="radio" name="f_EnsinoSuperior" value="8Instituição Particular sem Bolsa" /><label for="f_EnsinoSuperior_2">Instituição Particular sem Bolsa</label></td>
 				</tr>
 			</table><font size="1"> *A bolsa de estudo deverá ser comprovada</font></td> 
                </tr>
@@ -227,9 +228,9 @@
                    Faz outro curso superior fora da UnB?
                </td>
                <td style="width: 70%;" colspan="3">
-                   <table id="ctl00_CaixaGrupoCursoFora" border="0">
+                   <table id="f_CaixaGrupoCursoFora" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoCursoFora_0" type="radio" name="ctl00$CaixaGrupoCursoFora" value="Sim" onclick="controleCursoFora();" /><label for="ctl00_CaixaGrupoCursoFora_0">Sim</label></td><td><input id="ctl00_CaixaGrupoCursoFora_1" type="radio" name="ctl00$CaixaGrupoCursoFora" value="Não" onclick="controleCursoFora();" /><label for="ctl00_CaixaGrupoCursoFora_1">Não</label></td>
+				<td><input id="f_CaixaGrupoCursoFora_0" data-field="CaixaGrupoCursoFora" class="form-control" type="radio" name="f_CaixaGrupoCursoFora" value="Sim" onclick="controleCursoFora();" /><label for="f_CaixaGrupoCursoFora_0">Sim</label></td><td><input id="f_CaixaGrupoCursoFora_1" type="radio" name="f_CaixaGrupoCursoFora" value="Não" onclick="controleCursoFora();" /><label for="f_CaixaGrupoCursoFora_1">Não</label></td>
 			</tr>
 		</table>
                </td>
@@ -241,19 +242,19 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Qual?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                            <td style="width: 60%">
-                           <input name="ctl00$FazCursoFora" type="text" maxlength="50" id="ctl00_FazCursoFora" style="width:90%;" /></td>
+                           <input name="f_FazCursoFora" data-field="FazCursoFora" class="form-control" type="text" maxlength="50" id="f_FazCursoFora" style="width:90%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Onde?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                            <td style="width: 60%">
-                           <input name="ctl00$IESCursoFora" type="text" maxlength="50" id="ctl00_IESCursoFora" style="width:90%;" /></td>
+                           <input name="f_IESCursoFora" data-field="IESCursoFora" class="form-control" type="text" maxlength="50" id="f_IESCursoFora" style="width:90%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc;">
                            Qual a mensalidade(R$)?:</td>
                            <td style="width: 70%">
-                           <input name="ctl00$MensIESCursoFora" type="text" maxlength="11" id="ctl00_MensIESCursoFora" style="width:20%;" /></td>
+                           <input name="f_MensIESCursoFora" data-field="MensIESCursoFora" class="form-control" type="text" maxlength="11" id="f_MensIESCursoFora" style="width:20%;" /></td>
                        </tr>
                    </table>
                </td>
@@ -262,9 +263,9 @@
                <td style="width: 30%; background-color: #fcfcfc; font-weight: bold; height: 22px;">
                    Fez outro curso superior?</td>
                <td style="width: 70%;" colspan="3">
-                   <table id="ctl00_CaixaGrupoFezOutroCurso" border="0">
+                   <table id="f_CaixaGrupoFezOutroCurso" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoFezOutroCurso_0" type="radio" name="ctl00$CaixaGrupoFezOutroCurso" value="Sim" onclick="controleFezOutroCurso();" /><label for="ctl00_CaixaGrupoFezOutroCurso_0">Sim</label></td><td><input id="ctl00_CaixaGrupoFezOutroCurso_1" type="radio" name="ctl00$CaixaGrupoFezOutroCurso" value="Não" onclick="controleFezOutroCurso();" /><label for="ctl00_CaixaGrupoFezOutroCurso_1">Não</label></td>
+				<td><input id="f_CaixaGrupoFezOutroCurso_0" data-field="CaixaGrupoFezOutroCurso" class="form-control" type="radio" name="f_CaixaGrupoFezOutroCurso" value="Sim" onclick="controleFezOutroCurso();" /><label for="f_CaixaGrupoFezOutroCurso_0">Sim</label></td><td><input id="f_CaixaGrupoFezOutroCurso_1" type="radio" name="f_CaixaGrupoFezOutroCurso" value="Não" onclick="controleFezOutroCurso();" /><label for="f_CaixaGrupoFezOutroCurso_1">Não</label></td>
 			</tr>
 		</table>
                 </td>
@@ -276,21 +277,21 @@
                            <td style="width: 40%; height: 26px; font-weight: normal;">
                                Qual?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                            <td style="width: 60%; background-color: #ffffff;">
-                       <input name="ctl00$FezOutroCurso" type="text" maxlength="50" id="ctl00_FezOutroCurso" style="width:90%;" /></td>
+                       <input name="f_FezOutroCurso" data-field="FezOutroCurso" class="form-control" type="text" maxlength="50" id="f_FezOutroCurso" style="width:90%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; font-weight: normal;">
                                Onde?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                            <td style="width: 60%; background-color: #ffffff;">
-                           <input name="ctl00$IESOutroCurso" type="text" maxlength="50" id="ctl00_IESOutroCurso" style="width:90%;" /></td>
+                           <input name="f_IESOutroCurso" data-field="IESOutroCurso" class="form-control" type="text" maxlength="50" id="f_IESOutroCurso" style="width:90%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; font-weight: normal;">
                            Concluiu?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                            <td style="width: 60%; background-color: #ffffff;">
-                           <table id="ctl00_ConcluiuOutroCurso" border="0">
+                           <table id="f_ConcluiuOutroCurso" border="0">
 			<tr>
-				<td><input id="ctl00_ConcluiuOutroCurso_0" type="radio" name="ctl00$ConcluiuOutroCurso" value="Sim" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="ctl00_ConcluiuOutroCurso_0">Sim</label></td><td><input id="ctl00_ConcluiuOutroCurso_1" type="radio" name="ctl00$ConcluiuOutroCurso" value="Não" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="ctl00_ConcluiuOutroCurso_1">Não</label></td>
+				<td><input id="f_ConcluiuOutroCurso_0" data-field="ConcluiuOutroCurso" class="form-control" type="radio" name="f_ConcluiuOutroCurso" value="Sim" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="f_ConcluiuOutroCurso_0">Sim</label></td><td><input id="f_ConcluiuOutroCurso_1" type="radio" name="f_ConcluiuOutroCurso" value="Não" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="f_ConcluiuOutroCurso_1">Não</label></td>
 			</tr>
 		</table></td>
                        </tr>
@@ -298,7 +299,7 @@
                            <td style="width: 40%; font-weight: normal;">
                            Se não concluiu, por quê?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                            <td style="width: 60%; background-color: #ffffff;">
-                           <textarea name="ctl00$OutroCursoNaoConcluido" rows="2" cols="20" id="ctl00_OutroCursoNaoConcluido" style="height:73px;width:90%;"></textarea></td>
+                           <textarea name="f_OutroCursoNaoConcluido" data-field="OutroCursoNaoConcluido" class="form-control" rows="2" cols="20" id="f_OutroCursoNaoConcluido" style="height:73px;width:90%;"></textarea></td>
                        </tr>
                    </table>
                </td>
@@ -309,9 +310,9 @@
                   
                 </td>
                <td colspan="3" style="width: 100%; height:auto">
-               <table id="ctl00_GrupoTGM" border="0">
+               <table id="f_GrupoTGM" border="0">
 			<tr>
-				<td><input id="ctl00_GrupoTGM_0" type="radio" name="ctl00$GrupoTGM" value="Sim" onclick="controleTGM();" /><label for="ctl00_GrupoTGM_0">Sim</label></td><td><input id="ctl00_GrupoTGM_1" type="radio" name="ctl00$GrupoTGM" value="Não" checked="checked" onclick="controleTGM();" /><label for="ctl00_GrupoTGM_1">Não</label></td>
+				<td><input id="f_GrupoTGM_0" data-field="GrupoTGM" class="form-control" type="radio" name="f_GrupoTGM" value="Sim" onclick="controleTGM();" /><label for="f_GrupoTGM_0">Sim</label></td><td><input id="f_GrupoTGM_1" type="radio" name="f_GrupoTGM" value="Não" checked="checked" onclick="controleTGM();" /><label for="f_GrupoTGM_1">Não</label></td>
 			</tr>
 		</table></td>
            </tr>
@@ -324,7 +325,7 @@
                    <table  id = "trTGM" style="width: 100%;display:none;">
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc;">
-                               <input name="ctl00$AluQtdTGM" type="text" value="0" id="ctl00_AluQtdTGM" disabled="disabled" style="background-color:WhiteSmoke;border-color:White;width:45px;" /></td>
+                               <input name="f_AluQtdTGM" data-field="AluQtdTGM" class="form-control" type="text" value="0" id="f_AluQtdTGM" disabled="disabled" style="background-color:WhiteSmoke;border-color:White;width:45px;" /></td>
                            <td style="width: 60%;" colspan="4">
                            </td>
                        </tr>
@@ -332,7 +333,7 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Explique quando e por quê:<span style="color: #ff0000">*</span></td>
                            <td style="width: 60%;" colspan="4">
-                           <textarea name="ctl00$TGM" rows="2" cols="20" id="ctl00_TGM" style="width:90%;"></textarea>
+                           <textarea name="f_TGM" data-field="TGM" class="form-control" rows="2" cols="20" id="f_TGM" style="width:90%;"></textarea>
                                </td>
                        </tr>
                </table>
@@ -349,9 +350,9 @@
                            <strong>Trabalha?<span style="color: #ff0000">*</span></strong><br/><font size="1"> Não considere ESTÁGIO como trabalho.</font> 
                        </td>
                        <td style="width: 60%;" colspan="3">
-                           <table id="ctl00_CaixaGrupoTrabalha" border="0">
+                           <table id="f_CaixaGrupoTrabalha" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoTrabalha_0" type="radio" name="ctl00$CaixaGrupoTrabalha" value="SIM" onclick="controleTrabalha();" /><label for="ctl00_CaixaGrupoTrabalha_0">Sim, com vínculo</label></td><td><input id="ctl00_CaixaGrupoTrabalha_1" type="radio" name="ctl00$CaixaGrupoTrabalha" value="SIM2" onclick="controleTrabalha();" /><label for="ctl00_CaixaGrupoTrabalha_1">Sim, sem vínculo</label></td><td><input id="ctl00_CaixaGrupoTrabalha_2" type="radio" name="ctl00$CaixaGrupoTrabalha" value="NAO" onclick="controleTrabalha();" /><label for="ctl00_CaixaGrupoTrabalha_2">Não</label></td>
+				<td><input id="f_CaixaGrupoTrabalha_0" data-field="CaixaGrupoTrabalha" class="form-control" type="radio" name="f_CaixaGrupoTrabalha" value="SIM" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_0">Sim, com vínculo</label></td><td><input id="f_CaixaGrupoTrabalha_1" type="radio" name="f_CaixaGrupoTrabalha" value="SIM2" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_1">Sim, sem vínculo</label></td><td><input id="f_CaixaGrupoTrabalha_2" type="radio" name="f_CaixaGrupoTrabalha" value="NAO" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_2">Não</label></td>
 			</tr>
 		</table>
                        </td>
@@ -364,27 +365,27 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Instituição<span style="color: #ff0000">*</span>:</td>
                            <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                               <input name="ctl00$Instituicao" type="text" maxlength="50" id="ctl00_Instituicao" style="width:90%;" /></td>
+                               <input name="f_Instituicao" data-field="Instituicao" class="form-control" type="text" maxlength="50" id="f_Instituicao" style="width:90%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc; height: 26px;">
                                Função<span style="color: #ff0000">*</span>:</td>
                            <td style="width: 60%; background-color: #ffffff; height: 26px;" colspan="4">
-                               <input name="ctl00$Funcao" type="text" maxlength="30" id="ctl00_Funcao" style="width:90%;" /></td>
+                               <input name="f_Funcao" data-field="funcao" class="form-control" type="text" maxlength="30" id="f_Funcao" style="width:90%;" /></td>
                        </tr>
                                       <tr>
                                           <td style="width: 40%; background-color: #fcfcfc">
                                               Remuneração(R$)<span style="color: #ff0000">*</span>:</td>
                                           <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                                              <input name="ctl00$Remuneracao" type="text" maxlength="11" id="ctl00_Remuneracao" style="width:20%;" /></td>
+                                              <input name="f_Remuneracao" data-field="Remuneracao" class="form-control" type="text" maxlength="11" id="f_Remuneracao" style="width:20%;" /></td>
                                       </tr>
                    <tr>
                        <td rowspan="" style="width: 40%; background-color: #fcfcfc">
                                Está licenciado?<span style="color: #ff0000">*</span>:</td>
                        <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                               <table id="ctl00_EstaLicenciado" border="0">
+                               <table id="f_EstaLicenciado" border="0">
 			<tr>
-				<td><input id="ctl00_EstaLicenciado_0" type="radio" name="ctl00$EstaLicenciado" value="3Não" /><label for="ctl00_EstaLicenciado_0">Não</label></td><td><input id="ctl00_EstaLicenciado_1" type="radio" name="ctl00$EstaLicenciado" value="4Sim, com remuneração" /><label for="ctl00_EstaLicenciado_1">Sim, com remuneração</label></td><td><input id="ctl00_EstaLicenciado_2" type="radio" name="ctl00$EstaLicenciado" value="5Sim, sem remuneração" /><label for="ctl00_EstaLicenciado_2">Sim, sem remuneração</label></td>
+				<td><input id="f_EstaLicenciado_0" type="radio" name="f_EstaLicenciado" value="3Não" /><label for="f_EstaLicenciado_0">Não</label></td><td><input id="f_EstaLicenciado_1" type="radio" name="f_EstaLicenciado" value="4Sim, com remuneração" /><label for="f_EstaLicenciado_1">Sim, com remuneração</label></td><td><input id="f_EstaLicenciado_2" type="radio" name="f_EstaLicenciado" value="5Sim, sem remuneração" /><label for="f_EstaLicenciado_2">Sim, sem remuneração</label></td>
 			</tr>
 		</table></td>
                    </tr>
@@ -394,22 +395,22 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Qual Atividade?<span style="color: #ff0000">*</span>:</td>
                            <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                               <input name="ctl00$Atividade" type="text" maxlength="30" id="ctl00_Atividade" style="width:90%;" /></td>
+                               <input name="f_Atividade" type="text" maxlength="30" id="f_Atividade" style="width:90%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc">
                                Renda Mensal(R$)<span style="color: #ff0000">*</span>:</td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                               <input name="ctl00$RendaMensal" type="text" maxlength="11" id="ctl00_RendaMensal" style="width:20%;" /></td>
+                               <input name="f_RendaMensal" type="text" maxlength="11" id="f_RendaMensal" style="width:20%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc">
                                Depende dessa renda p/ permanecer na UnB?<span style="color: #ff0000">*<span
                                    style="color: #000000">:</span></span></td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                               <table id="ctl00_DependeRenda" border="0">
+                               <table id="f_DependeRenda" border="0">
 			<tr>
-				<td><input id="ctl00_DependeRenda_0" type="radio" name="ctl00$DependeRenda" value="Não" /><label for="ctl00_DependeRenda_0">Não</label></td><td><input id="ctl00_DependeRenda_1" type="radio" name="ctl00$DependeRenda" value="Sim" /><label for="ctl00_DependeRenda_1">Sim</label></td>
+				<td><input id="f_DependeRenda_0" type="radio" name="f_DependeRenda" value="Não" /><label for="f_DependeRenda_0">Não</label></td><td><input id="f_DependeRenda_1" type="radio" name="f_DependeRenda" value="Sim" /><label for="f_DependeRenda_1">Sim</label></td>
 			</tr>
 		</table></td>
                        </tr>
@@ -420,9 +421,9 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                <strong>É aposentado(a)?<span style="color: #ff0000">*</span></strong></td>
                            <td style="width: 60%;" colspan="3">
-                               <table id="ctl00_CaixaGrupoAposentado" border="0">
+                               <table id="f_CaixaGrupoAposentado" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoAposentado_0" type="radio" name="ctl00$CaixaGrupoAposentado" value="SIM" onclick="controleAposentado();" /><label for="ctl00_CaixaGrupoAposentado_0">Sim</label></td><td><input id="ctl00_CaixaGrupoAposentado_1" type="radio" name="ctl00$CaixaGrupoAposentado" value="NAO" onclick="controleAposentado();" /><label for="ctl00_CaixaGrupoAposentado_1">Não</label></td>
+				<td><input id="f_CaixaGrupoAposentado_0" type="radio" name="f_CaixaGrupoAposentado" value="SIM" onclick="controleAposentado();" /><label for="f_CaixaGrupoAposentado_0">Sim</label></td><td><input id="f_CaixaGrupoAposentado_1" type="radio" name="f_CaixaGrupoAposentado" value="NAO" onclick="controleAposentado();" /><label for="f_CaixaGrupoAposentado_1">Não</label></td>
 			</tr>
 		</table>
                             </td>
@@ -434,22 +435,22 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Ano Aposentadoria<span style="color: #ff0000">*</span>:</td>
                            <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                               <input name="ctl00$AnoAposent" type="text" maxlength="4" id="ctl00_AnoAposent" style="width:20%;" /></td>
+                               <input name="f_AnoAposent" type="text" maxlength="4" id="f_AnoAposent" style="width:20%;" /></td>
                        </tr>
                        <tr>
                            <td style="width: 40%; background-color: #fcfcfc;">
                                Profissão que exercia<span style="color: #ff0000">*</span>:</td>
                            <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                               <input name="ctl00$ProfissaoExercida" type="text" maxlength="30" id="ctl00_ProfissaoExercida" style="width:90%;" /></td>
+                               <input name="f_ProfissaoExercida" type="text" maxlength="30" id="f_ProfissaoExercida" style="width:90%;" /></td>
                        </tr>
                                       <tr>
                                           <td style="width: 40%; background-color: #fcfcfc; height: 47px;">
                                               Motivo<span style="color: #ff0000">*</span>:
                                            </td>
                                           <td colspan="4" style="width: 60%; background-color: #ffffff; height: 47px;">
-                                           <table id="ctl00_MotivoAposent" border="0">
+                                           <table id="f_MotivoAposent" border="0">
 			<tr>
-				<td><input id="ctl00_MotivoAposent_0" type="radio" name="ctl00$MotivoAposent" value="10Idade" /><label for="ctl00_MotivoAposent_0">Idade</label></td><td><input id="ctl00_MotivoAposent_1" type="radio" name="ctl00$MotivoAposent" value="11Tempo de Serviço" /><label for="ctl00_MotivoAposent_1">Tempo de serviço</label></td><td><input id="ctl00_MotivoAposent_2" type="radio" name="ctl00$MotivoAposent" value="12Invalidez" /><label for="ctl00_MotivoAposent_2">Invalidez</label></td>
+				<td><input id="f_MotivoAposent_0" type="radio" name="f_MotivoAposent" value="10Idade" /><label for="f_MotivoAposent_0">Idade</label></td><td><input id="f_MotivoAposent_1" type="radio" name="f_MotivoAposent" value="11Tempo de Serviço" /><label for="f_MotivoAposent_1">Tempo de serviço</label></td><td><input id="f_MotivoAposent_2" type="radio" name="f_MotivoAposent" value="12Invalidez" /><label for="f_MotivoAposent_2">Invalidez</label></td>
 			</tr>
 		</table></td>
                                       </tr>
@@ -457,7 +458,7 @@
                                    <td rowspan="" style="width: 40%; background-color: #fcfcfc">
                                        Valor(R$)<span style="color: #ff0000">*</span>:</td>
                                    <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                                       &nbsp;<input name="ctl00$ValorAposent" type="text" maxlength="11" id="ctl00_ValorAposent" style="width:20%;" />
+                                       &nbsp;<input name="f_ValorAposent" type="text" maxlength="11" id="f_ValorAposent" style="width:20%;" />
                                     </td>
                                 </tr>
                                 </table>
@@ -466,9 +467,9 @@
                            <td style="width: 40%; background-color: #fcfcfc;">
                                <strong>Já trabalhou?<span style="color: #ff0000">*</span></strong></td>
                            <td style="width: 60%;" colspan="3">
-                               <table id="ctl00_CaixaGrupoJaTrabalhou" border="0">
+                               <table id="f_CaixaGrupoJaTrabalhou" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoJaTrabalhou_0" type="radio" name="ctl00$CaixaGrupoJaTrabalhou" value="SIM" onclick="controleJaTrabalhou();" /><label for="ctl00_CaixaGrupoJaTrabalhou_0">Sim</label></td><td><input id="ctl00_CaixaGrupoJaTrabalhou_1" type="radio" name="ctl00$CaixaGrupoJaTrabalhou" value="NAO" onclick="controleJaTrabalhou();" /><label for="ctl00_CaixaGrupoJaTrabalhou_1">Não</label></td>
+				<td><input id="f_CaixaGrupoJaTrabalhou_0" type="radio" name="f_CaixaGrupoJaTrabalhou" value="SIM" onclick="controleJaTrabalhou();" /><label for="f_CaixaGrupoJaTrabalhou_0">Sim</label></td><td><input id="f_CaixaGrupoJaTrabalhou_1" type="radio" name="f_CaixaGrupoJaTrabalhou" value="NAO" onclick="controleJaTrabalhou();" /><label for="f_CaixaGrupoJaTrabalhou_1">Não</label></td>
 			</tr>
 		</table></td>
                        </tr>
@@ -479,7 +480,7 @@
                                        <td style="width: 40%; background-color: #fcfcfc;">
                                            Atividade exercida<span style="color: #ff0000">*</span>:</td>
                                        <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                                           <input name="ctl00$AtividadeExercida" type="text" maxlength="30" id="ctl00_AtividadeExercida" style="width:90%;" /></td>
+                                           <input name="f_AtividadeExercida" type="text" maxlength="30" id="f_AtividadeExercida" style="width:90%;" /></td>
                                    </tr>
                                </table>
                             </td>
@@ -488,9 +489,9 @@
                                    <td style="width: 40%; background-color: #fcfcfc;">
                                        <strong>É pensionista?<span style="color: #ff0000">*</span></strong></td>
                                    <td style="width: 60%;" colspan="3">
-                                       <table id="ctl00_CaixaGrupoPensionista" border="0">
+                                       <table id="f_CaixaGrupoPensionista" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoPensionista_0" type="radio" name="ctl00$CaixaGrupoPensionista" value="SIM" onclick="controlePensionista();" /><label for="ctl00_CaixaGrupoPensionista_0">Sim</label></td><td><input id="ctl00_CaixaGrupoPensionista_1" type="radio" name="ctl00$CaixaGrupoPensionista" value="NAO" onclick="controlePensionista();" /><label for="ctl00_CaixaGrupoPensionista_1">Não</label></td>
+				<td><input id="f_CaixaGrupoPensionista_0" type="radio" name="f_CaixaGrupoPensionista" value="SIM" onclick="controlePensionista();" /><label for="f_CaixaGrupoPensionista_0">Sim</label></td><td><input id="f_CaixaGrupoPensionista_1" type="radio" name="f_CaixaGrupoPensionista" value="NAO" onclick="controlePensionista();" /><label for="f_CaixaGrupoPensionista_1">Não</label></td>
 			</tr>
 		</table>
                                     </td>
@@ -502,7 +503,7 @@
                                            <td style="width: 40%; background-color: #fcfcfc;">
                                                Valor(R$):<span style="color: #ff0000">*</span></td>
                                            <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                                               <input name="ctl00$PensaoVitaliciaAluno" type="text" maxlength="11" id="ctl00_PensaoVitaliciaAluno" style="width:20%;" />
+                                               <input name="f_PensaoVitaliciaAluno" type="text" maxlength="11" id="f_PensaoVitaliciaAluno" style="width:20%;" />
                                            </td>
                                        </tr>
                                        </table>
@@ -513,9 +514,9 @@
                                        <strong>Recebe bolsa(Graduação)?</strong><span style="color: #ff0000">*</span>
                                    </td>
                                    <td style="width: 60%;" colspan="3">
-                                       <table id="ctl00_BolsaGraduacao" disabled="disabled" border="0">
+                                       <table id="f_BolsaGraduacao" disabled="disabled" border="0">
 			<tr>
-				<td><span disabled="disabled"><input id="ctl00_BolsaGraduacao_0" type="radio" name="ctl00$BolsaGraduacao" value="Sim" disabled="disabled" /><label for="ctl00_BolsaGraduacao_0">Sim</label></span></td><td><span disabled="disabled"><input id="ctl00_BolsaGraduacao_1" type="radio" name="ctl00$BolsaGraduacao" value="Não" disabled="disabled" /><label for="ctl00_BolsaGraduacao_1">Não</label></span></td>
+				<td><span disabled="disabled"><input id="f_BolsaGraduacao_0" type="radio" name="f_BolsaGraduacao" value="Sim" disabled="disabled" /><label for="f_BolsaGraduacao_0">Sim</label></span></td><td><span disabled="disabled"><input id="f_BolsaGraduacao_1" type="radio" name="f_BolsaGraduacao" value="Não" disabled="disabled" /><label for="f_BolsaGraduacao_1">Não</label></span></td>
 			</tr>
 		</table>
                                     </td>
@@ -524,16 +525,16 @@
                                    <td style="width: 100%;" colspan="4">                                             
                                    </td>
                              </tr>
-                             <div id="ctl00_painelPos">
+                             <div id="f_painelPos">
 			
                              <tr align = "left">
                                    <td style="width: 40%; background-color: #fcfcfc;">
                                        <strong>Recebe bolsa(Pós-Graduação)?</strong>
                                    </td>
                                    <td style="width: 60%;" colspan="3">
-                                       <table id="ctl00_CaixaGrupoRecebeBolsaPos" border="0">
+                                       <table id="f_CaixaGrupoRecebeBolsaPos" border="0">
 				<tr>
-					<td><input id="ctl00_CaixaGrupoRecebeBolsaPos_0" type="radio" name="ctl00$CaixaGrupoRecebeBolsaPos" value="SIM" onclick="controleRecebeBolsaPos();" /><label for="ctl00_CaixaGrupoRecebeBolsaPos_0">Sim</label></td><td><input id="ctl00_CaixaGrupoRecebeBolsaPos_1" type="radio" name="ctl00$CaixaGrupoRecebeBolsaPos" value="NAO" onclick="controleRecebeBolsaPos();" /><label for="ctl00_CaixaGrupoRecebeBolsaPos_1">Não</label></td>
+					<td><input id="f_CaixaGrupoRecebeBolsaPos_0" type="radio" name="f_CaixaGrupoRecebeBolsaPos" value="SIM" onclick="controleRecebeBolsaPos();" /><label for="f_CaixaGrupoRecebeBolsaPos_0">Sim</label></td><td><input id="f_CaixaGrupoRecebeBolsaPos_1" type="radio" name="f_CaixaGrupoRecebeBolsaPos" value="NAO" onclick="controleRecebeBolsaPos();" /><label for="f_CaixaGrupoRecebeBolsaPos_1">Não</label></td>
 				</tr>
 			</table>
                                     </td>
@@ -545,7 +546,7 @@
                                            <td style="width: 40%; background-color: #fcfcfc; height: 26px;">
                                                 Valor(R$)<span style="color: #ff0000">*</span>:<span style="color: #ff0000"></span></td>
                                            <td style="width: 60%; background-color: #ffffff; height: 26px;" colspan="4">
-                                               <input name="ctl00$ValorBolsaPos" type="text" maxlength="11" id="ctl00_ValorBolsaPos" style="width:20%;" />
+                                               <input name="f_ValorBolsaPos" type="text" maxlength="11" id="f_ValorBolsaPos" style="width:20%;" />
                                            </td>
                                        </tr>
                                        </table>
@@ -554,9 +555,9 @@
                                                <td style="width: 40%; background-color: #fcfcfc">
                                                    Poderá vir a receber?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                                                <td colspan="4" style="width: 60%; background-color: #ffffff">
-                                                   <table id="ctl00_PoderaReceber" border="0">
+                                                   <table id="f_PoderaReceber" border="0">
 				<tr>
-					<td><input id="ctl00_PoderaReceber_0" type="radio" name="ctl00$PoderaReceber" value="19Sim, neste semestre" /><label for="ctl00_PoderaReceber_0">Sim, neste semestre</label></td><td><input id="ctl00_PoderaReceber_1" type="radio" name="ctl00$PoderaReceber" value="20Sim, no próximo semestre" /><label for="ctl00_PoderaReceber_1">Sim, no próximo semestre</label></td><td><input id="ctl00_PoderaReceber_2" type="radio" name="ctl00$PoderaReceber" value="21Não" /><label for="ctl00_PoderaReceber_2">Não</label></td>
+					<td><input id="f_PoderaReceber_0" type="radio" name="f_PoderaReceber" value="19Sim, neste semestre" /><label for="f_PoderaReceber_0">Sim, neste semestre</label></td><td><input id="f_PoderaReceber_1" type="radio" name="f_PoderaReceber" value="20Sim, no próximo semestre" /><label for="f_PoderaReceber_1">Sim, no próximo semestre</label></td><td><input id="f_PoderaReceber_2" type="radio" name="f_PoderaReceber" value="21Não" /><label for="f_PoderaReceber_2">Não</label></td>
 				</tr>
 			</table></td>
                                            </tr>
@@ -564,7 +565,7 @@
                                                <td style="width: 40%; background-color: #fcfcfc">
                                                    Por quê?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                                                <td colspan="4" style="width: 60%; background-color: #ffffff">
-                                                   <input name="ctl00$PorQue" type="text" maxlength="50" id="ctl00_PorQue" style="width:90%;" /></td>
+                                                   <input name="f_PorQue" type="text" maxlength="50" id="f_PorQue" style="width:90%;" /></td>
                                            </tr>
                                        </table>
                                    </td>
@@ -576,9 +577,9 @@
                                        <strong>Recebe ajuda financeira da família?</strong>
                                    </td>
                                    <td style="width: 60%;" colspan="3">
-                                       <table id="ctl00_CaixaGrupoAjudaFinanceira" border="0">
+                                       <table id="f_CaixaGrupoAjudaFinanceira" border="0">
 			<tr>
-				<td><input id="ctl00_CaixaGrupoAjudaFinanceira_0" type="radio" name="ctl00$CaixaGrupoAjudaFinanceira" value="SIM" onclick="controleAjudaFinanceira();" /><label for="ctl00_CaixaGrupoAjudaFinanceira_0">Sim</label></td><td><input id="ctl00_CaixaGrupoAjudaFinanceira_1" type="radio" name="ctl00$CaixaGrupoAjudaFinanceira" value="NAO" onclick="controleAjudaFinanceira();" /><label for="ctl00_CaixaGrupoAjudaFinanceira_1">Não</label></td>
+				<td><input id="f_CaixaGrupoAjudaFinanceira_0" type="radio" name="f_CaixaGrupoAjudaFinanceira" value="SIM" onclick="controleAjudaFinanceira();" /><label for="f_CaixaGrupoAjudaFinanceira_0">Sim</label></td><td><input id="f_CaixaGrupoAjudaFinanceira_1" type="radio" name="f_CaixaGrupoAjudaFinanceira" value="NAO" onclick="controleAjudaFinanceira();" /><label for="f_CaixaGrupoAjudaFinanceira_1">Não</label></td>
 			</tr>
 		</table>
                                     </td>
@@ -590,16 +591,16 @@
                                            <td style="width: 40%; background-color: #fcfcfc;">
                                                 Valor(R$)<span style="color: #ff0000">*</span>:<span style="color: #ff0000"></span></td>
                                            <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                                               <input name="ctl00$ValorMesada" type="text" maxlength="11" id="ctl00_ValorMesada" style="width:20%;" />
+                                               <input name="f_ValorMesada" type="text" maxlength="11" id="f_ValorMesada" style="width:20%;" />
                                            </td>
                                        </tr>
                                            <tr>
                                                <td style="width: 40%; background-color: #fcfcfc">
                                                    Depende desta renda?<span style="color: #ff0000">*<span style="color: #000000">:</span></span></td>
                                                <td colspan="4" style="width: 60%; background-color: #ffffff">
-                                                   <table id="ctl00_DepDestaRenda" border="0">
+                                                   <table id="f_DepDestaRenda" border="0">
 			<tr>
-				<td><input id="ctl00_DepDestaRenda_0" type="radio" name="ctl00$DepDestaRenda" value="Unicamente" /><label for="ctl00_DepDestaRenda_0">Unicamente</label></td><td><input id="ctl00_DepDestaRenda_1" type="radio" name="ctl00$DepDestaRenda" value="Parcialmente" /><label for="ctl00_DepDestaRenda_1">Parcialmente</label></td>
+				<td><input id="f_DepDestaRenda_0" type="radio" name="f_DepDestaRenda" value="Unicamente" /><label for="f_DepDestaRenda_0">Unicamente</label></td><td><input id="f_DepDestaRenda_1" type="radio" name="f_DepDestaRenda" value="Parcialmente" /><label for="f_DepDestaRenda_1">Parcialmente</label></td>
 			</tr>
 		</table></td>
                                            </tr>
@@ -610,9 +611,9 @@
                                    <td style="width: 40%; background-color: #fcfcfc;">
                                        <strong>Contribui para renda familiar?</strong><span style="color: #ff0000">*</span></td>
                                    <td style="width: 60%;" colspan="3">
-                                       <table id="ctl00_ContribuiRendaFamiliar" border="0">
+                                       <table id="f_ContribuiRendaFamiliar" border="0">
 			<tr>
-				<td><input id="ctl00_ContribuiRendaFamiliar_0" type="radio" name="ctl00$ContribuiRendaFamiliar" value="Sim" /><label for="ctl00_ContribuiRendaFamiliar_0">Sim</label></td><td><input id="ctl00_ContribuiRendaFamiliar_1" type="radio" name="ctl00$ContribuiRendaFamiliar" value="Não" /><label for="ctl00_ContribuiRendaFamiliar_1">Não</label></td>
+				<td><input id="f_ContribuiRendaFamiliar_0" type="radio" name="f_ContribuiRendaFamiliar" value="Sim" /><label for="f_ContribuiRendaFamiliar_0">Sim</label></td><td><input id="f_ContribuiRendaFamiliar_1" type="radio" name="f_ContribuiRendaFamiliar" value="Não" /><label for="f_ContribuiRendaFamiliar_1">Não</label></td>
 			</tr>
 		</table>
                                     </td>
@@ -639,7 +640,7 @@
                        Endereço<span style="color: #ff0000">*</span>:
                    </td>
                    <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                       <input name="ctl00$Endereco" type="text" maxlength="30" id="ctl00_Endereco" style="width:90%;" />
+                       <input name="f_Endereco" type="text" maxlength="30" id="f_Endereco" style="width:90%;" />
                   </td>
            </tr>
            <tr align ="left">
@@ -647,27 +648,27 @@
                        Cidade<span style="color: #ff0000">*</span>:
                    </td>
                    <td style="width: 35%; background-color: #ffffff; ">
-                       <input name="ctl00$Cidade" type="text" maxlength="30" id="ctl00_Cidade" style="width:90%;" />
+                       <input name="f_Cidade" type="text" maxlength="30" id="f_Cidade" style="width:90%;" />
                    </td>
                    <td style="width: 5%; background-color: #fcfcfc;">
                        CEP:
                    </td>
                    <td style="width: 10%; background-color: #ffffff;">
-                       &nbsp;<input name="ctl00$CEP" type="text" maxlength="8" id="ctl00_CEP" style="width:93%;" /></td>
+                       &nbsp;<input name="f_CEP" type="text" maxlength="8" id="f_CEP" style="width:93%;" /></td>
            </tr>
            <tr align ="left">
                   <td style="width: 40%; background-color: #fcfcfc; height: 25px;">
                       (DDD)Telefone/celular<span style="color: #ff0000">*</span>:<span style="color: #ff0000">
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff; height: 25px;">
-                      <input name="ctl00$Telefone" type="text" maxlength="30" id="ctl00_Telefone" style="width:40%;" />
+                      <input name="f_Telefone" type="text" maxlength="30" id="f_Telefone" style="width:40%;" />
                   </td>
            </tr>
            <tr align ="left">
                <td style="width: 40%; background-color: #fcfcfc; height: 20px;">
                    <strong>Como reside atualmente?</strong><span style="color: #ff0000">*</span>:<span style="color: #ff0000"></td>
                 <td colspan="4" style="width: 60%; background-color: #ffffff; height: 20px;">
-                    <select name="ctl00$ComoVoceReside" id="ctl00_ComoVoceReside" onChange="controleComoVoceReside();">
+                    <select name="f_ComoVoceReside" id="f_ComoVoceReside" onChange="controleComoVoceReside();">
 			<option selected="selected" value=""></option>
 			<option value="1">Com a fam&#237;lia (pai, m&#227;e e/ou irm&#227;os).</option>
 			<option value="2">Com a fam&#237;lia (c&#244;njuge/filhos).</option>
@@ -691,9 +692,9 @@
                                Com quem?<span style="color: #ff0000">*<span
                                    style="color: #000000">:</span></span></td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff; height: 17px;">
-                               <table id="ctl00_ComQuemVoceMora" border="0">
+                               <table id="f_ComQuemVoceMora" border="0">
 			<tr>
-				<td><input id="ctl00_ComQuemVoceMora_0" type="radio" name="ctl00$ComQuemVoceMora" value="0Avô(ó)" /><label for="ctl00_ComQuemVoceMora_0">Avô(ó)</label></td><td><input id="ctl00_ComQuemVoceMora_1" type="radio" name="ctl00$ComQuemVoceMora" value="1Irmão(ã)" /><label for="ctl00_ComQuemVoceMora_1">Irmão(ã)</label></td><td><input id="ctl00_ComQuemVoceMora_2" type="radio" name="ctl00$ComQuemVoceMora" value="2Parente" /><label for="ctl00_ComQuemVoceMora_2">Parente </label></td><td><input id="ctl00_ComQuemVoceMora_3" type="radio" name="ctl00$ComQuemVoceMora" value="3Amigo(a)" /><label for="ctl00_ComQuemVoceMora_3">Amigo(a)</label></td>
+				<td><input id="f_ComQuemVoceMora_0" type="radio" name="f_ComQuemVoceMora" value="0Avô(ó)" /><label for="f_ComQuemVoceMora_0">Avô(ó)</label></td><td><input id="f_ComQuemVoceMora_1" type="radio" name="f_ComQuemVoceMora" value="1Irmão(ã)" /><label for="f_ComQuemVoceMora_1">Irmão(ã)</label></td><td><input id="f_ComQuemVoceMora_2" type="radio" name="f_ComQuemVoceMora" value="2Parente" /><label for="f_ComQuemVoceMora_2">Parente </label></td><td><input id="f_ComQuemVoceMora_3" type="radio" name="f_ComQuemVoceMora" value="3Amigo(a)" /><label for="f_ComQuemVoceMora_3">Amigo(a)</label></td>
 			</tr>
 		</table></td>
                        </tr>
@@ -701,7 +702,7 @@
                            <td style="width: 40%; background-color: #fcfcfc; height: 26px;">
                                Quanto tempo?<span style="color: #ff0000">*</span>:</td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff; height: 26px;">
-                               <input name="ctl00$Tempo" type="text" maxlength="5" id="ctl00_Tempo" style="width:10%;" />
+                               <input name="f_Tempo" type="text" maxlength="5" id="f_Tempo" style="width:10%;" />
                                dias</td>
                        </tr>
                    </table>
@@ -710,7 +711,7 @@
                            <td style="width: 40%; background-color: #fcfcfc">
                                Custo(R$)?<span style="color: #ff0000">*</span>:</td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                               <input name="ctl00$CustoSuaMoradia" type="text" maxlength="11" id="ctl00_CustoSuaMoradia" style="width:20%;" />
+                               <input name="f_CustoSuaMoradia" type="text" maxlength="11" id="f_CustoSuaMoradia" style="width:20%;" />
                            </td>
                        </tr>
                    </table>
@@ -720,7 +721,7 @@
                                Outra Situação?<br />
                                Especifique<span style="color: #ff0000">*</span>:</td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                               <textarea name="ctl00$OutraSitSuaMoradia" rows="2" cols="20" id="ctl00_OutraSitSuaMoradia" style="height:73px;width:90%;"></textarea></td>
+                               <textarea name="f_OutraSitSuaMoradia" rows="2" cols="20" id="f_OutraSitSuaMoradia" style="height:73px;width:90%;"></textarea></td>
                        </tr>
                    </table>
                </td>
@@ -730,7 +731,7 @@
                            <td style="width: 40%; background-color: #fcfcfc; height: 20px;">
                                <strong>Como reside sua família?</strong><span style="color: #ff0000">*</span>:<span style="color: #ff0000"></span></td>
                            <td colspan="4" style="width: 60%; background-color: #ffffff; height: 20px;">
-                               <select name="ctl00$ComoSuaFamiliaReside" id="ctl00_ComoSuaFamiliaReside" onChange="controleComoSuaFamiliaReside();">
+                               <select name="f_ComoSuaFamiliaReside" id="f_ComoSuaFamiliaReside" onChange="controleComoSuaFamiliaReside();">
 			<option selected="selected" value=""></option>
 			<option value="1">Im&#243;vel pr&#243;prio quitado.</option>
 			<option value="2">Im&#243;vel em aquisi&#231;&#227;o.</option>
@@ -751,7 +752,7 @@
                                            Prestação do financiamento(R$)<span style="color: #ff0000">*<span
                                    style="color: #000000">:</span></span></td>
                                        <td colspan="4" style="width: 60%; background-color: #ffffff; height: 17px;">
-                                           <input name="ctl00$PrestacaoFinanc" type="text" maxlength="11" id="ctl00_PrestacaoFinanc" style="width:20%;" /></td>
+                                           <input name="f_PrestacaoFinanc" type="text" maxlength="11" id="f_PrestacaoFinanc" style="width:20%;" /></td>
                                    </tr>
                                </table>
                                <table  id = "trAluguel" style="width: 100%;display:none;">
@@ -759,7 +760,7 @@
                                        <td style="width: 40%; background-color: #fcfcfc; height: 26px;">
                                            Aluguel(R$)<span style="color: #ff0000">*</span>:</td>
                                        <td colspan="4" style="width: 60%; background-color: #ffffff; height: 26px;">
-                                           <input name="ctl00$ValorAluguel" type="text" maxlength="11" id="ctl00_ValorAluguel" style="width:20%;" /></td>
+                                           <input name="f_ValorAluguel" type="text" maxlength="11" id="f_ValorAluguel" style="width:20%;" /></td>
                                    </tr>
                                </table>
                                
@@ -768,7 +769,7 @@
                                        <td style="width: 40%; background-color: #fcfcfc">
                                            Cedente?<span style="color: #ff0000">*</span>:</td>
                                        <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                                           <input name="ctl00$Cedente" type="text" maxlength="30" id="ctl00_Cedente" style="width:90%;" />
+                                           <input name="f_Cedente" type="text" maxlength="30" id="f_Cedente" style="width:90%;" />
                                        </td>
                                    </tr>
                                </table>
@@ -778,7 +779,7 @@
                                            Outra Situação?<br />
                                            Especifique<span style="color: #ff0000">*</span>:</td>
                                        <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                                           <textarea name="ctl00$OutraSitMoradiaSuaFamilia" rows="2" cols="20" id="ctl00_OutraSitMoradiaSuaFamilia" style="height:73px;width:90%;"></textarea></td>
+                                           <textarea name="f_OutraSitMoradiaSuaFamilia" rows="2" cols="20" id="f_OutraSitMoradiaSuaFamilia" style="height:73px;width:90%;"></textarea></td>
                                    </tr>
                                </table>
                            </td>
@@ -794,19 +795,19 @@
                    Indique sua situação civil<span style="color: #ff0000">*<span
                        style="color: #000000">:</span></span></td>
                <td colspan="4" style="width: 60%; background-color: #ffffff; height: 17px;">
-                   <table id="ctl00_EstadoCivil" border="0">
+                   <table id="f_EstadoCivil" border="0">
 			<tr>
-				<td><input id="ctl00_EstadoCivil_0" type="radio" name="ctl00$EstadoCivil" value="0Solteiro(a) sem filho." onclick="controleTemFilhos();" /><label for="ctl00_EstadoCivil_0">Solteiro(a) sem filho(s).</label></td>
+				<td><input id="f_EstadoCivil_0" type="radio" name="f_EstadoCivil" value="0Solteiro(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_0">Solteiro(a) sem filho(s).</label></td>
 			</tr><tr>
-				<td><input id="ctl00_EstadoCivil_1" type="radio" name="ctl00$EstadoCivil" value="1Casado(a), com companheiro(a) sem filho." onclick="controleTemFilhos();" /><label for="ctl00_EstadoCivil_1">Casado(a), com companheiro(a) sem filho(s).</label></td>
+				<td><input id="f_EstadoCivil_1" type="radio" name="f_EstadoCivil" value="1Casado(a), com companheiro(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_1">Casado(a), com companheiro(a) sem filho(s).</label></td>
 			</tr><tr>
-				<td><input id="ctl00_EstadoCivil_2" type="radio" name="ctl00$EstadoCivil" value="2Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho." onclick="controleTemFilhos();" /><label for="ctl00_EstadoCivil_2">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho(s).</label></td>
+				<td><input id="f_EstadoCivil_2" type="radio" name="f_EstadoCivil" value="2Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_2">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho(s).</label></td>
 			</tr><tr>
-				<td><input id="ctl00_EstadoCivil_3" type="radio" name="ctl00$EstadoCivil" value="3Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho." onclick="controleTemFilhos();" /><label for="ctl00_EstadoCivil_3">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho(s).</label></td>
+				<td><input id="f_EstadoCivil_3" type="radio" name="f_EstadoCivil" value="3Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_3">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho(s).</label></td>
 			</tr><tr>
-				<td><input id="ctl00_EstadoCivil_4" type="radio" name="ctl00$EstadoCivil" value="4Casado(a), com companheiro(a) com filho(s)." onclick="controleTemFilhos();" /><label for="ctl00_EstadoCivil_4">Casado(a), com companheiro(a) com filho(s).</label></td>
+				<td><input id="f_EstadoCivil_4" type="radio" name="f_EstadoCivil" value="4Casado(a), com companheiro(a) com filho(s)." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_4">Casado(a), com companheiro(a) com filho(s).</label></td>
 			</tr><tr>
-				<td><input id="ctl00_EstadoCivil_5" type="radio" name="ctl00$EstadoCivil" value="5Solteiro(a), com filho(s)." onclick="controleTemFilhos();" /><label for="ctl00_EstadoCivil_5">Solteiro(a), com filho(s).</label></td>
+				<td><input id="f_EstadoCivil_5" type="radio" name="f_EstadoCivil" value="5Solteiro(a), com filho(s)." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_5">Solteiro(a), com filho(s).</label></td>
 			</tr>
 		</table></td>
            </tr>
@@ -817,9 +818,9 @@
                            <td style="width: 40%; height: 17px; background-color: #fcfcfc">
                                Os filhos vivem com quem?<span style="color: #ff0000">*</span><span style="color: #ff0000"><span
                                    style="color: #000000">:</span></span></td>
-                           <td colspan="4" style="width: 60%; height: 17px; background-color: #ffffff"><table id="ctl00_FilhosVivemCom" border="0">
+                           <td colspan="4" style="width: 60%; height: 17px; background-color: #ffffff"><table id="f_FilhosVivemCom" border="0">
 			<tr>
-				<td><input id="ctl00_FilhosVivemCom_0" type="radio" name="ctl00$FilhosVivemCom" value="Aluno(a)" /><label for="ctl00_FilhosVivemCom_0">Aluno(a)</label></td><td><input id="ctl00_FilhosVivemCom_1" type="radio" name="ctl00$FilhosVivemCom" value="Outra pessoa" /><label for="ctl00_FilhosVivemCom_1">Outra pessoa</label></td><td><input id="ctl00_FilhosVivemCom_2" type="radio" name="ctl00$FilhosVivemCom" value="Cônjuge ou companheiro(a)" /><label for="ctl00_FilhosVivemCom_2">Cônjuge ou companheiro(a)</label></td>
+				<td><input id="f_FilhosVivemCom_0" type="radio" name="f_FilhosVivemCom" value="Aluno(a)" /><label for="f_FilhosVivemCom_0">Aluno(a)</label></td><td><input id="f_FilhosVivemCom_1" type="radio" name="f_FilhosVivemCom" value="Outra pessoa" /><label for="f_FilhosVivemCom_1">Outra pessoa</label></td><td><input id="f_FilhosVivemCom_2" type="radio" name="f_FilhosVivemCom" value="Cônjuge ou companheiro(a)" /><label for="f_FilhosVivemCom_2">Cônjuge ou companheiro(a)</label></td>
 			</tr>
 		</table>
                            </td>
@@ -828,9 +829,9 @@
                                <td style="width: 40%; height: 17px; background-color: #fcfcfc">
                                    Recebe pensão para o(s) filho(s)<span style="color: #ff0000">*</span>:</td>
                                <td colspan="4" style="width: 60%; height: 17px; background-color: #ffffff">
-                                   <table id="ctl00_RecebePensao" border="0">
+                                   <table id="f_RecebePensao" border="0">
 			<tr>
-				<td><input id="ctl00_RecebePensao_0" type="radio" name="ctl00$RecebePensao" value="Sim" /><label for="ctl00_RecebePensao_0">Sim</label></td><td><input id="ctl00_RecebePensao_1" type="radio" name="ctl00$RecebePensao" value="Não" /><label for="ctl00_RecebePensao_1">Não</label></td>
+				<td><input id="f_RecebePensao_0" type="radio" name="f_RecebePensao" value="Sim" /><label for="f_RecebePensao_0">Sim</label></td><td><input id="f_RecebePensao_1" type="radio" name="f_RecebePensao" value="Não" /><label for="f_RecebePensao_1">Não</label></td>
 			</tr>
 		</table>
                                </td>
@@ -842,19 +843,19 @@
 
             
       
-<input type="hidden" name="ctl00$SemestreAno" id="ctl00_SemestreAno" />
-<input type="hidden" name="ctl00$PeriodoAtual" id="ctl00_PeriodoAtual" value="20152" />
-<div id="ctl00_painelDetalhe">
-			<center><div id="ctl00_detalheBarra" style="text-align:center;">
+<input type="hidden" name="f_SemestreAno" id="f_SemestreAno" />
+<input type="hidden" name="f_PeriodoAtual" id="f_PeriodoAtual" value="20152" />
+<div id="f_painelDetalhe">
+			<center><div id="f_detalheBarra" style="text-align:center;">
 				<br/><table cellpadding="5" align="Center" border="0" style="background-color:White;border-color:Gainsboro;border-width:1px;border-style:solid;height:20px;width:500px;">
 					<tr>
-						<td align="center" valign="middle"><a href="/SaeWeb/fronteira/FormPreliminar_C.aspx"><img src="/SaeWeb/unbFronteira/Img/voltar.jpg" style="border-width:0px;" /></a>    <input type="image" name="ctl00$ctl04" src="/SaeWeb/unbFronteira/Img/avancar.jpg" style="border-width:0px;" /></td>
+						<td align="center" valign="middle"><a href="/SaeWeb/fronteira/FormPreliminar_C.aspx"><img src="/SaeWeb/unbFronteira/Img/voltar.jpg" style="border-width:0px;" /></a>    <input type="image" name="f_ctl04" src="/SaeWeb/unbFronteira/Img/avancar.jpg" style="border-width:0px;" /></td>
 					</tr>
 				</table><br/>
 			</div></center>
 		</div>
 
-	</div><input type="hidden" name="ctl00$caixaEscondidaId" id="ctl00_caixaEscondidaId" value="203" /><input type="hidden" name="ctl00$caixaEscondidaOperacao" id="ctl00_caixaEscondidaOperacao" value="2" /><input type="hidden" name="ctl00$caixaEscondidaMenuArvore" id="ctl00_caixaEscondidaMenuArvore" value="10" /></form>
+	</div><input type="hidden" name="f_caixaEscondidaId" id="f_caixaEscondidaId" value="203" /><input type="hidden" name="f_caixaEscondidaOperacao" id="f_caixaEscondidaOperacao" value="2" /><input type="hidden" name="f_caixaEscondidaMenuArvore" id="f_caixaEscondidaMenuArvore" value="10" /></form>
 </div>
 
 
@@ -862,7 +863,7 @@
 
   function controleTemFilhos()
  {
-    if (document.getElementById('ctl00_EstadoCivil_5').checked == true || document.getElementById('ctl00_EstadoCivil_4').checked == true || document.getElementById('ctl00_EstadoCivil_3').checked == true)
+    if (document.getElementById('f_EstadoCivil_5').checked == true || document.getElementById('f_EstadoCivil_4').checked == true || document.getElementById('f_EstadoCivil_3').checked == true)
     {
         document.getElementById('trTemFilhos').style.display = '';
        
@@ -870,17 +871,17 @@
     else
     {
         document.getElementById('trTemFilhos').style.display = 'none';
-        document.getElementById('ctl00_FilhosVivemCom_0').checked = false;  
-        document.getElementById('ctl00_FilhosVivemCom_1').checked = false;  
+        document.getElementById('f_FilhosVivemCom_0').checked = false;  
+        document.getElementById('f_FilhosVivemCom_1').checked = false;  
         
-        document.getElementById('ctl00_RecebePensao_0').checked = false;  
-        document.getElementById('ctl00_RecebePensao_1').checked = false;  
+        document.getElementById('f_RecebePensao_0').checked = false;  
+        document.getElementById('f_RecebePensao_1').checked = false;  
     }
  }
 
  function controleComoSuaFamiliaReside()
  {
-    var valor_selecionado = document.getElementById('ctl00_ComoSuaFamiliaReside').value;
+    var valor_selecionado = document.getElementById('f_ComoSuaFamiliaReside').value;
     
     //2 - Imóvel em aquisição
     if(valor_selecionado == 2)
@@ -890,9 +891,9 @@
         document.getElementById('trCedente').style.display = 'none';
         document.getElementById('trOutraSitMoradiaSuaFamilia').style.display = 'none';
         
-        document.getElementById('ctl00_ValorAluguel').value = '';
-        document.getElementById('ctl00_Cedente').value = ''; 
-        document.getElementById('ctl00_OutraSitMoradiaSuaFamilia').value = '';           
+        document.getElementById('f_ValorAluguel').value = '';
+        document.getElementById('f_Cedente').value = ''; 
+        document.getElementById('f_OutraSitMoradiaSuaFamilia').value = '';           
     }
     //4 - Imóvel alugado 
     else if(valor_selecionado == 4)
@@ -902,9 +903,9 @@
         document.getElementById('trCedente').style.display = 'none';
         document.getElementById('trOutraSitMoradiaSuaFamilia').style.display = 'none';
         
-        document.getElementById('ctl00_PrestacaoFinanc').value = '';
-        document.getElementById('ctl00_Cedente').value = ''; 
-        document.getElementById('ctl00_OutraSitMoradiaSuaFamilia').value = '';   
+        document.getElementById('f_PrestacaoFinanc').value = '';
+        document.getElementById('f_Cedente').value = ''; 
+        document.getElementById('f_OutraSitMoradiaSuaFamilia').value = '';   
     }
     //5 - Imóvel cedido por necessidade 
     else if(valor_selecionado == 5)
@@ -914,9 +915,9 @@
         document.getElementById('trCedente').style.display = '';
         document.getElementById('trOutraSitMoradiaSuaFamilia').style.display = 'none';
         
-        document.getElementById('ctl00_PrestacaoFinanc').value = '';
-        document.getElementById('ctl00_ValorAluguel').value = '';
-        document.getElementById('ctl00_OutraSitMoradiaSuaFamilia').value = '';   
+        document.getElementById('f_PrestacaoFinanc').value = '';
+        document.getElementById('f_ValorAluguel').value = '';
+        document.getElementById('f_OutraSitMoradiaSuaFamilia').value = '';   
     }
     //7 - Outra situação de moradia 
     else if(valor_selecionado == 7)
@@ -926,9 +927,9 @@
         document.getElementById('trCedente').style.display = 'none';
         document.getElementById('trOutraSitMoradiaSuaFamilia').style.display = '';
         
-        document.getElementById('ctl00_PrestacaoFinanc').value = '';
-        document.getElementById('ctl00_ValorAluguel').value = '';
-        document.getElementById('ctl00_Cedente').value = ''; 
+        document.getElementById('f_PrestacaoFinanc').value = '';
+        document.getElementById('f_ValorAluguel').value = '';
+        document.getElementById('f_Cedente').value = ''; 
     }
     //Nenhuma das anteriores 
     else
@@ -938,16 +939,16 @@
         document.getElementById('trCedente').style.display = 'none';
         document.getElementById('trOutraSitMoradiaSuaFamilia').style.display = 'none';
         
-        document.getElementById('ctl00_PrestacaoFinanc').value = '';
-        document.getElementById('ctl00_ValorAluguel').value = '';
-        document.getElementById('ctl00_Cedente').value = ''; 
-        document.getElementById('ctl00_OutraSitMoradiaSuaFamilia').value = '';   
+        document.getElementById('f_PrestacaoFinanc').value = '';
+        document.getElementById('f_ValorAluguel').value = '';
+        document.getElementById('f_Cedente').value = ''; 
+        document.getElementById('f_OutraSitMoradiaSuaFamilia').value = '';   
     }
  }
 
  function controleComoVoceReside()
  {
-    var valor_selecionado = document.getElementById('ctl00_ComoVoceReside').value;
+    var valor_selecionado = document.getElementById('f_ComoVoceReside').value;
      
     if(valor_selecionado == 1 ||  valor_selecionado == 2 || valor_selecionado == 7 || valor_selecionado == 9)
     {
@@ -955,11 +956,11 @@
         document.getElementById('trCusto').style.display = 'none';
         document.getElementById('trOutraSituacao').style.display = 'none';
         
-        document.getElementById('ctl00_ComQuemVoceMora_0').checked = false;
-        document.getElementById('ctl00_ComQuemVoceMora_1').checked = false;
-        document.getElementById('ctl00_Tempo').value = '';
-        document.getElementById('ctl00_CustoSuaMoradia').value = '';
-        document.getElementById('ctl00_OutraSitSuaMoradia').value = '';      
+        document.getElementById('f_ComQuemVoceMora_0').checked = false;
+        document.getElementById('f_ComQuemVoceMora_1').checked = false;
+        document.getElementById('f_Tempo').value = '';
+        document.getElementById('f_CustoSuaMoradia').value = '';
+        document.getElementById('f_OutraSitSuaMoradia').value = '';      
     }
     else if(valor_selecionado == 3 ||  valor_selecionado == 4 || valor_selecionado == 5 || valor_selecionado == 6)
     {
@@ -967,10 +968,10 @@
         document.getElementById('trCusto').style.display = '';
         document.getElementById('trOutraSituacao').style.display = 'none';
         
-        document.getElementById('ctl00_ComQuemVoceMora_0').checked = false;
-        document.getElementById('ctl00_ComQuemVoceMora_1').checked = false;
-        document.getElementById('ctl00_Tempo').value = '';
-        document.getElementById('ctl00_OutraSitSuaMoradia').value = ''; 
+        document.getElementById('f_ComQuemVoceMora_0').checked = false;
+        document.getElementById('f_ComQuemVoceMora_1').checked = false;
+        document.getElementById('f_Tempo').value = '';
+        document.getElementById('f_OutraSitSuaMoradia').value = ''; 
     }
     else if(valor_selecionado == 8 )
     {
@@ -978,8 +979,8 @@
         document.getElementById('trCusto').style.display = 'none';
         document.getElementById('trOutraSituacao').style.display = 'none';
         
-        document.getElementById('ctl00_CustoSuaMoradia').value = '';
-        document.getElementById('ctl00_OutraSitSuaMoradia').value = ''; 
+        document.getElementById('f_CustoSuaMoradia').value = '';
+        document.getElementById('f_OutraSitSuaMoradia').value = ''; 
     }
     else if(valor_selecionado == 10 )
     {
@@ -987,16 +988,16 @@
         document.getElementById('trCusto').style.display = 'none';
         document.getElementById('trOutraSituacao').style.display = '';
         
-        document.getElementById('ctl00_ComQuemVoceMora_0').checked = false;
-        document.getElementById('ctl00_ComQuemVoceMora_1').checked = false;
-        document.getElementById('ctl00_Tempo').value = '';
-        document.getElementById('ctl00_CustoSuaMoradia').value = '';
+        document.getElementById('f_ComQuemVoceMora_0').checked = false;
+        document.getElementById('f_ComQuemVoceMora_1').checked = false;
+        document.getElementById('f_Tempo').value = '';
+        document.getElementById('f_CustoSuaMoradia').value = '';
     }
  }
  
  function controleAjudaFinanceira()
  {
-    if (document.getElementById('ctl00_CaixaGrupoAjudaFinanceira_0').checked == true)
+    if (document.getElementById('f_CaixaGrupoAjudaFinanceira_0').checked == true)
     {
         document.getElementById('trAjudaFinanceira').style.display = '';
        
@@ -1004,45 +1005,45 @@
     else
     {
         document.getElementById('trAjudaFinanceira').style.display = 'none';
-        document.getElementById('ctl00_ValorMesada').value = '';
-        document.getElementById('ctl00_DepDestaRenda_0').checked = false;  
-        document.getElementById('ctl00_DepDestaRenda_1').checked = false;  
+        document.getElementById('f_ValorMesada').value = '';
+        document.getElementById('f_DepDestaRenda_0').checked = false;  
+        document.getElementById('f_DepDestaRenda_1').checked = false;  
     }
  }
 
  
  function controleRecebeBolsaPos()
  {
-    if((document.getElementById('ctl00_Nivel').value != "Graduação")){
+    if((document.getElementById('f_Nivel').value != "Graduação")){
 
-        if (document.getElementById('ctl00_CaixaGrupoRecebeBolsaPos_0').checked == true)
+        if (document.getElementById('f_CaixaGrupoRecebeBolsaPos_0').checked == true)
         {
             document.getElementById('trRecebeBolsaPos').style.display = '';
             document.getElementById('trRecebeBolsaPosNao').style.display = 'none';
             
-            document.getElementById('ctl00_PoderaReceber_0').checked = false;  
-            document.getElementById('ctl00_PoderaReceber_1').checked = false;  
-            document.getElementById('ctl00_Porque').value = '';
+            document.getElementById('f_PoderaReceber_0').checked = false;  
+            document.getElementById('f_PoderaReceber_1').checked = false;  
+            document.getElementById('f_Porque').value = '';
         }
-        else if (document.getElementById('ctl00_CaixaGrupoRecebeBolsaPos_1').checked == true)
+        else if (document.getElementById('f_CaixaGrupoRecebeBolsaPos_1').checked == true)
         {
 
             document.getElementById('trRecebeBolsaPosNao').style.display = '';
             document.getElementById('trRecebeBolsaPos').style.display = 'none';
-            document.getElementById('ctl00_ValorBolsaPos').value = '';        
+            document.getElementById('f_ValorBolsaPos').value = '';        
         }
         else
         {
             document.getElementById('trRecebeBolsaPosNao').style.display = 'none';
             document.getElementById('trRecebeBolsaPos').style.display = 'none';
-            document.getElementById('ctl00_ValorBolsaPos').value = '';   
+            document.getElementById('f_ValorBolsaPos').value = '';   
         }
     }
   }
 
  function controlePensionista()
  {
-    if (document.getElementById('ctl00_CaixaGrupoPensionista_0').checked == true)
+    if (document.getElementById('f_CaixaGrupoPensionista_0').checked == true)
     {
         document.getElementById('trPensionista').style.display = '';
        
@@ -1050,14 +1051,14 @@
     else
     {
         document.getElementById('trPensionista').style.display = 'none';
-        document.getElementById('ctl00_PensaoVitaliciaAluno').value = '';
+        document.getElementById('f_PensaoVitaliciaAluno').value = '';
     }
  }
 
  
  function controleJaTrabalhou()
  {
-    if (document.getElementById('ctl00_CaixaGrupoJaTrabalhou_0').checked == true)
+    if (document.getElementById('f_CaixaGrupoJaTrabalhou_0').checked == true)
     {
         document.getElementById('trAtividadeExercida').style.display = '';
        
@@ -1065,7 +1066,7 @@
     else
     {
         document.getElementById('trAtividadeExercida').style.display = 'none';
-        document.getElementById('ctl00_AtividadeExercida').value = '';
+        document.getElementById('f_AtividadeExercida').value = '';
     }
  }
  
@@ -1073,7 +1074,7 @@
 
  function controleAposentado()
  {
-    if (document.getElementById('ctl00_CaixaGrupoAposentado_0').checked == true)
+    if (document.getElementById('f_CaixaGrupoAposentado_0').checked == true)
     {
         document.getElementById('trAposentado').style.display = '';
        
@@ -1081,76 +1082,76 @@
     else
     {
         document.getElementById('trAposentado').style.display = 'none';
-        document.getElementById('ctl00_AnoAposent').value = '';
-        document.getElementById('ctl00_ProfissaoExercida').value = '';
-        document.getElementById('ctl00_MotivoAposent_0').checked = false;  
-        document.getElementById('ctl00_MotivoAposent_1').checked = false;   
-        document.getElementById('ctl00_ValorAposent').value = '';
+        document.getElementById('f_AnoAposent').value = '';
+        document.getElementById('f_ProfissaoExercida').value = '';
+        document.getElementById('f_MotivoAposent_0').checked = false;  
+        document.getElementById('f_MotivoAposent_1').checked = false;   
+        document.getElementById('f_ValorAposent').value = '';
     }
  }
  
  function controleTrabalha()
  {
-    if( document.getElementById('ctl00_CaixaGrupoTrabalha_0').checked == true)
+    if( document.getElementById('f_CaixaGrupoTrabalha_0').checked == true)
     {
         document.getElementById('trGrupoTrabalhaSimVinculo').style.display = '';
         document.getElementById('trGrupoTrabalhaNaoVinculo').style.display = 'none';
         
-        document.getElementById('ctl00_DependeRenda_0').checked = false;  
-        document.getElementById('ctl00_DependeRenda_1').checked = false;   
-        document.getElementById('ctl00_RendaMensal').value = '';
-        document.getElementById('ctl00_Atividade').value = '';
+        document.getElementById('f_DependeRenda_0').checked = false;  
+        document.getElementById('f_DependeRenda_1').checked = false;   
+        document.getElementById('f_RendaMensal').value = '';
+        document.getElementById('f_Atividade').value = '';
 
 
     }
 
-    if( document.getElementById('ctl00_CaixaGrupoTrabalha_1').checked == true)
+    if( document.getElementById('f_CaixaGrupoTrabalha_1').checked == true)
     {
         document.getElementById('trGrupoTrabalhaSimVinculo').style.display = 'none';
         document.getElementById('trGrupoTrabalhaNaoVinculo').style.display = '';
-        document.getElementById('ctl00_Remuneracao').value = '';
-        document.getElementById('ctl00_Funcao').value = '';
-        document.getElementById('ctl00_Instituicao').value = '';
+        document.getElementById('f_Remuneracao').value = '';
+        document.getElementById('f_Funcao').value = '';
+        document.getElementById('f_Instituicao').value = '';
         
-        document.getElementById('ctl00_EstaLicenciado_0').checked = false;  
-        document.getElementById('ctl00_EstaLicenciado_1').checked = false;   
+        document.getElementById('f_EstaLicenciado_0').checked = false;  
+        document.getElementById('f_EstaLicenciado_1').checked = false;   
 
     }
-    if( document.getElementById('ctl00_CaixaGrupoTrabalha_2').checked == true)
+    if( document.getElementById('f_CaixaGrupoTrabalha_2').checked == true)
     {
         document.getElementById('trGrupoTrabalhaSimVinculo').style.display = 'none';
         document.getElementById('trGrupoTrabalhaNaoVinculo').style.display = 'none';
         
-        document.getElementById('ctl00_Remuneracao').value = '';
-        document.getElementById('ctl00_Funcao').value = '';
-        document.getElementById('ctl00_Instituicao').value = '';
-        document.getElementById('ctl00_DependeRenda_0').checked = false;  
-        document.getElementById('ctl00_DependeRenda_1').checked = false;   
-        document.getElementById('ctl00_RendaMensal').value = '';
-        document.getElementById('ctl00_Atividade').value = '';
-        document.getElementById('ctl00_EstaLicenciado_0').checked = false;  
-        document.getElementById('ctl00_EstaLicenciado_1').checked = false;   
+        document.getElementById('f_Remuneracao').value = '';
+        document.getElementById('f_Funcao').value = '';
+        document.getElementById('f_Instituicao').value = '';
+        document.getElementById('f_DependeRenda_0').checked = false;  
+        document.getElementById('f_DependeRenda_1').checked = false;   
+        document.getElementById('f_RendaMensal').value = '';
+        document.getElementById('f_Atividade').value = '';
+        document.getElementById('f_EstaLicenciado_0').checked = false;  
+        document.getElementById('f_EstaLicenciado_1').checked = false;   
     }
  }
 
   function controleTGM()
   { 
-    if(document.getElementById('ctl00_AluQtdTGM').value != "0"){     
-        if (document.getElementById('ctl00_GrupoTGM_0').checked == true)
+    if(document.getElementById('f_AluQtdTGM').value != "0"){     
+        if (document.getElementById('f_GrupoTGM_0').checked == true)
         {
             document.getElementById('trTGM').style.display = '';
            
         }   
-        document.getElementById('ctl00_GrupoTGM').disabled = true; 
+        document.getElementById('f_GrupoTGM').disabled = true; 
     }
     else
     {
-        document.getElementById('ctl00_GrupoTGM').disabled = true; 
+        document.getElementById('f_GrupoTGM').disabled = true; 
     }
  }
  function controleFezOutroCurso()
  {
-     if (document.getElementById('ctl00_CaixaGrupoFezOutroCurso_0').checked == true)
+     if (document.getElementById('f_CaixaGrupoFezOutroCurso_0').checked == true)
     {
         document.getElementById('trFezOutroCurso').style.display = '';
        
@@ -1158,29 +1159,29 @@
     else
     {
         document.getElementById('trFezOutroCurso').style.display = 'none';   
-        document.getElementById('ctl00_FezOutroCurso').value = '';  
-        document.getElementById('ctl00_IESOutroCurso').value = '';  
-        document.getElementById('ctl00_ConcluiuOutroCurso_0').checked = false;  
-        document.getElementById('ctl00_ConcluiuOutroCurso_1').checked = false;    
-        document.getElementById('ctl00_OutroCursoNaoConcluido').value = '';  
+        document.getElementById('f_FezOutroCurso').value = '';  
+        document.getElementById('f_IESOutroCurso').value = '';  
+        document.getElementById('f_ConcluiuOutroCurso_0').checked = false;  
+        document.getElementById('f_ConcluiuOutroCurso_1').checked = false;    
+        document.getElementById('f_OutroCursoNaoConcluido').value = '';  
     }
  }
   function controleFezOutroCurso_ConcluiuOutroCurso()
  {
-     if (document.getElementById('ctl00_ConcluiuOutroCurso_1').checked == true)
+     if (document.getElementById('f_ConcluiuOutroCurso_1').checked == true)
     {
-        document.getElementById('ctl00_OutroCursoNaoConcluido').disabled = false; 
+        document.getElementById('f_OutroCursoNaoConcluido').disabled = false; 
     }
     else
     {
-        document.getElementById('ctl00_OutroCursoNaoConcluido').disabled = true;  
-        document.getElementById('ctl00_OutroCursoNaoConcluido').value = '';  
+        document.getElementById('f_OutroCursoNaoConcluido').disabled = true;  
+        document.getElementById('f_OutroCursoNaoConcluido').value = '';  
     }
  }
  
  function controleCursoFora()
  {
-     if (document.getElementById('ctl00_CaixaGrupoCursoFora_0').checked == true)
+     if (document.getElementById('f_CaixaGrupoCursoFora_0').checked == true)
     {
         document.getElementById('trCursoFora').style.display = '';
        
@@ -1188,15 +1189,15 @@
     else
     {
         document.getElementById('trCursoFora').style.display = 'none';  
-        document.getElementById('ctl00_FazCursoFora').value = '';  
-        document.getElementById('ctl00_IESCursoFora').value = '';  
-        document.getElementById('ctl00_MensIESCursoFora').value = '';  
+        document.getElementById('f_FazCursoFora').value = '';  
+        document.getElementById('f_IESCursoFora').value = '';  
+        document.getElementById('f_MensIESCursoFora').value = '';  
     }
  }
  
   function controletrTeveAbatimento()
  {
-    if (document.getElementById('ctl00_IsencaoTxVestibular_0').checked == true)
+    if (document.getElementById('f_IsencaoTxVestibular_0').checked == true)
     {
         document.getElementById('trTeveAbatimento').style.display = '';
        
@@ -1204,8 +1205,8 @@
     else
     {
         document.getElementById('trTeveAbatimento').style.display = 'none';
-        document.getElementById('ctl00_TeveAbatimento_0').checked = false;  
-        document.getElementById('ctl00_TeveAbatimento_1').checked = false;  
+        document.getElementById('f_TeveAbatimento_0').checked = false;  
+        document.getElementById('f_TeveAbatimento_1').checked = false;  
     }
  }
  
