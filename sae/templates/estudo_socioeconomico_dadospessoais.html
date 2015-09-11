@@ -1,20 +1,3 @@
-{% extends "fpc_form.html" %} 
-{% load fpc_tags %} 
-{% block f_botoes %}
-<div id="f_botoes" style="height:32px">
-   <div id="barra_botao" data-ts="{{ ts.id }}" data-perm="{{ form.perm }}">
-      <button id="btn_prox_etapa" type="button" class="btn btn-default btn-xs" onclick="fpc.exibeForm('{{ ts_estudo }}', false)" >
-      <i class="glyphicon glyphicon-chevron-right" />Próxima Etapa
-      </button>
-   </div>
-   <div id="f_botoes_esq"  style="float: right;">
-      <button id="btn_volta_lista" type="button" class="btn btn-default btn-xs" onclick="fpc.voltarParaLista()">
-      <i class="glyphicon glyphicon-chevron-left"/>Voltar
-      </button>
-   </div>
-</div>
-{% endblock %}
-{% block f_content_form %}
 <div class="form-inline" align="center">
    <table class="table" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
       <tr align="left">
@@ -1331,7 +1314,3 @@
  controleComoSuaFamiliaReside();
  controleTemFilhos();
 </script>
-
-{% endblock %}
-
-

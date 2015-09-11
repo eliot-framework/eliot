@@ -600,7 +600,7 @@ class Transacao(models.Model):
         ts.tipoTransacao = 'T'
         ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
         ts.posicao = 1
-        ts.formModel = 'sae.forms.EstudoSocioEconomicoPreliminarForm'
+        ts.formModel = 'sae.forms.EstudoSocioEconomicoForm'
         ts.model = 'sae.models.EstudoSocioEconomico'
         ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
         ts.transacaoPai = Transacao.objects.get(nome='estudosocioeconomico_sae')

@@ -57,6 +57,10 @@ class GeraArquivoRUForm(FpcCrud):
 
 # ########### Estudo socioeconômico # ###########
 
+class EstudoSocioEconomicoForm(FpcForm):
+    class Meta:
+        titulo = "Estudo Socioeconômico"
+        template = 'estudo_socioeconomico.html'
 
 class EstudoSocioEconomicoPreliminarForm(FpcForm):
     class Meta:
