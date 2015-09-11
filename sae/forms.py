@@ -65,17 +65,17 @@ class EstudoSocioEconomicoForm(FpcForm):
 class EstudoSocioEconomicoPreliminarForm(FpcForm):
     class Meta:
         titulo = "Estudo Socioeconômico Preliminar"
-        template = 'estudo_socioeconomico_preliminar.html'
+        template = 'estudo_socioeconomico/preliminar.html'
 
 class EstudoSocioEconomicoDadosPessoaisForm(FpcForm):
     class Meta:
         titulo = "Estudo Socioeconômico"
-        template = 'estudo_socioeconomico_dadospessoais.html'
+        template = 'estudo_socioeconomico/dados_pessoais.html'
 
 class EstudoSocioEconomicoDadosFamiliaresForm(FpcForm):
     class Meta:
         titulo = "Estudo Socioeconômico"
-        template = 'estudo_socioeconomico_dadosfamiliares.html'
+        template = 'estudo_socioeconomico/dados_familiares.html'
 
 class EstudoSocioEconomicoBensForm(FpcForm):
     class Meta:

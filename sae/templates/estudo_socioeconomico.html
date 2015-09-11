@@ -5,7 +5,7 @@
 
 <div id="f_botoes" style="height:32px">
 	<div id="barra_botao" data-ts="{{ ts.id }}" data-perm="{{ form.perm }}">
- 		<button id="btn_prox_etapa" type="button" class="btn btn-default btn-xs" onclick="fpc.exibeForm('{{ ts_estudo }}', false)" >
+ 		<button id="btn_prox_etapa" type="button" class="btn btn-default btn-xs" onclick='estudoSocioEconomicoForm.avanca_etapa()'>
  			<i class="glyphicon glyphicon-chevron-right" />Próxima Etapa
  		</button>
 	</div>
@@ -20,7 +20,8 @@
 
 {% block f_content_form %}
 
-	{% include "estudo_socioeconomico/preliminar.html" %}
+	{% include "estudo_socioeconomico/ler_edital.html" %}
+	{% include "estudo_socioeconomico/estudo_preliminar.html" %}
 	{% include "estudo_socioeconomico/dados_pessoais.html" %}
 	{% include "estudo_socioeconomico/dados_familiares.html" %}
 
