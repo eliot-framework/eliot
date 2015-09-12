@@ -1,5 +1,5 @@
-<div id="f_dados_familiares" class="form-inline" align="center" style="display:none">
-   <table class="table" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
+<div  class="table" id="f_dados_familiares" class="form-inline" align="center" style="display:none">
+   <table class="table" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
       <tr align="left">
          <td colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #cccccc; height: 20px;" align="center">
             <ol id="passo_atual" class="breadcrumb">
@@ -35,7 +35,7 @@
             Falecido?<span style="color: #ff0000">*</span>
          </td>
          <td colspan="3">
-            <table class="table" id="f_CaixaGrupoFalecidoPai" border="0">
+            <table id="f_CaixaGrupoFalecidoPai" border="0">
                <tr>
                   <td><input id="f_CaixaGrupoFalecidoPai_0" data-field="CaixaGrupoFalecidoPai" type="radio" name="f_CaixaGrupoFalecidoPai" value="SIM" onclick="controleCaixaGrupoFalecidoPai(this.name);" /><label for="f_CaixaGrupoFalecidoPai_0">Sim</label></td>
                   <td><input id="f_CaixaGrupoFalecidoPai_1" data-field="CaixaGrupoFalecidoPai" type="radio" name="f_CaixaGrupoFalecidoPai" value="NAO" onclick="controleCaixaGrupoFalecidoPai(this.name);" /><label for="f_CaixaGrupoFalecidoPai_1">Não</label></td>
@@ -48,10 +48,10 @@
             Grau de Instrução<span style="color: #ff0000">*</span>:
          </td>
          <td colspan="3">
-            <table class="table" width="100%">
+            <table width="100%">
                <tr>
                   <td colspan="3">
-                     <table class="table" id="f_GrauInstrucaoPai" border="0">
+                     <table id="f_GrauInstrucaoPai" border="0">
                         <tr>
                            <td><input id="f_GrauInstrucaoPai_0" data-field="GrauInstrucaoPai" type="radio" name="f_GrauInstrucaoPai" value="0Analfabeto" onclick="controleCaixaGrupoGrauInstrucaoPai();" /><label for="f_GrauInstrucaoPai_0">Analfabeto</label></td>
                         </tr>
@@ -97,7 +97,7 @@
       </tr>
       <tr>
          <td colspan="5">
-            <table class="table" id="tableControleFalecido" border="1" width="100%" align="center" cellpadding="0"
+            <table id="tableControleFalecido" border="1" width="100%" align="center" cellpadding="0"
                cellspacing="0" bordercolor="#CCCCCC" style="border-collapse: collapse;">
                <tr id="trFalecidoPai" align="left">
                   <td style="width: 37%; background-color: #fcfcfc;">
@@ -154,7 +154,7 @@
                      Aposentado?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoAposentadoPai" border="0">
+                     <table id="f_CaixaGrupoAposentadoPai" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoAposentadoPai_0" data-field="CaixaGrupoAposentadoPai" type="radio" name="f_CaixaGrupoAposentadoPai" value="SIM" onclick="controleCaixaGrupoPaiAposentado();" /><label for="f_CaixaGrupoAposentadoPai_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoAposentadoPai_1" data-field="CaixaGrupoAposentadoPai" type="radio" name="f_CaixaGrupoAposentadoPai" value="NAO" onclick="controleCaixaGrupoPaiAposentado();" /><label for="f_CaixaGrupoAposentadoPai_1">Não</label></td>
@@ -164,7 +164,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableAposentadoPai" style="display: none; width: 100%">
+                     <table id="tableAposentadoPai" style="display: none; width: 100%">
                         <tr id="trPaiAposentado1" align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Ano<span style="color: #ff0000">*</span>:
@@ -178,7 +178,7 @@
                               Motivo<span style="color: #ff0000">*</span>:
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_MotivoAposentPai" border="0">
+                              <table id="f_MotivoAposentPai" border="0">
                                  <tr>
                                     <td><input id="f_MotivoAposentPai_0" data-field="MotivoAposentPai" type="radio" name="f_MotivoAposentPai" value="09Idade" /><label for="f_MotivoAposentPai_0">Idade</label></td>
                                     <td><input id="f_MotivoAposentPai_1" data-field="MotivoAposentPai" type="radio" name="f_MotivoAposentPai" value="10Tempo de Serviço" /><label for="f_MotivoAposentPai_1">Tempo de Serviço</label></td>
@@ -196,7 +196,7 @@
                            </td>
                         </tr>
                      </table>
-                     <table class="table" id="tableAposentadoPai2" style="display: none; width: 100%">
+                     <table id="tableAposentadoPai2" style="display: none; width: 100%">
                         <tr id="trLocalTrabalhoPai" align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Local de Trabalho<span style="color: #ff0000">*</span>:
@@ -221,7 +221,7 @@
                      Separado da mãe do aluno?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoSeparacaoPai" border="0">
+                     <table id="f_CaixaGrupoSeparacaoPai" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoSeparacaoPai_0" data-field="CaixaGrupoSeparacaoPai" type="radio" name="f_CaixaGrupoSeparacaoPai" value="SIM" onclick="controleCaixaGrupoSeparadoPai();" /><label for="f_CaixaGrupoSeparacaoPai_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoSeparacaoPai_1" data-field="CaixaGrupoSeparacaoPai" type="radio" name="f_CaixaGrupoSeparacaoPai" value="NAO" onclick="controleCaixaGrupoSeparadoPai();" /><label for="f_CaixaGrupoSeparacaoPai_1">Não</label></td>
@@ -231,7 +231,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableSeparacaoPai" style="display: none; width: 100%">
+                     <table id="tableSeparacaoPai" style="display: none; width: 100%">
                         <tr id="trAnoSeparacaoPai" align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Ano<span style="color: #ff0000">*</span>:
@@ -245,7 +245,7 @@
                               Legalizada?<span style="color: #ff0000">*</span>
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_Legalizada" border="0">
+                              <table id="f_Legalizada" border="0">
                                  <tr>
                                     <td><input id="f_Legalizada_0" data-field="Legalizada" type="radio" name="f_Legalizada" value="SIM" /><label for="f_Legalizada_0">Sim</label></td>
                                     <td><input id="f_Legalizada_1" data-field="Legalizada" type="radio" name="f_Legalizada" value="NAO" /><label for="f_Legalizada_1">Não</label></td>
@@ -269,7 +269,7 @@
                      Recebe pensão por morte?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoPensaoPorMortePai" border="0">
+                     <table id="f_CaixaGrupoPensaoPorMortePai" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoPensaoPorMortePai_0" data-field="CaixaGrupoPensaoMortePai" type="radio" name="f_CaixaGrupoPensaoPorMortePai" value="SIM" onclick="controleCaixaGrupoPensaoPorMortePai();" /><label for="f_CaixaGrupoPensaoPorMortePai_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoPensaoPorMortePai_1" data-field="CaixaGrupoPensaoMortePai" type="radio" name="f_CaixaGrupoPensaoPorMortePai" value="NAO" onclick="controleCaixaGrupoPensaoPorMortePai();" /><label for="f_CaixaGrupoPensaoPorMortePai_1">Não</label></td>
@@ -279,7 +279,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tablePensaoPorMorte" style="display: none; width: 100%">
+                     <table id="tablePensaoPorMorte" style="display: none; width: 100%">
                         <tr id="trPensaoMortePai" align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Valor da Pensão por morte(R$)<span style="color: #ff0000">*</span>:
@@ -296,7 +296,7 @@
                      Tem companheira?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoCompanheiraPai" border="0">
+                     <table id="f_CaixaGrupoCompanheiraPai" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoCompanheiraPai_0" data-field="CaixaGrupoCompanheiraPai" type="radio" name="f_CaixaGrupoCompanheiraPai" value="SIM" onclick="controleCaixaGrupoCompanheiraPai();" /><label for="f_CaixaGrupoCompanheiraPai_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoCompanheiraPai_1" data-field="CaixaGrupoCompanheiraPai" type="radio" name="f_CaixaGrupoCompanheiraPai" value="NAO" onclick="controleCaixaGrupoCompanheiraPai();" /><label for="f_CaixaGrupoCompanheiraPai_1">Não</label></td>
@@ -306,7 +306,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableCompanheiroPai" style="display: none; width: 100%">
+                     <table id="tableCompanheiroPai" style="display: none; width: 100%">
                         <tr id="trCompanheiroPai" align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Profissão da Companheira<span style="color: #ff0000">*</span>:
@@ -331,7 +331,7 @@
                      Outras ativ. p/ Complementar Renda:<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoOutraAtividadePai" border="0">
+                     <table id="f_CaixaGrupoOutraAtividadePai" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoOutraAtividadePai_0" data-field="CaixaGrupoOutraAtividadePai" type="radio" name="f_CaixaGrupoOutraAtividadePai" value="SIM" onclick="controleCaixaGrupoOutraAtividadePai();" /><label for="f_CaixaGrupoOutraAtividadePai_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoOutraAtividadePai_1" data-field="CaixaGrupoOutraAtividadePai" type="radio" name="f_CaixaGrupoOutraAtividadePai" value="NAO" onclick="controleCaixaGrupoOutraAtividadePai();" /><label for="f_CaixaGrupoOutraAtividadePai_1">Não</label></td>
@@ -341,7 +341,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableControleOutraAtividadePai" style="display: none; width: 100%">
+                     <table id="tableControleOutraAtividadePai" style="display: none; width: 100%">
                         <tr align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Descrição da atividade<span style="color: #ff0000">*</span>:
@@ -386,7 +386,7 @@
             Falecida?<span style="color: #ff0000">*</span>
          </td>
          <td colspan="3">
-            <table class="table" id="f_CaixaGrupoFalecidaMae" border="0">
+            <table id="f_CaixaGrupoFalecidaMae" border="0">
                <tr>
                   <td><input id="f_CaixaGrupoFalecidaMae_0" data-field="CaixaGrupoFalecidadeMae" type="radio" name="f_CaixaGrupoFalecidaMae" value="SIM" onclick="controleCaixaGrupoFalecidaMae(this.name);" /><label for="f_CaixaGrupoFalecidaMae_0">Sim</label></td>
                   <td><input id="f_CaixaGrupoFalecidaMae_1" data-field="CaixaGrupoFalecidadeMae" type="radio" name="f_CaixaGrupoFalecidaMae" value="NAO" onclick="controleCaixaGrupoFalecidaMae(this.name);" /><label for="f_CaixaGrupoFalecidaMae_1">Não</label></td>
@@ -399,10 +399,10 @@
             Grau de Instrução<span style="color: #ff0000">*</span>:
          </td>
          <td colspan="3">
-            <table class="table" width="100%">
+            <table width="100%">
                <tr>
                   <td colspan="3">
-                     <table class="table" id="f_GrauInstrucaoMae" border="0">
+                     <table id="f_GrauInstrucaoMae" border="0">
                         <tr>
                            <td><input id="f_GrauInstrucaoMae_0" data-field="GrauInstrucaoMae" type="radio" name="f_GrauInstrucaoMae" value="0Analfabeta" onclick="controleCaixaGrupoGrauInstrucaoMae();" /><label for="f_GrauInstrucaoMae_0">Analfabeta</label></td>
                         </tr>
@@ -448,7 +448,7 @@
       </tr>
       <tr>
          <td colspan="3">
-            <table class="table" id="tableControleFalecida" border="1" width="100%" align="center" cellpadding="0"
+            <table id="tableControleFalecida" border="1" width="100%" align="center" cellpadding="0"
                cellspacing="0" bordercolor="#CCCCCC" style="border-collapse: collapse;">
                <tr align="left" id="trFalecidaMae">
                   <td>
@@ -505,7 +505,7 @@
                      Aposentada?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoMaeAposentado" border="0">
+                     <table id="f_CaixaGrupoMaeAposentado" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoMaeAposentado_0" data-field="CaixaGrupoMaeAposentado" type="radio" name="f_CaixaGrupoMaeAposentado" value="SIM" onclick="controleCaixaGrupoMaeAposentada();" /><label for="f_CaixaGrupoMaeAposentado_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoMaeAposentado_1" data-field="CaixaGrupoMaeAposentado" type="radio" name="f_CaixaGrupoMaeAposentado" value="NAO" onclick="controleCaixaGrupoMaeAposentada();" /><label for="f_CaixaGrupoMaeAposentado_1">Não</label></td>
@@ -515,7 +515,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableAposentadaMae" style="display: none; width: 100%">
+                     <table id="tableAposentadaMae" style="display: none; width: 100%">
                         <tr align="left" id="trMaeAposentada1">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Ano<span style="color: #ff0000">*</span>:
@@ -529,7 +529,7 @@
                               Motivo<span style="color: #ff0000">*</span>:
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_MotivoAposentMae" MaxLength="18" border="0">
+                              <table id="f_MotivoAposentMae" MaxLength="18" border="0">
                                  <tr>
                                     <td><input id="f_MotivoAposentMae_0" data-field="MotivoAposentMae" type="radio" name="f_MotivoAposentMae" value="09Idade" /><label for="f_MotivoAposentMae_0">Idade</label></td>
                                     <td><input id="f_MotivoAposentMae_1" data-field="MotivoAposentMae" type="radio" name="f_MotivoAposentMae" value="10Tempo de Serviço" /><label for="f_MotivoAposentMae_1">Tempo de Serviço</label></td>
@@ -551,7 +551,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableAposentadaMae2" style="display: none; width: 100%">
+                     <table id="tableAposentadaMae2" style="display: none; width: 100%">
                         <tr align="left" id="trLocalTrabalhoMae">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Local de Trabalho<span style="color: #ff0000">*</span>:
@@ -584,7 +584,7 @@
                      Recebe pensão por morte?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoPensaoPorMorteMae" border="0">
+                     <table id="f_CaixaGrupoPensaoPorMorteMae" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoPensaoPorMorteMae_0" data-field="CaixaGrupoPensaoPorMorteMae" type="radio" name="f_CaixaGrupoPensaoPorMorteMae" value="SIM" onclick="controleCaixaGrupoPensaoPorMorteMae();" /><label for="f_CaixaGrupoPensaoPorMorteMae_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoPensaoPorMorteMae_1" data-field="CaixaGrupoPensaoPorMorteMae" type="radio" name="f_CaixaGrupoPensaoPorMorteMae" value="NAO" onclick="controleCaixaGrupoPensaoPorMorteMae();" /><label for="f_CaixaGrupoPensaoPorMorteMae_1">Não</label></td>
@@ -594,7 +594,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="trPensaoMorte" style="display: none; width: 100%">
+                     <table id="trPensaoMorte" style="display: none; width: 100%">
                         <tr align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Valor da Pensão por Morte(R$):<span style="color: #ff0000">*</span>
@@ -611,7 +611,7 @@
                      Tem companheiro?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoCompanheiroMae" border="0">
+                     <table id="f_CaixaGrupoCompanheiroMae" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoCompanheiroMae_0" data-field="CaixaGrupoCompanheiroMae" type="radio" name="f_CaixaGrupoCompanheiroMae" value="SIM" onclick="controleCaixaGrupoCompanheiroMae();" /><label for="f_CaixaGrupoCompanheiroMae_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoCompanheiroMae_1" data-field="CaixaGrupoCompanheiroMae" type="radio" name="f_CaixaGrupoCompanheiroMae" value="NAO" onclick="controleCaixaGrupoCompanheiroMae();" /><label for="f_CaixaGrupoCompanheiroMae_1">Não</label></td>
@@ -621,7 +621,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableCompanheiroMae" style="display: none; width: 100%">
+                     <table id="tableCompanheiroMae" style="display: none; width: 100%">
                         <tr align="left" id="trCompanheiroMae">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Profissão do Companheiro<span style="color: #ff0000">*</span>:
@@ -646,7 +646,7 @@
                      Outras ativ. p/ Complementar Renda:<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoOutraAtividadeMae" border="0">
+                     <table id="f_CaixaGrupoOutraAtividadeMae" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoOutraAtividadeMae_0" data-field="CaixaGrupoOutraAtividadeMae" type="radio" name="f_CaixaGrupoOutraAtividadeMae" value="SIM" onclick="controleCaixaGrupoOutraAtividadeMae();" /><label for="f_CaixaGrupoOutraAtividadeMae_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoOutraAtividadeMae_1" data-field="CaixaGrupoOutraAtividadeMae" type="radio" name="f_CaixaGrupoOutraAtividadeMae" value="NAO" onclick="controleCaixaGrupoOutraAtividadeMae();" /><label for="f_CaixaGrupoOutraAtividadeMae_1">Não</label></td>
@@ -656,7 +656,7 @@
                </tr>
                <tr align="left">
                   <td colspan="4">
-                     <table class="table" id="tableControleOutraAtividadeMae" style="display: none; width: 100%">
+                     <table id="tableControleOutraAtividadeMae" style="display: none; width: 100%">
                         <tr align="left">
                            <td style="width: 37%; background-color: #fcfcfc;">
                               Descrição da atividade<span style="color: #ff0000">*</span>:
@@ -692,7 +692,7 @@
             cônjuge, avós, padastro, madastra, etc.)<span style="color: #ff0000">*</span>
          </td>
          <td>
-            <table class="table" id="f_CaixaGrupoMantenedor" border="0">
+            <table id="f_CaixaGrupoMantenedor" border="0">
                <tr>
                   <td><input id="f_CaixaGrupoMantenedor_0" data-field="CaixaGrupoMantenedor" type="radio" name="f_CaixaGrupoMantenedor" value="SIM" onclick="controleDadosMantenedor();" /><label for="f_CaixaGrupoMantenedor_0">Sim</label></td>
                   <td><input id="f_CaixaGrupoMantenedor_1" data-field="CaixaGrupoMantenedor" type="radio" name="f_CaixaGrupoMantenedor" value="NAO" onclick="controleDadosMantenedor();" /><label for="f_CaixaGrupoMantenedor_1">Não</label></td>
@@ -702,7 +702,7 @@
       </tr>
       <tr align="left">
          <td colspan="4">
-            <table class="table" id="dadosMantenedor" align="center" border="1" cellspacing="0%" bordercolor="CCCCCC" style="display: none; width: 100%; border-collapse: collapse;">
+            <table id="dadosMantenedor" align="center" border="1" cellspacing="0%" bordercolor="CCCCCC" style="display: none; width: 100%; border-collapse: collapse;">
                <tr align="left">
                   <td colspan="4" style="width: 100%; background-color: #EAEAEA;" align="center">
                      <b>Dados do(a) Mantenedor(a)/Cônjuge</b>
@@ -721,7 +721,7 @@
                      Falecido(a)?<span style="color: #ff0000">*</span>
                   </td>
                   <td colspan="3">
-                     <table class="table" id="f_CaixaGrupoFalecidoMantCon" border="0">
+                     <table id="f_CaixaGrupoFalecidoMantCon" border="0">
                         <tr>
                            <td><input id="f_CaixaGrupoFalecidoMantCon_0" data-field="CaixaGrupoFalecidoManCon" type="radio" name="f_CaixaGrupoFalecidoMantCon" value="SIM" onclick="controleCaixaGrupoFalecidoMantCon(this.name);" /><label for="f_CaixaGrupoFalecidoMantCon_0">Sim</label></td>
                            <td><input id="f_CaixaGrupoFalecidoMantCon_1" data-field="CaixaGrupoFalecidoManCon" type="radio" name="f_CaixaGrupoFalecidoMantCon" value="NAO" onclick="controleCaixaGrupoFalecidoMantCon(this.name);" /><label for="f_CaixaGrupoFalecidoMantCon_1">Não</label></td>
@@ -734,10 +734,10 @@
                      Grau de Instrução<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="3">
-                     <table class="table" width="100%">
+                     <table width="100%">
                         <tr>
                            <td colspan="3">
-                              <table class="table" id="f_GrauInstrucaoMantCon" border="0">
+                              <table id="f_GrauInstrucaoMantCon" border="0">
                                  <tr>
                                     <td><input id="f_GrauInstrucaoMantCon_0" data-field="GrauInstrucaoMantCon" type="radio" name="f_GrauInstrucaoMantCon" value="0Analfabeto" onclick="controleCaixaGrupoGrauInstrucaoMantCon();" /><label for="f_GrauInstrucaoMantCon_0">Analfabeto(a)</label></td>
                                  </tr>
@@ -783,7 +783,7 @@
                </tr>
                <tr align="left">
                   <td colspan="3">
-                     <table class="table" id="tableControleFalecidaMant" border="1" width="100%" align="center" cellpadding="0"
+                     <table id="tableControleFalecidaMant" border="1" width="100%" align="center" cellpadding="0"
                         cellspacing="0" bordercolor="#CCCCCC" style="border-collapse: collapse;">
                         <tr align="left" id="trFalecidoMantCon">
                            <td style="background-color: #fcfcfc;">
@@ -840,7 +840,7 @@
                               Aposentado(a)?<span style="color: #ff0000">*</span>
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_CaixaGrupoAposentadoMantCon" border="0">
+                              <table id="f_CaixaGrupoAposentadoMantCon" border="0">
                                  <tr>
                                     <td><input id="f_CaixaGrupoAposentadoMantCon_0" data-field="CaixaGrupoAposentadoMantCon" type="radio" name="f_CaixaGrupoAposentadoMantCon" value="SIM" onclick="controleCaixaGrupoMantConAposentado();" /><label for="f_CaixaGrupoAposentadoMantCon_0">Sim</label></td>
                                     <td><input id="f_CaixaGrupoAposentadoMantCon_1" data-field="CaixaGrupoAposentadoMantCon" type="radio" name="f_CaixaGrupoAposentadoMantCon" value="NAO" onclick="controleCaixaGrupoMantConAposentado();" /><label for="f_CaixaGrupoAposentadoMantCon_1">Não</label></td>
@@ -850,7 +850,7 @@
                         </tr>
                         <tr align="left">
                            <td colspan="4">
-                              <table class="table" id="tableAposentadaMant" style="display: none; width: 100%">
+                              <table id="tableAposentadaMant" style="display: none; width: 100%">
                                  <tr id="trMantConAposentado1" align="left">
                                     <td style="width: 37%; background-color: #fcfcfc;">
                                        Ano<span style="color: #ff0000">*</span>:
@@ -864,7 +864,7 @@
                                        Motivo<span style="color: #ff0000">*</span>:
                                     </td>
                                     <td colspan="3">
-                                       <table class="table" id="f_MotivoAposentMantCon" border="0">
+                                       <table id="f_MotivoAposentMantCon" border="0">
                                           <tr>
                                              <td><input id="f_MotivoAposentMantCon_0" data-field="MotivoAposentManCon" type="radio" name="f_MotivoAposentMantCon" value="09Idade" /><label for="f_MotivoAposentMantCon_0">Idade</label></td>
                                              <td><input id="f_MotivoAposentMantCon_1" data-field="MotivoAposentManCon" type="radio" name="f_MotivoAposentMantCon" value="10Tempo de Serviço" /><label for="f_MotivoAposentMantCon_1">Tempo de Serviço</label></td>
@@ -886,7 +886,7 @@
                         </tr>
                         <tr align="left">
                            <td colspan="4">
-                              <table class="table" id="tableAposentadaMant2" style="display: none; width: 100%">
+                              <table id="tableAposentadaMant2" style="display: none; width: 100%">
                                  <tr id="trLocalTrabalhoMantCon" align="left">
                                     <td style="width: 37%; background-color: #fcfcfc;">
                                        Local de Trabalho<span style="color: #ff0000">*</span>:
@@ -911,7 +911,7 @@
                               Separado(a)?<span style="color: #ff0000">*</span>
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_CaixaGrupoSeparacaoMantCon" border="0">
+                              <table id="f_CaixaGrupoSeparacaoMantCon" border="0">
                                  <tr>
                                     <td><input id="f_CaixaGrupoSeparacaoMantCon_0" data-field="CaixaGrupoSeparacaoMantCon" type="radio" name="f_CaixaGrupoSeparacaoMantCon" value="SIM" onclick="controleCaixaGrupoSeparadoMantCon();" /><label for="f_CaixaGrupoSeparacaoMantCon_0">Sim</label></td>
                                     <td><input id="f_CaixaGrupoSeparacaoMantCon_1" data-field="CaixaGrupoSeparacaoMantCon" type="radio" name="f_CaixaGrupoSeparacaoMantCon" value="NAO" onclick="controleCaixaGrupoSeparadoMantCon();" /><label for="f_CaixaGrupoSeparacaoMantCon_1">Não</label></td>
@@ -921,7 +921,7 @@
                         </tr>
                         <tr align="left">
                            <td colspan="4">
-                              <table class="table" id="tableSeparacaoMantCon" style="display: none; width: 100%">
+                              <table id="tableSeparacaoMantCon" style="display: none; width: 100%">
                                  <tr id="trAnoSeparacaoMantCon" align="left">
                                     <td style="width: 37%; background-color: #fcfcfc;">
                                        Ano<span style="color: #ff0000">*</span>:
@@ -935,7 +935,7 @@
                                        Legalizada?<span style="color: #ff0000">*</span>
                                     </td>
                                     <td colspan="3">
-                                       <table class="table" id="f_LegalizadaMantCon" border="0">
+                                       <table id="f_LegalizadaMantCon" border="0">
                                           <tr>
                                              <td><input id="f_LegalizadaMantCon_0" data-field="LegalizadaMantCon" type="radio" name="f_LegalizadaMantCon" value="SIM" /><label for="f_LegalizadaMantCon_0">Sim</label></td>
                                              <td><input id="f_LegalizadaMantCon_1" data-field="LegalizadaMantCon" type="radio" name="f_LegalizadaMantCon" value="NAO" /><label for="f_LegalizadaMantCon_1">Não</label></td>
@@ -959,7 +959,7 @@
                               Recebe pensão por morte?<span style="color: #ff0000">*</span>
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_CaixaGrupoPensaoPorMorteMantCon" border="0">
+                              <table id="f_CaixaGrupoPensaoPorMorteMantCon" border="0">
                                  <tr>
                                     <td><input id="f_CaixaGrupoPensaoPorMorteMantCon_0" data-field="CaixaGrupoPensaoPorMorteMantCon" type="radio" name="f_CaixaGrupoPensaoPorMorteMantCon" value="SIM" onclick="controleCaixaGrupoPensaoPorMorteMantCon();" /><label for="f_CaixaGrupoPensaoPorMorteMantCon_0">Sim</label></td>
                                     <td><input id="f_CaixaGrupoPensaoPorMorteMantCon_1" data-field="CaixaGrupoPensaoPorMorteMantCon" type="radio" name="f_CaixaGrupoPensaoPorMorteMantCon" value="NAO" onclick="controleCaixaGrupoPensaoPorMorteMantCon();" /><label for="f_CaixaGrupoPensaoPorMorteMantCon_1">Não</label></td>
@@ -969,7 +969,7 @@
                         </tr>
                         <tr align="left">
                            <td colspan="4">
-                              <table class="table" id="tablePensaoMorteMantCon" style="display: none; width: 100%">
+                              <table id="tablePensaoMorteMantCon" style="display: none; width: 100%">
                                  <tr id="trPensaoMorteMantCon" align="left">
                                     <td style="width: 37%; background-color: #fcfcfc;">
                                        Valor da Pensão por Morte(R$)<span style="color: #ff0000">*</span>:
@@ -986,7 +986,7 @@
                               Tem companheiro(a)?<span style="color: #ff0000">*</span>
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_CaixaGrupoCompanheiroMantCon" border="0">
+                              <table id="f_CaixaGrupoCompanheiroMantCon" border="0">
                                  <tr>
                                     <td><input id="f_CaixaGrupoCompanheiroMantCon_0" data-field="CaixaGrupoCompanheiroMantCon" type="radio" name="f_CaixaGrupoCompanheiroMantCon" value="SIM" onclick="controleCaixaGrupoCompanheiroMantCon();" /><label for="f_CaixaGrupoCompanheiroMantCon_0">Sim</label></td>
                                     <td><input id="f_CaixaGrupoCompanheiroMantCon_1" data-field="CaixaGrupoCompanheiroMantCon" type="radio" name="f_CaixaGrupoCompanheiroMantCon" value="NAO" onclick="controleCaixaGrupoCompanheiroMantCon();" /><label for="f_CaixaGrupoCompanheiroMantCon_1">Não</label></td>
@@ -996,7 +996,7 @@
                         </tr>
                         <tr align="left">
                            <td colspan="4">
-                              <table class="table" id="tableCompanheiroMantCon" style="display: none; width: 100%">
+                              <table id="tableCompanheiroMantCon" style="display: none; width: 100%">
                                  <tr id="trCompanheiroMantCon" align="left">
                                     <td style="width: 37%; background-color: #fcfcfc;">
                                        Profissão do Companheiro(a)<span style="color: #ff0000">*</span>:
@@ -1029,7 +1029,7 @@
                               Outras ativ. p/ Complementar Renda:<span style="color: #ff0000">*</span>
                            </td>
                            <td colspan="3">
-                              <table class="table" id="f_CaixaGrupoOutraAtividadeMant" border="0">
+                              <table id="f_CaixaGrupoOutraAtividadeMant" border="0">
                                  <tr>
                                     <td><input id="f_CaixaGrupoOutraAtividadeMant_0" data-field="CaixaGrupoOutraAtividadeMant" type="radio" name="f_CaixaGrupoOutraAtividadeMant" value="SIM" onclick="controleCaixaGrupoOutraAtividadeMant();" /><label for="f_CaixaGrupoOutraAtividadeMant_0">Sim</label></td>
                                     <td><input id="f_CaixaGrupoOutraAtividadeMant_1" data-field="CaixaGrupoOutraAtividadeMant" type="radio" name="f_CaixaGrupoOutraAtividadeMant" value="NAO" onclick="controleCaixaGrupoOutraAtividadeMant();" /><label for="f_CaixaGrupoOutraAtividadeMant_1">Não</label></td>
@@ -1039,7 +1039,7 @@
                         </tr>
                         <tr align="left">
                            <td colspan="4">
-                              <table class="table" id="tableControleOutraAtividadeMant" style="display: none; width: 100%">
+                              <table id="tableControleOutraAtividadeMant" style="display: none; width: 100%">
                                  <tr align="left">
                                     <td style="width: 37%; background-color: #fcfcfc;">
                                        Descrição da atividade<span style="color: #ff0000">*</span>:

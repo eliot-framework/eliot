@@ -1,5 +1,5 @@
 <div id="f_dados_pessoais" class="form-inline" align="center" style="display:none">
-   <table class="table" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
+   <table  class="table" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
       <tr align="left">
          <td id="f_Td1" colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #cccccc; height: 20px;" align="center">
 				<ol id="passo_atual" class="breadcrumb">
@@ -28,7 +28,7 @@
                      Matrícula:
                   </td>
                   <td colspan="3" style="width: 70%;">
-                     <input name="f_matricula" data-field="matricula" class="form-control" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" style="background-color:WhiteSmoke;width:100px;"/>
+                     <input name="f_matricula" data-field="matricula" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" style="background-color:WhiteSmoke;width:100px;"/>
                   </td>
                </tr>
                <tr>
@@ -36,7 +36,7 @@
                      Nome:
                   </td>
                   <td colspan="3" style="width: 70%;">
-                     <input name="f_Nome" data-field="nome" class="form-control" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:371px;" />
+                     <input name="f_Nome" data-field="nome" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:371px;" />
                   </td>
                </tr>
                <tr>
@@ -44,13 +44,13 @@
                      Nível: 
                   </td>
                   <td style="width: 57px; height: 26px;">
-                     <input name="f_Nivel" data-field="nivel" class="form-control" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" style="width:100px;" />
+                     <input name="f_Nivel" data-field="nivel" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" style="width:100px;" />
                   </td>
                   <td style="width: 20%;">
                      Data:
                   </td>
                   <td style="width: 50%;">
-                     <input name="f_Data" data-field="data" data-type="data" data-format="dd/MM/yyyy" class="form-control" type="text" value="9/9/2015" readonly="readonly" id="f_Data" disabled="disabled" style="width:100px;" />
+                     <input name="f_Data" data-field="data" data-type="data" data-format="dd/MM/yyyy" type="text" value="9/9/2015" readonly="readonly" id="f_Data" disabled="disabled" style="width:100px;" />
                   </td>
                </tr>
             </table>
@@ -61,7 +61,7 @@
             Motivo<span style="color: #ff0000">*</span>:
          </td>
          <td colspan="3" style="width: 80%;">
-            <input id="f_Motivo1" data-field="motivo" class="form-control" type="checkbox" name="f_Motivo1" /><label for="f_Motivo1">Bolsa Alimentação</label>
+            <input id="f_Motivo1" data-field="motivo" type="checkbox" name="f_Motivo1" /><label for="f_Motivo1">Bolsa Alimentação</label>
          </td>
       </tr>
       <tr align="left">
@@ -74,13 +74,13 @@
                <tr>
 			  	 <td>
 				  	 <div class="form-group">
-				  	    <input id="f_IsencaoTxVestibular_0" data-field="IsencaoTxVestibular" class="form-control" type="radio" name="f_IsencaoTxVestibular" value="Sim" onclick="controletrTeveAbatimento();" />
+				  	    <input id="f_IsencaoTxVestibular_0" data-field="IsencaoTxVestibular" type="radio" name="f_IsencaoTxVestibular" value="Sim" onclick="controletrTeveAbatimento();" />
 				  	    <label for="f_IsencaoTxVestibular_0">Sim</label>
 			  	     </div>
 		  	     </td>
                  <td>
 	                 <div class="form-group">
-	                    <input id="f_IsencaoTxVestibular_1" data-field="IsencaoTxVestibular" class="form-control" type="radio" name="f_IsencaoTxVestibular" value="Não" onclick="controletrTeveAbatimento();" />
+	                    <input id="f_IsencaoTxVestibular_1" data-field="IsencaoTxVestibular" type="radio" name="f_IsencaoTxVestibular" value="Não" onclick="controletrTeveAbatimento();" />
 	                    <label for="f_IsencaoTxVestibular_1">Não</label>
 	                 </div>
                  </td>
@@ -96,8 +96,8 @@
          <td colspan="3" style="width: 70%;" align="left">
             <table id="f_TeveAbatimento" border="0">
                <tr>
-                  <td><input id="f_TeveAbatimento_0" data-field="TeveAbatimento" class="form-control" type="radio" name="f_TeveAbatimento" value="Sim" /><label for="f_TeveAbatimento_0">Sim</label></td>
-                  <td><input id="f_TeveAbatimento_1" data-field="TeveAbatimento" class="form-control" type="radio" name="f_TeveAbatimento" value="Não" /><label for="f_TeveAbatimento_1">Não</label></td>
+                  <td><input id="f_TeveAbatimento_0" data-field="TeveAbatimento" type="radio" name="f_TeveAbatimento" value="Sim" /><label for="f_TeveAbatimento_0">Sim</label></td>
+                  <td><input id="f_TeveAbatimento_1" data-field="TeveAbatimento" type="radio" name="f_TeveAbatimento" value="Não" /><label for="f_TeveAbatimento_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -109,11 +109,11 @@
          <td colspan="3" style="width: 80%;">
             <table id="f_Raca" MaxLength="10" border="0">
                <tr>
-                  <td><input id="f_Raca_0" data-field="raca" class="form-control" type="radio" name="f_Raca" value="08Branca" /><label for="f_Raca_0">Branca</label></td>
-                  <td><input id="f_Raca_1" data-field="raca" class="form-control" type="radio" name="f_Raca" value="09Preta" /><label for="f_Raca_1">Preta</label></td>
-                  <td><input id="f_Raca_2" data-field="raca" class="form-control" type="radio" name="f_Raca" value="10Parda" /><label for="f_Raca_2">Parda</label></td>
-                  <td><input id="f_Raca_3" data-field="raca" class="form-control" type="radio" name="f_Raca" value="11Indígena" /><label for="f_Raca_3">Indígena</label></td>
-                  <td><input id="f_Raca_4" data-field="raca" class="form-control" type="radio" name="f_Raca" value="12Amarela" /><label for="f_Raca_4">Amarela</label></td>
+                  <td><input id="f_Raca_0" data-field="raca" type="radio" name="f_Raca" value="08Branca" /><label for="f_Raca_0">Branca</label></td>
+                  <td><input id="f_Raca_1" data-field="raca" type="radio" name="f_Raca" value="09Preta" /><label for="f_Raca_1">Preta</label></td>
+                  <td><input id="f_Raca_2" data-field="raca" type="radio" name="f_Raca" value="10Parda" /><label for="f_Raca_2">Parda</label></td>
+                  <td><input id="f_Raca_3" data-field="raca" type="radio" name="f_Raca" value="11Indígena" /><label for="f_Raca_3">Indígena</label></td>
+                  <td><input id="f_Raca_4" data-field="raca" type="radio" name="f_Raca" value="12Amarela" /><label for="f_Raca_4">Amarela</label></td>
                </tr>
             </table>
          </td>
@@ -137,7 +137,7 @@
          <td colspan="4" style="width: 100%;">
             <table id="f_EnsinoMedio" border="0">
                <tr>
-                  <td><input id="f_EnsinoMedio_0" data-field="EnsinoMedio" class="form-control" type="radio" name="f_EnsinoMedio" value="0Escola Pública" /><label for="f_EnsinoMedio_0">Escola Pública</label></td>
+                  <td><input id="f_EnsinoMedio_0" data-field="EnsinoMedio" type="radio" name="f_EnsinoMedio" value="0Escola Pública" /><label for="f_EnsinoMedio_0">Escola Pública</label></td>
                   <td><input id="f_EnsinoMedio_1" type="radio" name="f_EnsinoMedio" value="1Escola Particular com Bolsa" /><label for="f_EnsinoMedio_1">Escola Particular com Bolsa*</label></td>
                   <td><input id="f_EnsinoMedio_2" type="radio" name="f_EnsinoMedio" value="2Escola Particular sem Bolsa" /><label for="f_EnsinoMedio_2">Escola Particular sem Bolsa</label></td>
                </tr>
@@ -150,7 +150,7 @@
             Nome da Escola<span style="color: #ff0000">*</span>:
          </td>
          <td colspan="3" style="width: 70%;">
-            <input name="f_EscolaNome" data-field="EscolaNome" class="form-control" type="text" maxlength="50" id="f_EscolaNome" style="width:90%;" />
+            <input name="f_EscolaNome" data-field="EscolaNome" type="text" maxlength="50" id="f_EscolaNome" style="width:90%;" />
          </td>
       </tr>
       <tr align="left">
@@ -158,13 +158,13 @@
             Cidade<span style="color: #ff0000">*</span>:
          </td>
          <td style="width: 40%; height: 27px">
-            <input name="f_EscolaCidade" data-field="EscolaCidade" class="form-control" type="text" maxlength="30" id="f_EscolaCidade" style="width:80%;" />
+            <input name="f_EscolaCidade" data-field="EscolaCidade" type="text" maxlength="30" id="f_EscolaCidade" style="width:80%;" />
          </td>
          <td style="width: 5%; background-color: #fcfcfc;">
             UF<span style="color: #ff0000">*</span>:
          </td>
          <td style="width: 20%; height: 27px;">
-            <select name="f_EscolaUF" data-field="EscolaUF" class="form-control" id="f_EscolaUF">
+            <select name="f_EscolaUF" data-field="EscolaUF" id="f_EscolaUF">
                <option selected="selected" value=""></option>
                <option value="1">AC</option>
                <option value="2">AL</option>
@@ -209,7 +209,7 @@
          <td colspan="4" style="width: 100%;">
             <table id="f_PreVestibular" border="0">
                <tr>
-                  <td><input id="f_PreVestibular_0" data-field="PreVestibular" class="form-control" type="radio" name="f_PreVestibular" value="3Não" /><label for="f_PreVestibular_0">Não</label></td>
+                  <td><input id="f_PreVestibular_0" data-field="PreVestibular" type="radio" name="f_PreVestibular" value="3Não" /><label for="f_PreVestibular_0">Não</label></td>
                   <td><input id="f_PreVestibular_1" type="radio" name="f_PreVestibular" value="4Escola Particular com Bolsa" /><label for="f_PreVestibular_1">Escola Particular com Bolsa*</label></td>
                   <td><input id="f_PreVestibular_2" type="radio" name="f_PreVestibular" value="5Escola Particular sem Bolsa" /><label for="f_PreVestibular_2">Escola Particular sem Bolsa</label></td>
                </tr>
@@ -227,7 +227,7 @@
             <td colspan="4">
                <table id="f_EnsinoSuperior" border="0">
                   <tr>
-                     <td><input id="f_EnsinoSuperior_0" data-field="EnsinoSuperior" class="form-control" type="radio" name="f_EnsinoSuperior" value="6Instituição Pública" /><label for="f_EnsinoSuperior_0">Instituição Pública</label></td>
+                     <td><input id="f_EnsinoSuperior_0" data-field="EnsinoSuperior" type="radio" name="f_EnsinoSuperior" value="6Instituição Pública" /><label for="f_EnsinoSuperior_0">Instituição Pública</label></td>
                      <td><input id="f_EnsinoSuperior_1" type="radio" name="f_EnsinoSuperior" value="7Instituição Particular com Bolsa" /><label for="f_EnsinoSuperior_1">Instituição Particular com Bolsa*</label></td>
                      <td><input id="f_EnsinoSuperior_2" type="radio" name="f_EnsinoSuperior" value="8Instituição Particular sem Bolsa" /><label for="f_EnsinoSuperior_2">Instituição Particular sem Bolsa</label></td>
                   </tr>
@@ -243,8 +243,8 @@
          <td style="width: 70%;" colspan="3">
             <table id="f_CaixaGrupoCursoFora" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoCursoFora_0" data-field="CaixaGrupoCursoFora" class="form-control" type="radio" name="f_CaixaGrupoCursoFora" value="Sim" onclick="controleCursoFora();" /><label for="f_CaixaGrupoCursoFora_0">Sim</label></td>
-                  <td><input id="f_CaixaGrupoCursoFora_1" data-field="CaixaGrupoCursoFora" class="form-control" type="radio" name="f_CaixaGrupoCursoFora" value="Não" onclick="controleCursoFora();" /><label for="f_CaixaGrupoCursoFora_1">Não</label></td>
+                  <td><input id="f_CaixaGrupoCursoFora_0" data-field="CaixaGrupoCursoFora" type="radio" name="f_CaixaGrupoCursoFora" value="Sim" onclick="controleCursoFora();" /><label for="f_CaixaGrupoCursoFora_0">Sim</label></td>
+                  <td><input id="f_CaixaGrupoCursoFora_1" data-field="CaixaGrupoCursoFora" type="radio" name="f_CaixaGrupoCursoFora" value="Não" onclick="controleCursoFora();" /><label for="f_CaixaGrupoCursoFora_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -257,7 +257,7 @@
                      Qual?<span style="color: #ff0000">*<span style="color: #000000">:</span></span>
                   </td>
                   <td style="width: 60%">
-                     <input name="f_FazCursoFora" data-field="FazCursoFora" class="form-control" type="text" maxlength="50" id="f_FazCursoFora" style="width:90%;" />
+                     <input name="f_FazCursoFora" data-field="FazCursoFora" type="text" maxlength="50" id="f_FazCursoFora" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -265,7 +265,7 @@
                      Onde?<span style="color: #ff0000">*<span style="color: #000000">:</span></span>
                   </td>
                   <td style="width: 60%">
-                     <input name="f_IESCursoFora" data-field="IESCursoFora" class="form-control" type="text" maxlength="50" id="f_IESCursoFora" style="width:90%;" />
+                     <input name="f_IESCursoFora" data-field="IESCursoFora" type="text" maxlength="50" id="f_IESCursoFora" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -273,7 +273,7 @@
                      Qual a mensalidade(R$)?:
                   </td>
                   <td style="width: 70%">
-                     <input name="f_MensIESCursoFora" data-field="MensIESCursoFora" class="form-control" type="text" maxlength="11" id="f_MensIESCursoFora" style="width:20%;" />
+                     <input name="f_MensIESCursoFora" data-field="MensIESCursoFora" type="text" maxlength="11" id="f_MensIESCursoFora" style="width:20%;" />
                   </td>
                </tr>
             </table>
@@ -286,21 +286,21 @@
          <td style="width: 70%;" colspan="3">
             <table id="f_CaixaGrupoFezOutroCurso" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoFezOutroCurso_0" data-field="CaixaGrupoFezOutroCurso" class="form-control" type="radio" name="f_CaixaGrupoFezOutroCurso" value="Sim" onclick="controleFezOutroCurso();" /><label for="f_CaixaGrupoFezOutroCurso_0">Sim</label></td>
-                  <td><input id="f_CaixaGrupoFezOutroCurso_1" data-field="CaixaGrupoFezOutroCurso" class="form-control" type="radio" name="f_CaixaGrupoFezOutroCurso" value="Não" onclick="controleFezOutroCurso();" /><label for="f_CaixaGrupoFezOutroCurso_1">Não</label></td>
+                  <td><input id="f_CaixaGrupoFezOutroCurso_0" data-field="CaixaGrupoFezOutroCurso" type="radio" name="f_CaixaGrupoFezOutroCurso" value="Sim" onclick="controleFezOutroCurso();" /><label for="f_CaixaGrupoFezOutroCurso_0">Sim</label></td>
+                  <td><input id="f_CaixaGrupoFezOutroCurso_1" data-field="CaixaGrupoFezOutroCurso" type="radio" name="f_CaixaGrupoFezOutroCurso" value="Não" onclick="controleFezOutroCurso();" /><label for="f_CaixaGrupoFezOutroCurso_1">Não</label></td>
                </tr>
             </table>
          </td>
       </tr>
       <tr align="left">
          <td colspan="4" style="font-weight: bold; width: 100%; background-color: #fcfcfc">
-            <table id ="trFezOutroCurso" style ="display:none; width: 100%">
+            <table id="trFezOutroCurso" style="display:none; width: 100%">
                <tr>
                   <td style="width: 40%; height: 26px; font-weight: normal;">
                      Qual?<span style="color: #ff0000">*<span style="color: #000000">:</span></span>
                   </td>
                   <td style="width: 60%; background-color: #ffffff;">
-                     <input name="f_FezOutroCurso" data-field="FezOutroCurso" class="form-control" type="text" maxlength="50" id="f_FezOutroCurso" style="width:90%;" />
+                     <input name="f_FezOutroCurso" data-field="FezOutroCurso" type="text" maxlength="50" id="f_FezOutroCurso" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -308,7 +308,7 @@
                      Onde?<span style="color: #ff0000">*<span style="color: #000000">:</span></span>
                   </td>
                   <td style="width: 60%; background-color: #ffffff;">
-                     <input name="f_IESOutroCurso" data-field="IESOutroCurso" class="form-control" type="text" maxlength="50" id="f_IESOutroCurso" style="width:90%;" />
+                     <input name="f_IESOutroCurso" data-field="IESOutroCurso" type="text" maxlength="50" id="f_IESOutroCurso" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -318,8 +318,8 @@
                   <td style="width: 60%; background-color: #ffffff;">
                      <table id="f_ConcluiuOutroCurso" border="0">
                         <tr>
-                           <td><input id="f_ConcluiuOutroCurso_0" data-field="ConcluiuOutroCurso" class="form-control" type="radio" name="f_ConcluiuOutroCurso" value="Sim" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="f_ConcluiuOutroCurso_0">Sim</label></td>
-                           <td><input id="f_ConcluiuOutroCurso_1" data-field="ConcluiuOutroCurso" class="form-control" type="radio" name="f_ConcluiuOutroCurso" value="Não" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="f_ConcluiuOutroCurso_1">Não</label></td>
+                           <td><input id="f_ConcluiuOutroCurso_0" data-field="ConcluiuOutroCurso" type="radio" name="f_ConcluiuOutroCurso" value="Sim" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="f_ConcluiuOutroCurso_0">Sim</label></td>
+                           <td><input id="f_ConcluiuOutroCurso_1" data-field="ConcluiuOutroCurso" type="radio" name="f_ConcluiuOutroCurso" value="Não" onclick="controleFezOutroCurso_ConcluiuOutroCurso();" /><label for="f_ConcluiuOutroCurso_1">Não</label></td>
                         </tr>
                      </table>
                   </td>
@@ -329,7 +329,7 @@
                      Se não concluiu, por quê?<span style="color: #ff0000">*<span style="color: #000000">:</span></span>
                   </td>
                   <td style="width: 60%; background-color: #ffffff;">
-                     <textarea name="f_OutroCursoNaoConcluido" data-field="OutroCursoNaoConcluido" class="form-control" rows="2" cols="20" id="f_OutroCursoNaoConcluido" style="height:73px;width:90%;"></textarea>
+                     <textarea name="f_OutroCursoNaoConcluido" data-field="OutroCursoNaoConcluido" rows="2" cols="20" id="f_OutroCursoNaoConcluido" style="height:73px;width:90%;"></textarea>
                   </td>
                </tr>
             </table>
@@ -342,8 +342,8 @@
          <td colspan="3" style="width: 100%; height:auto">
             <table id="f_GrupoTGM" border="0">
                <tr>
-                  <td><input id="f_GrupoTGM_0" data-field="GrupoTGM" class="form-control" type="radio" name="f_GrupoTGM" value="Sim" onclick="controleTGM();" /><label for="f_GrupoTGM_0">Sim</label></td>
-                  <td><input id="f_GrupoTGM_1" data-field="GrupoTGM" class="form-control" type="radio" name="f_GrupoTGM" value="Não" checked="checked" onclick="controleTGM();" /><label for="f_GrupoTGM_1">Não</label></td>
+                  <td><input id="f_GrupoTGM_0" data-field="GrupoTGM" type="radio" name="f_GrupoTGM" value="Sim" onclick="controleTGM();" /><label for="f_GrupoTGM_0">Sim</label></td>
+                  <td><input id="f_GrupoTGM_1" data-field="GrupoTGM" type="radio" name="f_GrupoTGM" value="Não" checked="checked" onclick="controleTGM();" /><label for="f_GrupoTGM_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -355,7 +355,7 @@
             <table  id = "trTGM" style="width: 100%;display:none;">
                <tr>
                   <td style="width: 40%; background-color: #fcfcfc;">
-                     <input name="f_AluQtdTGM" data-field="AluQtdTGM" class="form-control" type="text" value="0" id="f_AluQtdTGM" disabled="disabled" style="background-color:WhiteSmoke;border-color:White;width:45px;" />
+                     <input name="f_AluQtdTGM" data-field="AluQtdTGM" type="text" value="0" id="f_AluQtdTGM" disabled="disabled" style="background-color:WhiteSmoke;border-color:White;width:45px;" />
                   </td>
                   <td style="width: 60%;" colspan="4">
                   </td>
@@ -365,7 +365,7 @@
                      Explique quando e por quê:<span style="color: #ff0000">*</span>
                   </td>
                   <td style="width: 60%;" colspan="4">
-                     <textarea name="f_TGM" data-field="TGM" class="form-control" rows="2" cols="20" id="f_TGM" style="width:90%;"></textarea>
+                     <textarea name="f_TGM" data-field="TGM" rows="2" cols="20" id="f_TGM" style="width:90%;"></textarea>
                   </td>
                </tr>
             </table>
@@ -381,11 +381,11 @@
             <strong>Trabalha?<span style="color: #ff0000">*</span></strong><br/><font size="1"> Não considere ESTÁGIO como trabalho.</font> 
          </td>
          <td style="width: 60%;" colspan="3">
-            <table id="f_CaixaGrupoTrabalha" border="0">
+            <table  id="f_CaixaGrupoTrabalha" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoTrabalha_0" data-field="CaixaGrupoTrabalha" class="form-control" type="radio" name="f_CaixaGrupoTrabalha" value="SIM" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_0">Sim, com vínculo</label></td>
-                  <td><input id="f_CaixaGrupoTrabalha_1" data-field="CaixaGrupoTrabalha" class="form-control" type="radio" name="f_CaixaGrupoTrabalha" value="SIM2" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_1">Sim, sem vínculo</label></td>
-                  <td><input id="f_CaixaGrupoTrabalha_2" data-field="CaixaGrupoTrabalha" class="form-control" type="radio" name="f_CaixaGrupoTrabalha" value="NAO" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_2">Não</label></td>
+                  <td><input id="f_CaixaGrupoTrabalha_0" data-field="CaixaGrupoTrabalha" type="radio" name="f_CaixaGrupoTrabalha" value="SIM" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_0">Sim, com vínculo</label></td>
+                  <td><input id="f_CaixaGrupoTrabalha_1" data-field="CaixaGrupoTrabalha" type="radio" name="f_CaixaGrupoTrabalha" value="SIM2" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_1">Sim, sem vínculo</label></td>
+                  <td><input id="f_CaixaGrupoTrabalha_2" data-field="CaixaGrupoTrabalha" type="radio" name="f_CaixaGrupoTrabalha" value="NAO" onclick="controleTrabalha();" /><label for="f_CaixaGrupoTrabalha_2">Não</label></td>
                </tr>
             </table>
          </td>
@@ -398,7 +398,7 @@
                      Instituição<span style="color: #ff0000">*</span>:
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_Instituicao" data-field="Instituicao" class="form-control" type="text" maxlength="50" id="f_Instituicao" style="width:90%;" />
+                     <input name="f_Instituicao" data-field="Instituicao" type="text" maxlength="50" id="f_Instituicao" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -406,7 +406,7 @@
                      Função<span style="color: #ff0000">*</span>:
                   </td>
                   <td style="width: 60%; background-color: #ffffff; height: 26px;" colspan="4">
-                     <input name="f_Funcao" data-field="funcao" class="form-control" type="text" maxlength="30" id="f_Funcao" style="width:90%;" />
+                     <input name="f_Funcao" data-field="funcao" type="text" maxlength="30" id="f_Funcao" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -414,7 +414,7 @@
                      Remuneração(R$)<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     <input name="f_Remuneracao" data-field="Remuneracao" class="form-control" type="text" maxlength="11" id="f_Remuneracao" style="width:20%;" />
+                     <input name="f_Remuneracao" data-field="Remuneracao" type="text" maxlength="11" id="f_Remuneracao" style="width:20%;" />
                   </td>
                </tr>
                <tr>
@@ -424,9 +424,9 @@
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
                      <table id="f_EstaLicenciado" border="0">
                         <tr>
-                           <td><input id="f_EstaLicenciado_0" data-field="EstaLicenciado" class="form-control" type="radio" name="f_EstaLicenciado" value="3Não" /><label for="f_EstaLicenciado_0">Não</label></td>
-                           <td><input id="f_EstaLicenciado_1" data-field="EstaLicenciado" class="form-control" type="radio" name="f_EstaLicenciado" value="4Sim, com remuneração" /><label for="f_EstaLicenciado_1">Sim, com remuneração</label></td>
-                           <td><input id="f_EstaLicenciado_2" data-field="EstaLicenciado" class="form-control" type="radio" name="f_EstaLicenciado" value="5Sim, sem remuneração" /><label for="f_EstaLicenciado_2">Sim, sem remuneração</label></td>
+                           <td><input id="f_EstaLicenciado_0" data-field="EstaLicenciado" type="radio" name="f_EstaLicenciado" value="3Não" /><label for="f_EstaLicenciado_0">Não</label></td>
+                           <td><input id="f_EstaLicenciado_1" data-field="EstaLicenciado" type="radio" name="f_EstaLicenciado" value="4Sim, com remuneração" /><label for="f_EstaLicenciado_1">Sim, com remuneração</label></td>
+                           <td><input id="f_EstaLicenciado_2" data-field="EstaLicenciado" type="radio" name="f_EstaLicenciado" value="5Sim, sem remuneração" /><label for="f_EstaLicenciado_2">Sim, sem remuneração</label></td>
                         </tr>
                      </table>
                   </td>
@@ -438,7 +438,7 @@
                      Qual Atividade?<span style="color: #ff0000">*</span>:
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_Atividade" data-field="Atividade" class="form-control" type="text" maxlength="30" id="f_Atividade" style="width:90%;" />
+                     <input name="f_Atividade" data-field="Atividade" type="text" maxlength="30" id="f_Atividade" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -446,7 +446,7 @@
                      Renda Mensal(R$)<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     <input name="f_RendaMensal" data-field="RendaMensal" class="form-control" type="text" maxlength="11" id="f_RendaMensal" style="width:20%;" />
+                     <input name="f_RendaMensal" data-field="RendaMensal" type="text" maxlength="11" id="f_RendaMensal" style="width:20%;" />
                   </td>
                </tr>
                <tr>
@@ -457,8 +457,8 @@
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
                      <table id="f_DependeRenda" border="0">
                         <tr>
-                           <td><input id="f_DependeRenda_0" data-field="DependeRenda" class="form-control" type="radio" name="f_DependeRenda" value="Não" /><label for="f_DependeRenda_0">Não</label></td>
-                           <td><input id="f_DependeRenda_1" data-field="DependeRenda" class="form-control" type="radio" name="f_DependeRenda" value="Sim" /><label for="f_DependeRenda_1">Sim</label></td>
+                           <td><input id="f_DependeRenda_0" data-field="DependeRenda" type="radio" name="f_DependeRenda" value="Não" /><label for="f_DependeRenda_0">Não</label></td>
+                           <td><input id="f_DependeRenda_1" data-field="DependeRenda" type="radio" name="f_DependeRenda" value="Sim" /><label for="f_DependeRenda_1">Sim</label></td>
                         </tr>
                      </table>
                   </td>
@@ -473,8 +473,8 @@
          <td style="width: 60%;" colspan="3">
             <table id="f_CaixaGrupoAposentado" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoAposentado_0" data-field="CaixaGrupoAposentado" class="form-control" type="radio" name="f_CaixaGrupoAposentado" value="SIM" onclick="controleAposentado();" /><label for="f_CaixaGrupoAposentado_0">Sim</label></td>
-                  <td><input id="f_CaixaGrupoAposentado_1" data-field="CaixaGrupoAposentado" class="form-control" type="radio" name="f_CaixaGrupoAposentado" value="NAO" onclick="controleAposentado();" /><label for="f_CaixaGrupoAposentado_1">Não</label></td>
+                  <td><input id="f_CaixaGrupoAposentado_0" data-field="CaixaGrupoAposentado" type="radio" name="f_CaixaGrupoAposentado" value="SIM" onclick="controleAposentado();" /><label for="f_CaixaGrupoAposentado_0">Sim</label></td>
+                  <td><input id="f_CaixaGrupoAposentado_1" data-field="CaixaGrupoAposentado" type="radio" name="f_CaixaGrupoAposentado" value="NAO" onclick="controleAposentado();" /><label for="f_CaixaGrupoAposentado_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -487,7 +487,7 @@
                      Ano Aposentadoria<span style="color: #ff0000">*</span>:
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_AnoAposent" data-field="AnoAposent" class="form-control" type="text" maxlength="4" id="f_AnoAposent" style="width:20%;" />
+                     <input name="f_AnoAposent" data-field="AnoAposent" type="text" maxlength="4" id="f_AnoAposent" style="width:20%;" />
                   </td>
                </tr>
                <tr>
@@ -495,7 +495,7 @@
                      Profissão que exercia<span style="color: #ff0000">*</span>:
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_ProfissaoExercida" data-field="ProfissaoExercida" class="form-control" type="text" maxlength="30" id="f_ProfissaoExercida" style="width:90%;" />
+                     <input name="f_ProfissaoExercida" data-field="ProfissaoExercida" type="text" maxlength="30" id="f_ProfissaoExercida" style="width:90%;" />
                   </td>
                </tr>
                <tr>
@@ -505,9 +505,9 @@
                   <td colspan="4" style="width: 60%; background-color: #ffffff; height: 47px;">
                      <table id="f_MotivoAposent" border="0">
                         <tr>
-                           <td><input id="f_MotivoAposent_0" data-field="MotivoAposent" class="form-control" type="radio" name="f_MotivoAposent" value="10Idade" /><label for="f_MotivoAposent_0">Idade</label></td>
-                           <td><input id="f_MotivoAposent_1" data-field="MotivoAposent" class="form-control" type="radio" name="f_MotivoAposent" value="11Tempo de Serviço" /><label for="f_MotivoAposent_1">Tempo de serviço</label></td>
-                           <td><input id="f_MotivoAposent_2" data-field="MotivoAposent" class="form-control" type="radio" name="f_MotivoAposent" value="12Invalidez" /><label for="f_MotivoAposent_2">Invalidez</label></td>
+                           <td><input id="f_MotivoAposent_0" data-field="MotivoAposent" type="radio" name="f_MotivoAposent" value="10Idade" /><label for="f_MotivoAposent_0">Idade</label></td>
+                           <td><input id="f_MotivoAposent_1" data-field="MotivoAposent" type="radio" name="f_MotivoAposent" value="11Tempo de Serviço" /><label for="f_MotivoAposent_1">Tempo de serviço</label></td>
+                           <td><input id="f_MotivoAposent_2" data-field="MotivoAposent" type="radio" name="f_MotivoAposent" value="12Invalidez" /><label for="f_MotivoAposent_2">Invalidez</label></td>
                         </tr>
                      </table>
                   </td>
@@ -517,7 +517,7 @@
                      Valor(R$)<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     &nbsp;<input name="f_ValorAposent" data-field="ValorAposent" class="form-control" type="text" maxlength="11" id="f_ValorAposent" style="width:20%;" />
+                     &nbsp;<input name="f_ValorAposent" data-field="ValorAposent" type="text" maxlength="11" id="f_ValorAposent" style="width:20%;" />
                   </td>
                </tr>
             </table>
@@ -529,8 +529,8 @@
          <td style="width: 60%;" colspan="3">
             <table id="f_CaixaGrupoJaTrabalhou" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoJaTrabalhou_0" data-field="CaixaGrupoJaTrabalhou" class="form-control" type="radio" name="f_CaixaGrupoJaTrabalhou" value="SIM" onclick="controleJaTrabalhou();" /><label for="f_CaixaGrupoJaTrabalhou_0">Sim</label></td>
-                  <td><input id="f_CaixaGrupoJaTrabalhou_1" data-field="CaixaGrupoJaTrabalhou" class="form-control" type="radio" name="f_CaixaGrupoJaTrabalhou" value="NAO" onclick="controleJaTrabalhou();" /><label for="f_CaixaGrupoJaTrabalhou_1">Não</label></td>
+                  <td><input id="f_CaixaGrupoJaTrabalhou_0" data-field="CaixaGrupoJaTrabalhou" type="radio" name="f_CaixaGrupoJaTrabalhou" value="SIM" onclick="controleJaTrabalhou();" /><label for="f_CaixaGrupoJaTrabalhou_0">Sim</label></td>
+                  <td><input id="f_CaixaGrupoJaTrabalhou_1" data-field="CaixaGrupoJaTrabalhou" type="radio" name="f_CaixaGrupoJaTrabalhou" value="NAO" onclick="controleJaTrabalhou();" /><label for="f_CaixaGrupoJaTrabalhou_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -543,7 +543,7 @@
                      Atividade exercida<span style="color: #ff0000">*</span>:
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_AtividadeExercida" data-field="AtividadeExercida" class="form-control" type="text" maxlength="30" id="f_AtividadeExercida" style="width:90%;" />
+                     <input name="f_AtividadeExercida" data-field="AtividadeExercida" type="text" maxlength="30" id="f_AtividadeExercida" style="width:90%;" />
                   </td>
                </tr>
             </table>
@@ -556,8 +556,8 @@
          <td style="width: 60%;" colspan="3">
             <table id="f_CaixaGrupoPensionista" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoPensionista_0" data-field="CaixaGrupoPensionista" class="form-control" type="radio" name="f_CaixaGrupoPensionista" value="SIM" onclick="controlePensionista();" /><label for="f_CaixaGrupoPensionista_0">Sim</label></td>
-                  <td><input id="f_CaixaGrupoPensionista_1" data-field="CaixaGrupoPensionista" class="form-control" type="radio" name="f_CaixaGrupoPensionista" value="NAO" onclick="controlePensionista();" /><label for="f_CaixaGrupoPensionista_1">Não</label></td>
+                  <td><input id="f_CaixaGrupoPensionista_0" data-field="CaixaGrupoPensionista" type="radio" name="f_CaixaGrupoPensionista" value="SIM" onclick="controlePensionista();" /><label for="f_CaixaGrupoPensionista_0">Sim</label></td>
+                  <td><input id="f_CaixaGrupoPensionista_1" data-field="CaixaGrupoPensionista" type="radio" name="f_CaixaGrupoPensionista" value="NAO" onclick="controlePensionista();" /><label for="f_CaixaGrupoPensionista_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -570,7 +570,7 @@
                      Valor(R$):<span style="color: #ff0000">*</span>
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_PensaoVitaliciaAluno" data-field="PensaoVitaliciaAluno" class="form-control" type="text" maxlength="11" id="f_PensaoVitaliciaAluno" style="width:20%;" />
+                     <input name="f_PensaoVitaliciaAluno" data-field="PensaoVitaliciaAluno" type="text" maxlength="11" id="f_PensaoVitaliciaAluno" style="width:20%;" />
                   </td>
                </tr>
             </table>
@@ -583,8 +583,8 @@
          <td style="width: 60%;" colspan="3">
             <table id="f_BolsaGraduacao" disabled="disabled" border="0">
                <tr>
-                  <td><span disabled="disabled"><input id="f_BolsaGraduacao_0" data-field="BolsaGraduacao" class="form-control" type="radio" name="f_BolsaGraduacao" value="Sim" disabled="disabled" /><label for="f_BolsaGraduacao_0">Sim</label></span></td>
-                  <td><span disabled="disabled"><input id="f_BolsaGraduacao_1" data-field="BolsaGraduacao" class="form-control" type="radio" name="f_BolsaGraduacao" value="Não" disabled="disabled" /><label for="f_BolsaGraduacao_1">Não</label></span></td>
+                  <td><span disabled="disabled"><input id="f_BolsaGraduacao_0" data-field="BolsaGraduacao" type="radio" name="f_BolsaGraduacao" value="Sim" disabled="disabled" /><label for="f_BolsaGraduacao_0">Sim</label></span></td>
+                  <td><span disabled="disabled"><input id="f_BolsaGraduacao_1" data-field="BolsaGraduacao" type="radio" name="f_BolsaGraduacao" value="Não" disabled="disabled" /><label for="f_BolsaGraduacao_1">Não</label></span></td>
                </tr>
             </table>
          </td>
@@ -601,8 +601,8 @@
             <td style="width: 60%;" colspan="3">
                <table id="f_CaixaGrupoRecebeBolsaPos" border="0">
                   <tr>
-                     <td><input id="f_CaixaGrupoRecebeBolsaPos_0" data-field="CaixaGrupoRecebeBolsaPos" class="form-control" type="radio" name="f_CaixaGrupoRecebeBolsaPos" value="SIM" onclick="controleRecebeBolsaPos();" /><label for="f_CaixaGrupoRecebeBolsaPos_0">Sim</label></td>
-                     <td><input id="f_CaixaGrupoRecebeBolsaPos_1" data-field="CaixaGrupoRecebeBolsaPos" class="form-control" type="radio" name="f_CaixaGrupoRecebeBolsaPos" value="NAO" onclick="controleRecebeBolsaPos();" /><label for="f_CaixaGrupoRecebeBolsaPos_1">Não</label></td>
+                     <td><input id="f_CaixaGrupoRecebeBolsaPos_0" data-field="CaixaGrupoRecebeBolsaPos" type="radio" name="f_CaixaGrupoRecebeBolsaPos" value="SIM" onclick="controleRecebeBolsaPos();" /><label for="f_CaixaGrupoRecebeBolsaPos_0">Sim</label></td>
+                     <td><input id="f_CaixaGrupoRecebeBolsaPos_1" data-field="CaixaGrupoRecebeBolsaPos" type="radio" name="f_CaixaGrupoRecebeBolsaPos" value="NAO" onclick="controleRecebeBolsaPos();" /><label for="f_CaixaGrupoRecebeBolsaPos_1">Não</label></td>
                   </tr>
                </table>
             </td>
@@ -615,7 +615,7 @@
                         Valor(R$)<span style="color: #ff0000">*</span>:<span style="color: #ff0000"></span>
                      </td>
                      <td style="width: 60%; background-color: #ffffff; height: 26px;" colspan="4">
-                        <input name="f_ValorBolsaPos" data-field="ValorBolsaPos" class="form-control" type="text" maxlength="11" id="f_ValorBolsaPos" style="width:20%;" />
+                        <input name="f_ValorBolsaPos" data-field="ValorBolsaPos" type="text" maxlength="11" id="f_ValorBolsaPos" style="width:20%;" />
                      </td>
                   </tr>
                </table>
@@ -627,9 +627,9 @@
                      <td colspan="4" style="width: 60%; background-color: #ffffff">
                         <table id="f_PoderaReceber" border="0">
                            <tr>
-                              <td><input id="f_PoderaReceber_0" data-field="PoderaReceber" class="form-control" type="radio" name="f_PoderaReceber" value="19Sim, neste semestre" /><label for="f_PoderaReceber_0">Sim, neste semestre</label></td>
-                              <td><input id="f_PoderaReceber_1" data-field="PoderaReceber" class="form-control" type="radio" name="f_PoderaReceber" value="20Sim, no próximo semestre" /><label for="f_PoderaReceber_1">Sim, no próximo semestre</label></td>
-                              <td><input id="f_PoderaReceber_2" data-field="PoderaReceber" class="form-control" type="radio" name="f_PoderaReceber" value="21Não" /><label for="f_PoderaReceber_2">Não</label></td>
+                              <td><input id="f_PoderaReceber_0" data-field="PoderaReceber" type="radio" name="f_PoderaReceber" value="19Sim, neste semestre" /><label for="f_PoderaReceber_0">Sim, neste semestre</label></td>
+                              <td><input id="f_PoderaReceber_1" data-field="PoderaReceber" type="radio" name="f_PoderaReceber" value="20Sim, no próximo semestre" /><label for="f_PoderaReceber_1">Sim, no próximo semestre</label></td>
+                              <td><input id="f_PoderaReceber_2" data-field="PoderaReceber" type="radio" name="f_PoderaReceber" value="21Não" /><label for="f_PoderaReceber_2">Não</label></td>
                            </tr>
                         </table>
                      </td>
@@ -639,7 +639,7 @@
                         Por quê?<span style="color: #ff0000">*<span style="color: #000000">:</span></span>
                      </td>
                      <td colspan="4" style="width: 60%; background-color: #ffffff">
-                        <input name="f_PorQue" data-field="PorQue" class="form-control" type="text" maxlength="50" id="f_PorQue" style="width:90%;" />
+                        <input name="f_PorQue" data-field="PorQue" type="text" maxlength="50" id="f_PorQue" style="width:90%;" />
                      </td>
                   </tr>
                </table>
@@ -653,21 +653,21 @@
          <td style="width: 60%;" colspan="3">
             <table id="f_CaixaGrupoAjudaFinanceira" border="0">
                <tr>
-                  <td><input id="f_CaixaGrupoAjudaFinanceira_0" data-field="CaixaGrupoAjudaFinanceira" class="form-control" type="radio" name="f_CaixaGrupoAjudaFinanceira" value="SIM" onclick="controleAjudaFinanceira();" /><label for="f_CaixaGrupoAjudaFinanceira_0">Sim</label></td>
-                  <td><input id="f_CaixaGrupoAjudaFinanceira_1" data-field="CaixaGrupoAjudaFinanceira" class="form-control" type="radio" name="f_CaixaGrupoAjudaFinanceira" value="NAO" onclick="controleAjudaFinanceira();" /><label for="f_CaixaGrupoAjudaFinanceira_1">Não</label></td>
+                  <td><input id="f_CaixaGrupoAjudaFinanceira_0" data-field="CaixaGrupoAjudaFinanceira" type="radio" name="f_CaixaGrupoAjudaFinanceira" value="SIM" onclick="controleAjudaFinanceira();" /><label for="f_CaixaGrupoAjudaFinanceira_0">Sim</label></td>
+                  <td><input id="f_CaixaGrupoAjudaFinanceira_1" data-field="CaixaGrupoAjudaFinanceira" type="radio" name="f_CaixaGrupoAjudaFinanceira" value="NAO" onclick="controleAjudaFinanceira();" /><label for="f_CaixaGrupoAjudaFinanceira_1">Não</label></td>
                </tr>
             </table>
          </td>
       </tr>
       <tr align = "left">
          <td style="width: 100%;" colspan="4">
-            <table  id = "trAjudaFinanceira" style="width: 100%;display:none;">
+            <table id = "trAjudaFinanceira" style="width: 100%;display:none;">
                <tr >
                   <td style="width: 40%; background-color: #fcfcfc;">
                      Valor(R$)<span style="color: #ff0000">*</span>:<span style="color: #ff0000"></span>
                   </td>
                   <td style="width: 60%; background-color: #ffffff;" colspan="4">
-                     <input name="f_ValorMesada" data-field="ValorMesada" class="form-control" type="text" maxlength="11" id="f_ValorMesada" style="width:20%;" />
+                     <input name="f_ValorMesada" data-field="ValorMesada" type="text" maxlength="11" id="f_ValorMesada" style="width:20%;" />
                   </td>
                </tr>
                <tr>
@@ -677,8 +677,8 @@
                   <td colspan="4" style="width: 60%; background-color: #ffffff">
                      <table id="f_DepDestaRenda" border="0">
                         <tr>
-                           <td><input id="f_DepDestaRenda_0" data-field="DepDestaRenda" class="form-control" type="radio" name="f_DepDestaRenda" value="Unicamente" /><label for="f_DepDestaRenda_0">Unicamente</label></td>
-                           <td><input id="f_DepDestaRenda_1" data-field="DepDestaRenda" class="form-control" type="radio" name="f_DepDestaRenda" value="Parcialmente" /><label for="f_DepDestaRenda_1">Parcialmente</label></td>
+                           <td><input id="f_DepDestaRenda_0" data-field="DepDestaRenda" type="radio" name="f_DepDestaRenda" value="Unicamente" /><label for="f_DepDestaRenda_0">Unicamente</label></td>
+                           <td><input id="f_DepDestaRenda_1" data-field="DepDestaRenda" type="radio" name="f_DepDestaRenda" value="Parcialmente" /><label for="f_DepDestaRenda_1">Parcialmente</label></td>
                         </tr>
                      </table>
                   </td>
@@ -693,8 +693,8 @@
          <td style="width: 60%;" colspan="3">
             <table id="f_ContribuiRendaFamiliar" border="0">
                <tr>
-                  <td><input id="f_ContribuiRendaFamiliar_0" data-field="ContribuiRendaFamiliar" class="form-control" type="radio" name="f_ContribuiRendaFamiliar" value="Sim" /><label for="f_ContribuiRendaFamiliar_0">Sim</label></td>
-                  <td><input id="f_ContribuiRendaFamiliar_1" data-field="ContribuiRendaFamiliar" class="form-control" type="radio" name="f_ContribuiRendaFamiliar" value="Não" /><label for="f_ContribuiRendaFamiliar_1">Não</label></td>
+                  <td><input id="f_ContribuiRendaFamiliar_0" data-field="ContribuiRendaFamiliar" type="radio" name="f_ContribuiRendaFamiliar" value="Sim" /><label for="f_ContribuiRendaFamiliar_0">Sim</label></td>
+                  <td><input id="f_ContribuiRendaFamiliar_1" data-field="ContribuiRendaFamiliar" type="radio" name="f_ContribuiRendaFamiliar" value="Não" /><label for="f_ContribuiRendaFamiliar_1">Não</label></td>
                </tr>
             </table>
          </td>
@@ -720,7 +720,7 @@
             Endereço<span style="color: #ff0000">*</span>:
          </td>
          <td style="width: 60%; background-color: #ffffff;" colspan="4">
-            <input name="f_Endereco" data-field="Endereco" class="form-control" type="text" maxlength="30" id="f_Endereco" style="width:90%;" />
+            <input name="f_Endereco" data-field="Endereco" type="text" maxlength="30" id="f_Endereco" style="width:90%;" />
          </td>
       </tr>
       <tr align ="left">
@@ -728,13 +728,13 @@
             Cidade<span style="color: #ff0000">*</span>:
          </td>
          <td style="width: 35%; background-color: #ffffff; ">
-            <input name="f_Cidade" data-field="Cidade" class="form-control" type="text" maxlength="30" id="f_Cidade" style="width:90%;" />
+            <input name="f_Cidade" data-field="Cidade" type="text" maxlength="30" id="f_Cidade" style="width:90%;" />
          </td>
          <td style="width: 5%; background-color: #fcfcfc;">
             CEP:
          </td>
          <td style="width: 10%; background-color: #ffffff;">
-            &nbsp;<input name="f_CEP" data-field="CEP" class="form-control" type="text" maxlength="8" id="f_CEP" style="width:93%;" />
+            &nbsp;<input name="f_CEP" data-field="CEP" type="text" maxlength="8" id="f_CEP" style="width:93%;" />
          </td>
       </tr>
       <tr align ="left">
@@ -742,7 +742,7 @@
             (DDD)Telefone/celular<span style="color: #ff0000">*</span>:<span style="color: #ff0000">
          </td>
          <td colspan="4" style="width: 60%; background-color: #ffffff; height: 25px;">
-            <input name="f_Telefone" data-field="Telefone" class="form-control" type="text" maxlength="30" id="f_Telefone" style="width:40%;" />
+            <input name="f_Telefone" data-field="Telefone" type="text" maxlength="30" id="f_Telefone" style="width:40%;" />
          </td>
       </tr>
       <tr align ="left">
@@ -750,7 +750,7 @@
             <strong>Como reside atualmente?</strong><span style="color: #ff0000">*</span>:<span style="color: #ff0000">
          </td>
          <td colspan="4" style="width: 60%; background-color: #ffffff; height: 20px;">
-            <select name="f_ComoVoceReside" id="f_ComoVoceReside" data-field="ComoVoceReside" class="form-control" onChange="controleComoVoceReside();">
+            <select name="f_ComoVoceReside" id="f_ComoVoceReside" data-field="ComoVoceReside" onChange="controleComoVoceReside();">
                <option selected="selected" value=""></option>
                <option value="1">Com a fam&#237;lia (pai, m&#227;e e/ou irm&#227;os).</option>
                <option value="2">Com a fam&#237;lia (c&#244;njuge/filhos).</option>
@@ -767,7 +767,7 @@
       </tr>
       <tr align="left">
          <td colspan="5" style="background-color: #ffffff">
-            <table  id = "trComQuem" style="width: 100%;display:none;">
+            <table id = "trComQuem" style="width: 100%;display:none;">
                <tr>
                   <td style="width: 40%; background-color: #fcfcfc; height: 17px;">
                      Com quem?<span style="color: #ff0000">*<span
@@ -776,10 +776,10 @@
                   <td colspan="4" style="width: 60%; background-color: #ffffff; height: 17px;">
                      <table id="f_ComQuemVoceMora" border="0">
                         <tr>
-                           <td><input id="f_ComQuemVoceMora_0" data-field="ComQuemVoceMora" class="form-control" type="radio" name="f_ComQuemVoceMora" value="0Avô(ó)" /><label for="f_ComQuemVoceMora_0">Avô(ó)</label></td>
-                           <td><input id="f_ComQuemVoceMora_1" data-field="ComQuemVoceMora" class="form-control" type="radio" name="f_ComQuemVoceMora" value="1Irmão(ã)" /><label for="f_ComQuemVoceMora_1">Irmão(ã)</label></td>
-                           <td><input id="f_ComQuemVoceMora_2" data-field="ComQuemVoceMora" class="form-control" type="radio" name="f_ComQuemVoceMora" value="2Parente" /><label for="f_ComQuemVoceMora_2">Parente </label></td>
-                           <td><input id="f_ComQuemVoceMora_3" data-field="ComQuemVoceMora" class="form-control" type="radio" name="f_ComQuemVoceMora" value="3Amigo(a)" /><label for="f_ComQuemVoceMora_3">Amigo(a)</label></td>
+                           <td><input id="f_ComQuemVoceMora_0" data-field="ComQuemVoceMora" type="radio" name="f_ComQuemVoceMora" value="0Avô(ó)" /><label for="f_ComQuemVoceMora_0">Avô(ó)</label></td>
+                           <td><input id="f_ComQuemVoceMora_1" data-field="ComQuemVoceMora" type="radio" name="f_ComQuemVoceMora" value="1Irmão(ã)" /><label for="f_ComQuemVoceMora_1">Irmão(ã)</label></td>
+                           <td><input id="f_ComQuemVoceMora_2" data-field="ComQuemVoceMora" type="radio" name="f_ComQuemVoceMora" value="2Parente" /><label for="f_ComQuemVoceMora_2">Parente </label></td>
+                           <td><input id="f_ComQuemVoceMora_3" data-field="ComQuemVoceMora" type="radio" name="f_ComQuemVoceMora" value="3Amigo(a)" /><label for="f_ComQuemVoceMora_3">Amigo(a)</label></td>
                         </tr>
                      </table>
                   </td>
@@ -789,29 +789,29 @@
                      Quanto tempo?<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff; height: 26px;">
-                     <input name="f_Tempo" data-field="Tempo" class="form-control" type="text" maxlength="5" id="f_Tempo" style="width:10%;" />
+                     <input name="f_Tempo" data-field="Tempo" type="text" maxlength="5" id="f_Tempo" style="width:10%;" />
                      dias
                   </td>
                </tr>
             </table>
-            <table  id = "trCusto" style="width: 100%;display:none;">
+            <table id = "trCusto" style="width: 100%;display:none;">
                <tr  align="left">
                   <td style="width: 40%; background-color: #fcfcfc">
                      Custo(R$)?<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     <input name="f_CustoSuaMoradia" data-field="CustoSuaMoradia" class="form-control" type="text" maxlength="11" id="f_CustoSuaMoradia" style="width:20%;" />
+                     <input name="f_CustoSuaMoradia" data-field="CustoSuaMoradia" type="text" maxlength="11" id="f_CustoSuaMoradia" style="width:20%;" />
                   </td>
                </tr>
             </table>
-            <table  id = "trOutraSituacao" style="width: 100%;display:none;">
+            <table id = "trOutraSituacao" style="width: 100%;display:none;">
                <tr  align="left">
                   <td style="width: 40%; background-color: #fcfcfc">
                      Outra Situação?<br />
                      Especifique<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     <textarea name="f_OutraSitSuaMoradia" data-field="OutraSitSuaMoradia" class="form-control" rows="2" cols="20" id="f_OutraSitSuaMoradia" style="height:73px;width:90%;"></textarea>
+                     <textarea name="f_OutraSitSuaMoradia" data-field="OutraSitSuaMoradia" rows="2" cols="20" id="f_OutraSitSuaMoradia" style="height:73px;width:90%;"></textarea>
                   </td>
                </tr>
             </table>
@@ -822,7 +822,7 @@
             <strong>Como reside sua família?</strong><span style="color: #ff0000">*</span>:<span style="color: #ff0000"></span>
          </td>
          <td colspan="4" style="width: 60%; background-color: #ffffff; height: 20px;">
-            <select name="f_ComoSuaFamiliaReside" data-field="ComoSuaFamiliaReside" class="form-control" id="f_ComoSuaFamiliaReside" onChange="controleComoSuaFamiliaReside();">
+            <select name="f_ComoSuaFamiliaReside" data-field="ComoSuaFamiliaReside" id="f_ComoSuaFamiliaReside" onChange="controleComoSuaFamiliaReside();">
                <option selected="selected" value=""></option>
                <option value="1">Im&#243;vel pr&#243;prio quitado.</option>
                <option value="2">Im&#243;vel em aquisi&#231;&#227;o.</option>
@@ -836,45 +836,45 @@
       </tr>
       <tr  align="left">
          <td colspan="5" style="background-color: #ffffff">
-            <table  id = "trPrestacao" style="width: 100%;display:none;">
+            <table id = "trPrestacao" style="width: 100%;display:none;">
                <tr>
                   <td style="width: 40%; background-color: #fcfcfc; height: 17px;">
                      Prestação do financiamento(R$)<span style="color: #ff0000">*<span
                         style="color: #000000">:</span></span>
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff; height: 17px;">
-                     <input name="f_PrestacaoFinanc" data-field="PrestacaoFinanc" class="form-control" type="text" maxlength="11" id="f_PrestacaoFinanc" style="width:20%;" />
+                     <input name="f_PrestacaoFinanc" data-field="PrestacaoFinanc" type="text" maxlength="11" id="f_PrestacaoFinanc" style="width:20%;" />
                   </td>
                </tr>
             </table>
-            <table  id = "trAluguel" style="width: 100%;display:none;">
+            <table id = "trAluguel" style="width: 100%;display:none;">
                <tr  align="left">
                   <td style="width: 40%; background-color: #fcfcfc; height: 26px;">
                      Aluguel(R$)<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff; height: 26px;">
-                     <input name="f_ValorAluguel" data-field="ValorAluguel" class="form-control" type="text" maxlength="11" id="f_ValorAluguel" style="width:20%;" />
+                     <input name="f_ValorAluguel" data-field="ValorAluguel" type="text" maxlength="11" id="f_ValorAluguel" style="width:20%;" />
                   </td>
                </tr>
             </table>
-            <table  id = "trCedente" style="width: 100%;display:none;">
+            <table id = "trCedente" style="width: 100%;display:none;">
                <tr  align="left">
                   <td style="width: 40%; background-color: #fcfcfc">
                      Cedente?<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     <input name="f_Cedente" data-field="Cedente" class="form-control" type="text" maxlength="30" id="f_Cedente" style="width:90%;" />
+                     <input name="f_Cedente" data-field="Cedente" type="text" maxlength="30" id="f_Cedente" style="width:90%;" />
                   </td>
                </tr>
             </table>
-            <table  id = "trOutraSitMoradiaSuaFamilia" style="width: 100%;display:none;">
+            <table id = "trOutraSitMoradiaSuaFamilia" style="width: 100%;display:none;">
                <tr  align="left">
                   <td style="width: 40%; background-color: #fcfcfc">
                      Outra Situação?<br />
                      Especifique<span style="color: #ff0000">*</span>:
                   </td>
                   <td colspan="4" style="width: 60%; background-color: #ffffff;">
-                     <textarea name="f_OutraSitMoradiaSuaFamilia" data-field="OutraSitMoradiaSuaFamilia" class="form-control" rows="2" cols="20" id="f_OutraSitMoradiaSuaFamilia" style="height:73px;width:90%;"></textarea>
+                     <textarea name="f_OutraSitMoradiaSuaFamilia" data-field="OutraSitMoradiaSuaFamilia" rows="2" cols="20" id="f_OutraSitMoradiaSuaFamilia" style="height:73px;width:90%;"></textarea>
                   </td>
                </tr>
             </table>
@@ -894,29 +894,29 @@
          <td colspan="4" style="width: 60%; background-color: #ffffff; height: 17px;">
             <table id="f_EstadoCivil" border="0">
                <tr>
-                  <td><input id="f_EstadoCivil_0" data-field="EstadoCivil" class="form-control" type="radio" name="f_EstadoCivil" value="0Solteiro(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_0">Solteiro(a) sem filho(s).</label></td>
+                  <td><input id="f_EstadoCivil_0" data-field="EstadoCivil" type="radio" name="f_EstadoCivil" value="0Solteiro(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_0">Solteiro(a) sem filho(s).</label></td>
                </tr>
                <tr>
-                  <td><input id="f_EstadoCivil_1" data-field="EstadoCivil" class="form-control" type="radio" name="f_EstadoCivil" value="1Casado(a), com companheiro(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_1">Casado(a), com companheiro(a) sem filho(s).</label></td>
+                  <td><input id="f_EstadoCivil_1" data-field="EstadoCivil" type="radio" name="f_EstadoCivil" value="1Casado(a), com companheiro(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_1">Casado(a), com companheiro(a) sem filho(s).</label></td>
                </tr>
                <tr>
-                  <td><input id="f_EstadoCivil_2" data-field="EstadoCivil" class="form-control" type="radio" name="f_EstadoCivil" value="2Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_2">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho(s).</label></td>
+                  <td><input id="f_EstadoCivil_2" data-field="EstadoCivil" type="radio" name="f_EstadoCivil" value="2Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_2">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) sem filho(s).</label></td>
                </tr>
                <tr>
-                  <td><input id="f_EstadoCivil_3" data-field="EstadoCivil" class="form-control" type="radio" name="f_EstadoCivil" value="3Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_3">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho(s).</label></td>
+                  <td><input id="f_EstadoCivil_3" data-field="EstadoCivil" type="radio" name="f_EstadoCivil" value="3Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_3">Viúvo(a), desquitado(a), divorciado(a), ou separado(a) com filho(s).</label></td>
                </tr>
                <tr>
-                  <td><input id="f_EstadoCivil_4" data-field="EstadoCivil" class="form-control" type="radio" name="f_EstadoCivil" value="4Casado(a), com companheiro(a) com filho(s)." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_4">Casado(a), com companheiro(a) com filho(s).</label></td>
+                  <td><input id="f_EstadoCivil_4" data-field="EstadoCivil" type="radio" name="f_EstadoCivil" value="4Casado(a), com companheiro(a) com filho(s)." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_4">Casado(a), com companheiro(a) com filho(s).</label></td>
                </tr>
                <tr>
-                  <td><input id="f_EstadoCivil_5" data-field="EstadoCivil" class="form-control" type="radio" name="f_EstadoCivil" value="5Solteiro(a), com filho(s)." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_5">Solteiro(a), com filho(s).</label></td>
+                  <td><input id="f_EstadoCivil_5" data-field="EstadoCivil" type="radio" name="f_EstadoCivil" value="5Solteiro(a), com filho(s)." onclick="controleTemFilhos();" /><label for="f_EstadoCivil_5">Solteiro(a), com filho(s).</label></td>
                </tr>
             </table>
          </td>
       </tr>
       <tr>
          <td colspan="5" style="background-color: #ffffff">
-            <table  id = "trTemFilhos" style="width: 100%;display:none;">
+            <table id = "trTemFilhos" style="width: 100%;display:none;">
                <tr align="left">
                   <td style="width: 40%; height: 17px; background-color: #fcfcfc">
                      Os filhos vivem com quem?<span style="color: #ff0000">*</span><span style="color: #ff0000"><span
@@ -925,9 +925,9 @@
                   <td colspan="4" style="width: 60%; height: 17px; background-color: #ffffff">
                      <table id="f_FilhosVivemCom" border="0">
                         <tr>
-                           <td><input id="f_FilhosVivemCom_0" data-field="FilhosVivemCom" class="form-control" type="radio" name="f_FilhosVivemCom" value="Aluno(a)" /><label for="f_FilhosVivemCom_0">Aluno(a)</label></td>
-                           <td><input id="f_FilhosVivemCom_1" data-field="FilhosVivemCom" class="form-control" type="radio" name="f_FilhosVivemCom" value="Outra pessoa" /><label for="f_FilhosVivemCom_1">Outra pessoa</label></td>
-                           <td><input id="f_FilhosVivemCom_2" data-field="FilhosVivemCom" class="form-control" type="radio" name="f_FilhosVivemCom" value="Cônjuge ou companheiro(a)" /><label for="f_FilhosVivemCom_2">Cônjuge ou companheiro(a)</label></td>
+                           <td><input id="f_FilhosVivemCom_0" data-field="FilhosVivemCom" type="radio" name="f_FilhosVivemCom" value="Aluno(a)" /><label for="f_FilhosVivemCom_0">Aluno(a)</label></td>
+                           <td><input id="f_FilhosVivemCom_1" data-field="FilhosVivemCom" type="radio" name="f_FilhosVivemCom" value="Outra pessoa" /><label for="f_FilhosVivemCom_1">Outra pessoa</label></td>
+                           <td><input id="f_FilhosVivemCom_2" data-field="FilhosVivemCom" type="radio" name="f_FilhosVivemCom" value="Cônjuge ou companheiro(a)" /><label for="f_FilhosVivemCom_2">Cônjuge ou companheiro(a)</label></td>
                         </tr>
                      </table>
                   </td>
@@ -939,8 +939,8 @@
                   <td colspan="4" style="width: 60%; height: 17px; background-color: #ffffff">
                      <table id="f_RecebePensao" border="0">
                         <tr>
-                           <td><input id="f_RecebePensao_0" data-field="RecebePensao" class="form-control" type="radio" name="f_RecebePensao" value="Sim" /><label for="f_RecebePensao_0">Sim</label></td>
-                           <td><input id="f_RecebePensao_1" data-field="RecebePensao" class="form-control" type="radio" name="f_RecebePensao" value="Não" /><label for="f_RecebePensao_1">Não</label></td>
+                           <td><input id="f_RecebePensao_0" data-field="RecebePensao" type="radio" name="f_RecebePensao" value="Sim" /><label for="f_RecebePensao_0">Sim</label></td>
+                           <td><input id="f_RecebePensao_1" data-field="RecebePensao" type="radio" name="f_RecebePensao" value="Não" /><label for="f_RecebePensao_1">Não</label></td>
                         </tr>
                      </table>
                   </td>

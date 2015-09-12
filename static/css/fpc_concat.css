@@ -1847,19 +1847,34 @@ body {
 
 /* ************** Adições para SAE ********************* */
 
-
+input, select{
+	margin: 2px 4px 2px 5px !important;
+    height: 23px !important;
+    padding: 4px 5px 4px 2px !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    border-radius: 2px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    -webkit-transition: none !important;
+    transition: none !important;	
+    background-color: #fff !important;
+    background-image: none !important;
+    color: #555 !important;
+	display: inline-block !important;
+    width: auto;
+    vertical-align: middle !important;    
+}
 
 input[type=checkbox], input[type=radio] {
-    margin: 4px 3px 3px 4px;
+    margin: 4px 3px 3px 4px !important;
 }
 
-.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-    background-color: WhiteSmoke;
-}
-
-table { 
-           border-collapse: collapse;
-           bordercolor: #CCCCCC;
+input[readonly], input[disabled], .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: WhiteSmoke !important;
+    cursor: not-allowed !important;
+    opacity: 1 !important;
+    border: 1px solid #ccc !important;
 }
 
 tr > td
