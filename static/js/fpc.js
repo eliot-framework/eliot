@@ -11,6 +11,32 @@ var fpc = {
     csrftoken : "",
     lazyFields : null,
 
+    getValueFromRadio : function(radio){
+    	tipo = typeof radio;
+    	if (tipo === "object"){
+    		var inputName = radio.name;
+    	}else if (tipo === "string"){
+    		var inputName = radio;
+    	}else{
+    		throw new Error("Argumento inválido para getValueFromRadio: deve ser um radio ou nome do radio.");
+    	}
+    	var radios = document.getElementsByName(inputName);
+    	for (var i = 0, length = radios.length; i < length; i++) {
+    	    if (radios[i].checked) {
+    	        return radios[i].value;
+    	    }
+    	}
+    	return undefined;
+    },
+    
+    getValueFromSelect : function (select){
+        for (var i=0; i < select.length; i++) {
+            if (select[i].selected) {
+              return select[i].value;
+            }
+        }
+        return undefined;
+    },    
     
     postUrl : function (url, params) {
         var doc = document;
@@ -612,7 +638,7 @@ var fpc = {
 
     isFieldChanged : function(field){
     	var dat = field.dataset;
-    	if (dat.dirty){
+    	if (dat.dirty == undefined || dat.dirty){
     		return true;
     	}
     	if (dat.type === "lookup"){
@@ -629,6 +655,42 @@ var fpc = {
 		return false;
     },
 
+    getObject : function(form){
+    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
+    	var obj = {};
+    	var fields_dirty = [];
+    	for (var i = 0, len = list_fields.length; i < len; i++){
+    		var field = list_fields[i];
+    		// se o field estiver em outro form não serialize 
+    		if (field.form != form){
+    			continue; 
+    		}
+    		var dat = field.dataset;
+    		var dfield = dat.field;
+    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
+    			if (dat.type === "lookup"){
+    				obj[dfield] = escape(dat.key);
+	    		}else {
+	    			if (field.type === "radio"){
+	    				value = fpc.getValueFromRadio(field.name);
+	    				if (value != undefined){ 
+	    					obj[dfield] = value;
+	    				}
+	    			} else if (field.type === "select-one"){
+	    				value = fpc.getValueFromSelect(field);
+	    				if (value != undefined){
+	    					obj[dfield] = value;
+	    				}
+	    			}else{
+	    				obj[dfield] = escape(field.value);	
+	    			}
+	    		}
+	    		fields_dirty.push(dfield);
+    		}
+    	}
+    	return obj;
+    },
+    
     serializeForm : function(form){
     	var list_fields = $.makeArray(form.getElementsByClassName("form-control"));
     	var result = [];

@@ -11,21 +11,21 @@ var estudoSocioEconomicoForm = {
     			break;
     		case ("estudo_preliminar"):
     			var frm = doc.getElementById('f_estudo_preliminar'); 
-    			var obj = this.serializeForm(frm);
+    			var obj = fpc.getObject(frm);
     			this.avanca_etapa();
     			break;
     		case ("dados_pessoais"):
     			var frm = doc.getElementById('f_dados_pessoais'); 
-				var obj = this.serializeForm(frm);
+				var obj = fpc.getObject(frm);
 				this.avanca_etapa();
 				break;
     		case ("dados_familiares"):
     			var frm = doc.getElementById('f_dados_familiares'); 
-				var obj = this.serializeForm(frm);
+				var obj = fpc.getObject(frm);
 				this.avanca_etapa();
     			break;
     		default:
-    			throw error("Erro ao obter o formulário atual do questionário socioeconômico");
+    			throw new Error("Erro ao obter o formulário atual do questionário socioeconômico");
     	}
 	},
 		
@@ -59,7 +59,7 @@ var estudoSocioEconomicoForm = {
     			doc.getElementById("f_estudo").dataset.passoAtual = "bens";
     			break;
     		default:
-    			throw error("Erro ao obter o formulário atual do questionário socioeconômico");
+    			throw new Error("Erro ao obter o formulário atual do questionário socioeconômico");
     	}
     },
     
@@ -93,7 +93,7 @@ var estudoSocioEconomicoForm = {
     			doc.getElementById("f_estudo").dataset.passoAtual = "dados_familiares";
     			break;
     		default:
-    			throw error("Erro ao obter o formulário atual do questionário socioeconômico");
+    			throw new Error("Erro ao obter o formulário atual do questionário socioeconômico");
     	}
     },
     
@@ -107,39 +107,10 @@ var estudoSocioEconomicoForm = {
     		case ("dados_pessoais"): return doc.getElementById('f_dados_pessoais'); 
     		case ("dados_familiares"): return doc.getElementById('f_dados_familiares');
     		case ("bens"): return doc.getElementById('f_bens'); 
-    		default: throw error("Erro ao obter o formulário atual do questionário socioeconômico");
+    		default: throw new Error("Erro ao obter o formulário atual do questionário socioeconômico");
     	}
-    },
-    
-    serializeForm : function(form){
-    	var list_fields = $.makeArray(form.getElementsByClassName("form-control"));
-    	var result = [];
-    	var fields_dirty = [];
-    	for (var i = 0, len = list_fields.length; i < len; i++){
-    		var field = list_fields[i];
-    		// se o field estiver em outro form não serialize 
-    		if (field.form != form){
-    			continue; 
-    		}
-    		var dat = field.dataset;
-    		var dfield = dat.field;
-    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
-    			result.push(dfield);
-    			result.push("=");
-    			if (dat.type === "lookup"){
-	    			result.push(escape(dat.key));
-	    		}else {
-	    			result.push(escape(field.value));
-	    		}
-	    		result.push("&");
-	    		fields_dirty.push(dfield);
-    		}
-    	}
-    	if (result.length > 0){
-    		result.pop();
-    	}
-    	return result.join("");
     }
+    
     
 };    
 
