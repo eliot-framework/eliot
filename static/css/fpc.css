@@ -1121,7 +1121,11 @@ body {
     width: 30%;
 }
 
-/* Adições para SAE */
+
+
+/* ************** Adições para SAE ********************* */
+
+
 
 input[type=checkbox], input[type=radio] {
     margin: 4px 3px 3px 4px;
@@ -1139,4 +1143,48 @@ table {
 tr > td
 {
   padding-left: 2px;
+}
+
+
+#passo_atual {
+	background-color: #cccccc;
+	height: 28px;
+	margin-top: 0;
+	margin-bottom: 0;
+	color: WhiteSmoke;
+}
+#passo_atual li {
+	font-size: 14px; 
+	color: WhiteSmoke;
+}
+#passo_atual a {
+	color: WhiteSmoke;
+}
+#passo_atual a:hover {
+	color: WhiteSmoke;
+}
+#passo_atual > {
+	color: #060B5D;
+	font-weight: normal;
+}
+
+#passo_atual li span {
+	background-color: rgba(241, 238, 222, 0.43);
+	margin-right: 4px;
+}
+
+#passo_atual > .active {
+	color: #060B5D;
+	font-weight: bold;
+}
+
+#passo_atual > .active span {
+	color: white;
+	background-color: #060B5D;
+}
+
+#passo_atual > li+li:before {
+	padding: 0 12px;
+	color: #777; 
+	content: "\2192\00a0";
 }

@@ -10,7 +10,7 @@
  		</button>
 	</div>
 	<div id="f_botoes_esq"  style="float: right;">
-		<button id="btn_volta_lista" type="button" class="btn btn-default btn-xs" onclick="fpc.voltarParaLista()">
+		<button id="btn_volta_lista" type="button" class="btn btn-default btn-xs" onclick='estudoSocioEconomicoForm.volta_etapa()'>
 			<i class="glyphicon glyphicon-chevron-left"/>Voltar
 		</button>
 	</div>
@@ -20,9 +20,11 @@
 
 {% block f_content_form %}
 
+	<div id="f_estudo" data-passo-atual="ler_edital">
 	{% include "estudo_socioeconomico/ler_edital.html" %}
 	{% include "estudo_socioeconomico/estudo_preliminar.html" %}
 	{% include "estudo_socioeconomico/dados_pessoais.html" %}
 	{% include "estudo_socioeconomico/dados_familiares.html" %}
-
+	{% include "estudo_socioeconomico/bens.html" %}
+	</div>
 {% endblock %}
