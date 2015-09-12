@@ -1,4 +1,4 @@
-<div id="f_estudo_preliminar" class="form-inline" style="display:none">
+<form id="f_estudo_preliminar" class="form-inline" style="display:none">
    <table  class="table" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
          <tr align="left">
             <td colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #cccccc; height: 20px;" align="center">
@@ -22,12 +22,12 @@
                      <td style="height: 26px">
                         Matrícula:
                      <td style="height: 26px; width: 112px;">
-                        <input name="f_Matricula" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" />
+                        <input data-field="matricula" name="f_Matricula" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" />
                      <td style="width: 49px; height: 26px;">
                         Nome:
                      </td>
                      <td style="height: 26px">
-                        <input name="f_Nome" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:428px" />
+                        <input data-field="nome" name="f_Nome" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:428px" />
                      </td>
                   </tr>
                   <tr>
@@ -35,13 +35,13 @@
                         Nível:
                      </td>
                      <td style="width: 112px; height: 26px;">
-                        <input name="f_Nivel" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" />
+                        <input data-field="nivel" name="f_Nivel" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" />
                      </td>
                      <td style="width: 49px; height: 26px">
                         Ano/Semestre:
                      </td>
                      <td style="width: 123px; height: 26px;">
-                        <input name="f_PeriodoAtual" type="text" value="20152" readonly="readonly" id="f_PeriodoAtual" disabled="disabled" />
+                        <input data-field="periodo_atual" name="f_PeriodoAtual" type="text" value="20152" readonly="readonly" id="f_PeriodoAtual" disabled="disabled" />
                      </td>
                   </tr>
                   <tr>
@@ -49,7 +49,7 @@
                         Curso:
                      </td>
                      <td colspan="3" style="height: 27px">
-                        <input name="f_Curso" type="text" value="Computação Aplicada" readonly="readonly" id="f_Curso" disabled="disabled" style="width:428px;" />
+                        <input data-field="curso" name="f_Curso" type="text" value="Computação Aplicada" readonly="readonly" id="f_Curso" disabled="disabled" style="width:428px;" />
                      </td>
                   </tr>
                   <tr>
@@ -57,7 +57,7 @@
                         Habilitação:
                      </td>
                      <td colspan="3" style="height: 27px">
-                        <input name="f_Habilitacao" type="text" value="Computação Aplicada" readonly="readonly" id="f_Habilitacao" disabled="disabled" style="width:428px;" />
+                        <input data-field="habilitacao" name="f_Habilitacao" type="text" value="Computação Aplicada" readonly="readonly" id="f_Habilitacao" disabled="disabled" style="width:428px;" />
                      </td>
                   </tr>
                </table>
@@ -70,37 +70,35 @@
             <td colspan="3" style="height: 70px; width: 369px;">
                <table id="f_EnsinoMedio" border="0" style="padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; border-top-style: none; padding-top: 0px; border-right-style: none; border-left-style: none; border-bottom-style: none">
                   <tr>
-                     <td><input id="f_EnsinoMedio_0" type="radio" name="f_EnsinoMedio" value="Escola Pública" /><label for="f_EnsinoMedio_0">Escola Pública</label></td>
+                     <td><input data-field="EnsinoMedio" type="radio" name="f_EnsinoMedio" value="Escola Pública" /><label for="f_EnsinoMedio_0">Escola Pública</label></td>
                   </tr>
                   <tr>
-                     <td><input id="f_EnsinoMedio_1" type="radio" name="f_EnsinoMedio" value="Escola Particular com Bolsa" /><label for="f_EnsinoMedio_1">Escola Particular com Bolsa</label></td>
+                     <td><input id="f_EnsinoMedio_1" data-field="EnsinoMedio" type="radio" name="f_EnsinoMedio" value="Escola Particular com Bolsa" /><label for="f_EnsinoMedio_1">Escola Particular com Bolsa</label></td>
                   </tr>
                   <tr>
-                     <td><input id="f_EnsinoMedio_2" type="radio" name="f_EnsinoMedio" value="Escola Particular sem Bolsa" /><label for="f_EnsinoMedio_2">Escola Particular sem Bolsa</label></td>
+                     <td><input id="f_EnsinoMedio_2" data-field="EnsinoMedio" type="radio" name="f_EnsinoMedio" value="Escola Particular sem Bolsa" /><label for="f_EnsinoMedio_2">Escola Particular sem Bolsa</label></td>
                   </tr>
                </table>
             </td>
          </tr>
-         <div id="f_painelPos">
-            <tr align="left">
-               <td style="width: 363px; height: 70px; background-color: #fcfcfc;">
-                  Ensino Superior<span style="color: #ff0000">*</span>:
-               </td>
-               <td colspan="3" style="height: 70px; width: 369px;">
-                  <table id="f_EnsinoSuperior" border="0">
-                     <tr>
-                        <td><input id="f_EnsinoSuperior_0" type="radio" name="f_EnsinoSuperior" value="Instituição Pública" /><label for="f_EnsinoSuperior_0">Instituição Pública</label></td>
-                     </tr>
-                     <tr>
-                        <td><input id="f_EnsinoSuperior_1" type="radio" name="f_EnsinoSuperior" value="Instituição Particular com Bolsa" /><label for="f_EnsinoSuperior_1">Instituição Particular com Bolsa</label></td>
-                     </tr>
-                     <tr>
-                        <td><input id="f_EnsinoSuperior_2" type="radio" name="f_EnsinoSuperior" value="Instituição Particular sem Bolsa" /><label for="f_EnsinoSuperior_2">Instituição Particular sem Bolsa</label></td>
-                     </tr>
-                  </table>
-               </td>
-            </tr>
-         </div>
+         <tr align="left">
+            <td style="width: 363px; height: 70px; background-color: #fcfcfc;">
+               Ensino Superior<span style="color: #ff0000">*</span>:
+            </td>
+            <td colspan="3" style="height: 70px; width: 369px;">
+               <table id="f_EnsinoSuperior" border="0">
+                  <tr>
+                     <td><input id="f_EnsinoSuperior_0" data-field="EnsinoSuperior" type="radio" name="f_EnsinoSuperior" value="Instituição Pública" /><label for="f_EnsinoSuperior_0">Instituição Pública</label></td>
+                  </tr>
+                  <tr>
+                     <td><input id="f_EnsinoSuperior_1" data-field="EnsinoSuperior" type="radio" name="f_EnsinoSuperior" value="Instituição Particular com Bolsa" /><label for="f_EnsinoSuperior_1">Instituição Particular com Bolsa</label></td>
+                  </tr>
+                  <tr>
+                     <td><input id="f_EnsinoSuperior_2" data-field="EnsinoSuperior" type="radio" name="f_EnsinoSuperior" value="Instituição Particular sem Bolsa" /><label for="f_EnsinoSuperior_2">Instituição Particular sem Bolsa</label></td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
          <tr align="left">
             <td style="width: 363px; background-color: #fcfcfc;">
                Renda Familiar<span style="color: #ff0000">*</span>:<br />
@@ -109,7 +107,7 @@
                familiar</span>
             </td>
             <td colspan="3" style="width: 369px">
-               <select name="f_RendaFamiliar" id="f_RendaFamiliar">
+               <select name="f_RendaFamiliar" id="f_RendaFamiliar" data-field="RendaFamiliar" >
                   <option selected="selected" value=""></option>
                   <option value="1">At&#233; R$ 930,00</option>
                   <option value="2">De R$ 931,00 a R$ 1.860,00</option>
@@ -128,7 +126,7 @@
                ascendentes, avós, que comprovadamente residam com a família</span><br/>
             </td>
             <td colspan="3" style="width: 369px; background-color: #fcfcfc;">
-               <select name="f_MembroGrupoFamiliar" id="f_MembroGrupoFamiliar">
+               <select name="f_MembroGrupoFamiliar" id="f_MembroGrupoFamiliar" data-field="MembroGrupoFamiliar" >
                   <option selected="selected" value=""></option>
                   <option value="0">0</option>
                   <option value="1">1</option>
@@ -144,7 +142,7 @@
                Local de moradia do aluno<font color="red" style="vertical-align:top">*</font>:<br />
             </td>
             <td colspan="3" style="width: 369px">
-               <select name="f_LocalMoradiaAluno" id="f_LocalMoradiaAluno">
+               <select name="f_LocalMoradiaAluno" id="f_LocalMoradiaAluno" data-field="LocalMoradiaAluno" >
                   <option selected="selected" value=""></option>
                   <option value="1">Cidade Ocidental, Formosa, Luzi&#226;nia, Planaltina-GO, Una&#237;</option>
                   <option value="2">Valpara&#237;zo ou outra cidade do entorno do DF</option>
@@ -164,7 +162,7 @@
                Como reside atualmente<font color="red" style="vertical-align:top">*</font>:<br />
             </td>
             <td colspan="3" style="width: 369px">
-               <select name="f_ComoResideAluno" id="f_ComoResideAluno">
+               <select name="f_ComoResideAluno" id="f_ComoResideAluno" data-field="ComoResideAluno" >
                   <option selected="selected" value=""></option>
                   <option value="1">Com a fam&#237;lia</option>
                   <option value="2">Com parentes</option>
@@ -179,7 +177,7 @@
                Como reside sua família atualmente ou você, caso seja independente<font color="red" style="vertical-align:top">*</font>:<br />
             </td>
             <td colspan="3" style="width: 369px">
-               <select name="f_ComoResideFamiliaAluno" id="f_ComoResideFamiliaAluno">
+               <select name="f_ComoResideFamiliaAluno" id="f_ComoResideFamiliaAluno" data-field="ComoResideFamiliaAluno" >
                   <option selected="selected" value=""></option>
                   <option value="1">Alugada</option>
                   <option value="2">Cedida por Terceiros</option>
@@ -195,7 +193,7 @@
                Meio de transporte utilizado com mais frequência<font color="red" style="vertical-align:top">*</font>:<br />
             </td>
             <td colspan="3" style="width: 369px">
-               <select name="f_MeioTransporte" id="f_MeioTransporte">
+               <select name="f_MeioTransporte" id="f_MeioTransporte" data-field="MeioTransporte" >
                   <option selected="selected" value=""></option>
                   <option value="1">Ve&#237;culo pr&#243;prio</option>
                   <option value="2">Ve&#237;culo da fam&#237;lia</option>
@@ -211,7 +209,7 @@
                doença(s) grave(s) ou crônica(s) que residam com a família</span><br/>
             </td>
             <td colspan="3" style="width: 369px">
-               <select name="f_ProblemaSaudeFamilia" id="f_ProblemaSaudeFamilia">
+               <select name="f_ProblemaSaudeFamilia" id="f_ProblemaSaudeFamilia" data-field="ProblemaSaudeFamilia" >
                   <option selected="selected" value=""></option>
                   <option value="0">0</option>
                   <option value="1">1</option>
@@ -222,7 +220,7 @@
             </td>
          </tr>
       </table>
-</div>
+</form>
 
 <script>
 

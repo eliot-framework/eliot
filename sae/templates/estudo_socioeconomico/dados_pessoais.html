@@ -1,4 +1,4 @@
-<div id="f_dados_pessoais" class="form-inline" align="center" style="display:none">
+<form id="f_dados_pessoais" class="form-inline" align="center" style="display:none">
    <table  class="table" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC" style="border-collapse:collapse;width: 100%">
       <tr align="left">
          <td id="f_Td1" colspan="4" style="font-family:Arial;font-weight:bold; width: 100%; background-color: #cccccc; height: 20px;" align="center">
@@ -22,38 +22,24 @@
       </tr>
       <tr align="left">
          <td colspan="4" style="width: 100%; background-color: #fcfcfc;">
-            <table style="border-collapse: collapse; width: 100%;"  >
-               <tr>
-                  <td style="width: 30%;">
-                     Matrícula:
-                  </td>
-                  <td colspan="3" style="width: 70%;">
-                     <input name="f_matricula" data-field="matricula" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" style="background-color:WhiteSmoke;width:100px;"/>
-                  </td>
-               </tr>
-               <tr>
-                  <td style="width: 30%;">
-                     Nome:
-                  </td>
-                  <td colspan="3" style="width: 70%;">
-                     <input name="f_Nome" data-field="nome" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:371px;" />
-                  </td>
-               </tr>
-               <tr>
-                  <td style="width: 30%;">
-                     Nível: 
-                  </td>
-                  <td style="width: 57px; height: 26px;">
-                     <input name="f_Nivel" data-field="nivel" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" style="width:100px;" />
-                  </td>
-                  <td style="width: 20%;">
-                     Data:
-                  </td>
-                  <td style="width: 50%;">
-                     <input name="f_Data" data-field="data" data-type="data" data-format="dd/MM/yyyy" type="text" value="9/9/2015" readonly="readonly" id="f_Data" disabled="disabled" style="width:100px;" />
-                  </td>
-               </tr>
-            </table>
+            <div class="form-group">
+            	<label class="col-sm-2 control-label" for="f_Matricula">Matrícula</label>
+            	<input class="form-control" name="f_matricula" data-field="matricula" type="text" value="14/0180249" readonly="readonly" id="f_Matricula" disabled="disabled" style="width:100px;"/>
+            </div>
+            <span class="fpc_nl"></span>
+            <div class="form-group">
+            	<label class="col-sm-2 control-label" for="f_Nome">Nome</label>
+	            <input class="form-control" name="f_Nome" data-field="nome" type="text" value="Everton de Vargas Agilar" readonly="readonly" id="f_Nome" disabled="disabled" style="width:371px;" />
+            </div>
+            <span class="fpc_nl"></span>
+    		<div class="form-group">
+    			<label class="col-sm-2 control-label" for="f_Nivel">Nível</label>
+				<input class="form-control" name="f_Nivel" data-field="nivel" type="text" value="Mestrado" readonly="readonly" id="f_Nivel" disabled="disabled" style="width:100px;" />    		
+    		</div>        
+    		<div class="form-group">
+			    <label class="col-sm-2 control-label" for="f_Data">Data</label>
+    			<input class="form-control" name="f_Data" data-field="data" data-type="data" data-format="dd/MM/yyyy" type="text" value="9/9/2015" readonly="readonly" id="f_Data" disabled="disabled" style="width:100px;" />
+			</div>
          </td>
       </tr>
       <tr align="left">
@@ -355,7 +341,7 @@
             <table  id = "trTGM" style="width: 100%;display:none;">
                <tr>
                   <td style="width: 40%; background-color: #fcfcfc;">
-                     <input name="f_AluQtdTGM" data-field="AluQtdTGM" type="text" value="0" id="f_AluQtdTGM" disabled="disabled" style="background-color:WhiteSmoke;border-color:White;width:45px;" />
+                     <input name="f_AluQtdTGM" data-field="AluQtdTGM" type="text" value="0" id="f_AluQtdTGM" disabled="disabled" style="border-color:White;width:45px;" />
                   </td>
                   <td style="width: 60%;" colspan="4">
                   </td>
@@ -951,7 +937,7 @@
    </table>
    <input type="hidden" name="f_SemestreAno" id="f_SemestreAno" />
    <input type="hidden" name="f_PeriodoAtual" id="f_PeriodoAtual" value="20152" />
-</div>
+</form>
 
 <script type="text/javascript">
 

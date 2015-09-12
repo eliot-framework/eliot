@@ -728,38 +728,21 @@ body {
 
 label {
 	font-weight: 400;
+	padding-left: 0px !important;
+	margin: 6px 4px 1px 5px;
 }
 
 .control-label {
 	display: block;
-	margin-bottom: 0;
+	margin-bottom: 0 !important;
 	vertical-align: middle;	
+	margin: 6px 4px 1px 5px;
+	min-width: 92px;
 }
 
 
 .form-horizontal .control-label {
 	text-align: left;
-}
-
-.form .control-label {
-	margin-right: 6px;
-	margin-right: 2px;
-	min-width: 92px;
-}
-
-.form-inline .control-label {
-	margin-right: 6px;
-	margin-right: 2px;
-	min-width: 92px;
-}
-
-
-.form .form-group {
-	margin-bottom: 4px !important;
-}
-
-.form-inline .form-group {
-	margin-bottom: 4px !important;
 }
 
 .form-horizontal .form-group {
@@ -1766,11 +1749,6 @@ body {
     transition: none;
 }
 
-.control-label{
-	margin: 2px 4px 1px 5px;
-	
-}
-
 .form-control-feedback {
 	top: 18px;
 } 
@@ -1863,7 +1841,8 @@ input, select{
     color: #555 !important;
 	display: inline-block !important;
     width: auto;
-    vertical-align: middle !important;    
+    vertical-align: middle !important;
+    border: 1px solid #ccc !important;        
 }
 
 input[type=checkbox], input[type=radio] {
@@ -1874,7 +1853,6 @@ input[readonly], input[disabled], .form-control[disabled], .form-control[readonl
     background-color: WhiteSmoke !important;
     cursor: not-allowed !important;
     opacity: 1 !important;
-    border: 1px solid #ccc !important;
 }
 
 tr > td
