@@ -23,6 +23,7 @@ class Fpc(models.Model):
     """
         Classe principal de configurações do Fpc
     """
+    id = models.IntegerField('Id', primary_key=True)
     developer = models.CharField(max_length=40, default="Everton de Vargas Agilar", null=False)
     copyright = models.CharField(max_length=30, default="Copyright 2015 Everton de Vargas Agilar - Todos os direitos reservados.", null=False)
     local = models.CharField(max_length=15, default="Brasília/DF", null=True, blank=True)

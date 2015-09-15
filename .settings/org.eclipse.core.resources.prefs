@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//adm/forms.py=utf-8
 encoding//eliot/apps.py=utf-8
 encoding//estoque/forms.py=utf-8
+encoding//fpc/__init__.py=utf-8
 encoding//fpc/forms.py=utf-8
 encoding//fpc/utils.py=utf-8
 encoding//fpc/views.py=utf-8

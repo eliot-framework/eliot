@@ -231,6 +231,10 @@ class FpcField(FpcWidget):
             self.mini_button_icon = kargs["mini_button_icon"]
         else:
             self.mini_button_icon = "glyphicon-search"
+        if "type" in kargs:
+            self.type = kargs["type"]
+        else:
+            self.type = "text"
         self.mini_button_onclick = ""
         FpcWidget.__init__(self, owner, **kargs)
         self.setField(field)
@@ -242,7 +246,10 @@ class FpcField(FpcWidget):
             if self.name == None or self.name == "":
                 self.name = self.field.name
             if self.label == None or self.label == "":
-                self.label = self.field.verbose_name
+                try:
+                    self.label = self.field.verbose_name
+                except:
+                    self.label = ""
             if self.tipo == None:
                 self.tipo = FpcModel.get_tipo_field(self.field)
             if self.size == None and hasattr(self.field, "size"):
@@ -288,12 +295,17 @@ class FpcField(FpcWidget):
         if self.size != None:
             self.css.add_style("width", self.size) 
 
+        if self.hidden:
+            hidden_tag = "hidden"
+        else:
+            hidden_tag = ""
+
         # As próximas definições são baseadas no tipo de input            
         if self.tipo == FpcTipoField.text:
             if iscombobox:
-                type_tag = 'data-type="combobox"'
+                data_type_tag = 'data-type="combobox"'
             else:
-                type_tag = 'data-type="text"'
+                data_type_tag = 'data-type="text"'
             if not iscombobox and hasattr(self.field, "caixa_alta") and self.field.caixa_alta:
                 caixa_alta_tag = "data-caixa-alta"
                 self.css.add_style("text-transform", "uppercase")
@@ -310,14 +322,14 @@ class FpcField(FpcWidget):
                 masc_placeholder_tag = ""
             if iscombobox:
                 tag_escolha = "<option value='-'>Selecione uma opção</option>%s" % ("".join(['<option value="%s">%s</option>' % (tupla[0], tupla[1]) for tupla in self.field.choices]))
-                result = r'<select id="%s" width="100" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, tag_escolha, destaca_campo_tag, self.getTagListener())
+                result = r'<select id="%s" width="100" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, data_type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, tag_escolha, destaca_campo_tag, self.getTagListener())
             else:
-                result = r'<input id="%s" data-field="%s" class="form-control" type="text" %s %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s %s %s/>' % (self.id, self.name, max_length_tag, self.css.get_value(), self.value, self.value, required_tag, type_tag, caixa_alta_tag, mascara_tag, masc_placeholder_tag, editable_tag, insertable_tag, default_tag, onchange_tag, self.getTagListener(), destaca_campo_tag)
+                result = r'<input id="%s" data-field="%s" class="form-control" type="text" %s %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s %s %s/>' % (self.id, self.name, max_length_tag, self.css.get_value(), self.value, self.value, required_tag, data_type_tag, caixa_alta_tag, mascara_tag, masc_placeholder_tag, editable_tag, insertable_tag, default_tag, onchange_tag, self.getTagListener(), destaca_campo_tag)
         elif self.tipo == FpcTipoField.number:
             if iscombobox:
-                type_tag = 'data-type="combobox"'
+                data_type_tag = 'data-type="combobox"'
             else:
-                type_tag = 'data-type="numero"'
+                data_type_tag = 'data-type="numero"'
             self.widthGrid = 40
             if not iscombobox and hasattr(self.field, "auto_increment"):
                 auto_inc_tag = "data-auto-increment"
@@ -325,27 +337,27 @@ class FpcField(FpcWidget):
                 auto_inc_tag = ""
             if iscombobox:
                 tag_escolha = "<option value='-'>Selecione uma opção</option>%s" % ("".join(['<option value="%s">%s</option>' % (tupla[0], tupla[1]) for tupla in self.field.choices]))
-                result = r'<select id="%s" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, destaca_campo_tag, tag_escolha)
+                result = r'<select id="%s" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, data_type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, destaca_campo_tag, tag_escolha)
             else:
-                result = r'<input id="%s" data-field="%s" class="form-control" type="text" %s  %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s/>' % (self.id, self.name, max_length_tag, type_tag, self.value, self.value, required_tag, auto_inc_tag, editable_tag, insertable_tag, self.css.get_value(), default_tag, onchange_tag, destaca_campo_tag)
+                result = r'<input id="%s" data-field="%s" class="form-control" type="%s" %s  %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s/>' % (self.id, self.name, self.type, max_length_tag, data_type_tag, self.value, self.value, required_tag, auto_inc_tag, editable_tag, insertable_tag, self.css.get_value(), default_tag, onchange_tag, destaca_campo_tag, hidden_tag)
         elif self.tipo == FpcTipoField.decimal:
-            type_tag = 'data-type="decimal"'
+            data_type_tag = 'data-type="decimal"'
             if self.field.max_digits != None:
                 max_length = self.field.max_digits
             else: 
                 max_length = 10 
             max_length_tag = 'maxlength="%d"' % max_length
-            result = r'<input id="%s" data-field="%s" class="form-control" type="text" %s  %s value="%s" data-value="%s" %s data-decimal-places="%s" %s %s %s %s %s %s/>' % (self.id, self.name, max_length_tag, type_tag, self.value, self.value, required_tag, self.field.decimal_places, editable_tag, insertable_tag, onchange_tag, self.css.get_value(), default_tag, destaca_campo_tag)
+            result = r'<input id="%s" data-field="%s" class="form-control" type="text" %s  %s value="%s" data-value="%s" %s data-decimal-places="%s" %s %s %s %s %s %s/>' % (self.id, self.name, max_length_tag, data_type_tag, self.value, self.value, required_tag, self.field.decimal_places, editable_tag, insertable_tag, onchange_tag, self.css.get_value(), default_tag, destaca_campo_tag)
         elif self.tipo == FpcTipoField.date:
-            type_tag = 'data-type="data"'
+            data_type_tag = 'data-type="data"'
             data_format_tag = r'data-format="dd/MM/yyyy"'
             self.mini_button = True
             self.mini_button_icon = "glyphicon-calendar"
             self.mini_button_onclick = ""
             self.css.add_style("width", "100px;")
-            result = r'<input id="%s" data-field="%s" class="form-control" %s type="text" %s  %s value="%s" data-value="%s" %s %s %s/>' % (self.id, self.name, self.css.get_value(), type_tag, data_format_tag, self.value, self.value, required_tag, default_tag, destaca_campo_tag)
+            result = r'<input id="%s" data-field="%s" class="form-control" %s type="text" %s  %s value="%s" data-value="%s" %s %s %s/>' % (self.id, self.name, self.css.get_value(), data_type_tag, data_format_tag, self.value, self.value, required_tag, default_tag, destaca_campo_tag)
         elif self.tipo == FpcTipoField.lookup:
-            type_tag = 'data-type="lookup"'
+            data_type_tag = 'data-type="lookup"'
             max_length_tag = "120"
             model_str_fk = str(self.field.rel.to)[8:-2] 
             if model_str_fk != "FpcForm.models.FpcControle": 
@@ -354,27 +366,28 @@ class FpcField(FpcWidget):
             self.mini_button_icon = "glyphicon-search"
             self.mini_button_onclick = 'onclick="fpc.consultar(\'%s\', \'%s\')"' % (self.ts_id, self.id)
             self.css.add_style("width", "290px;")
-            result = r'<input id="%s" data-field="%s" class="form-control" %s type="text" %s value="%s" data-value="%s" %s readonly %s %s/>' % (self.id, self.name, self.css.get_value(), type_tag, self.value, self.key, required_tag, default_tag, destaca_campo_tag)
+            result = r'<input id="%s" data-field="%s" class="form-control" %s type="text" %s value="%s" data-value="%s" %s readonly %s %s/>' % (self.id, self.name, self.css.get_value(), data_type_tag, self.value, self.key, required_tag, default_tag, destaca_campo_tag)
         else:
             raise ValidationError("FpcField %s não pode ser renderizado." % self.name)
         
         if self.mini_button:
             result = '<div class="input-group">%s<span class="input-group-btn"><button type="button" %s class="btn btn-default btn-xs"><i class="glyphicon %s"></i></button></span></div>' % (result, self.mini_button_onclick, self.mini_button_icon) 
-                   
-        if self.owner.tipo == "form-horizontal":
-            if self.owner.label_grid is None:
-                label_grid = "col-sm-2 col-md-2 col-xs-2 col-lg-2"
-            else:
-                label_grid = self.owner.label_grid 
-            if self.owner.input_grid is None:
-                input_grid = "col-sm-10 col-md-10 col-xs-10 col-lg-10"
-            else:
-                input_grid = self.owner.input_grid 
 
-            result = "<div class='%s'>%s</div>" % (input_grid, result)
-            result = "<label class='%s control-label' for='%s' %s>%s</label>%s" % (label_grid, self.id, self.css_label.get_value(), self.label, result) 
-        else:
-            result = "<label class='control-label' for='%s' %s>%s</label>%s" % (self.id, self.css_label.get_value(), self.label, result) 
+        if self.type != "hidden":
+            if self.owner.tipo == "form-horizontal":
+                if self.owner.label_grid is None:
+                    label_grid = "col-sm-2 col-md-2 col-xs-2 col-lg-2"
+                else:
+                    label_grid = self.owner.label_grid 
+                if self.owner.input_grid is None:
+                    input_grid = "col-sm-10 col-md-10 col-xs-10 col-lg-10"
+                else:
+                    input_grid = self.owner.input_grid 
+    
+                result = "<div class='%s'>%s</div>" % (input_grid, result)
+                result = "<label class='%s control-label' for='%s' %s>%s</label>%s" % (label_grid, self.id, self.css_label.get_value(), self.label, result) 
+            else:
+                result = "<label class='control-label' for='%s' %s>%s</label>%s" % (self.id, self.css_label.get_value(), self.label, result) 
         return result
 
         
@@ -641,6 +654,8 @@ class FpcForm(FpcWidget):
 
     
     def field_by_name(self, field_name):
+        if field_name == 'pk':
+            return self.model._meta.pk
         if hasattr(self.model, "field_by_name"):
             return self.model.field_by_name(field_name)
         else:
