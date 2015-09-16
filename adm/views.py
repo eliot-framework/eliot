@@ -2,10 +2,12 @@
 
 from django.shortcuts import render
 from django.template.loader import render_to_string
+
 from adm.services import TelefoneUsuarioService, EnderecoUsuarioService, \
     UsuarioService
 from fpc.forms import FpcForm
-from fpc.views import fpc_request
+from fpc.models import Fpc
+from fpc.views import fpc_request, FpcJsonMessage
 
 
 def usuario_telefone(request):
@@ -31,6 +33,14 @@ def consulta_historico_acesso(request):
     return render_to_string("consulta_historico_acesso.html", { "matricula" : matricula, 
                                                                 "lista_historico" : lista_historico })    
 
+@fpc_request
+def personalizar_framework(request):
+    ts = request.ts
+    form = FpcForm.get_form(request)
+    template = form.createTemplate()
+    return FpcJsonMessage("", "info", {"template" : template, 
+                                       "ts" : ts.pk, 
+                                       "tipoTs" : ts.tipoTransacao,
+                                       "update_fields" : Fpc.getFpc().get_values()})
 
-        
 

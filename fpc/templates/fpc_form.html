@@ -54,7 +54,8 @@
 	<span id="alerta_text" /></span>
 </div>
 {% block f_content_form %}
-<form id="f_form">
+<form id="f_form" data-model="{{ form.name }}" data-id="" data-jsclass="{{ form.js_class }}">
+	{% block f_header_form %}{% endblock %}
 	{% include "fpc_layout.html" %}
 </form>	
 {% endblock %}

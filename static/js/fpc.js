@@ -299,13 +299,13 @@ var fpc = {
     			if (this.dataset.default != undefined && this.value === ""){
     				this.value = this.dataset.default;
     			}
-    			this.dirty = true;
+    			this.dataset.dirty = true;
     			
     			var operacao = document.getElementById("barra_botao").dataset.tipo;
     			var field_name = this.dataset.field;
     			 
         		// sincroniza campos com o mesmo field
-    			var list_fields = $.makeArray(this.form.getElementsByClassName("form-control"));
+    			var list_fields = $.makeArray(this.form.querySelectorAll('[data-field]'));
 				for (var i = 0, len = list_fields.length; i < len; i++){
 					var field = list_fields[i];
     				if (field != this && field.dataset.field === field_name){
@@ -325,12 +325,14 @@ var fpc = {
     },
     
     fieldChangedClient : function(field, operacao){
-		var js_class = document.getElementById("dados_pesquisa").dataset.jsclass;
-		if (js_class != undefined){
-			var js_obj = window[js_class];
-			if (js_obj != undefined){
-				js_obj.onchange(field, operacao);
-			}
+		var doc = document;
+		var form = field.form;
+		if (form.dataset.jsclass == undefined){
+			form = doc.querySelectorAll('[data-jsclass]')[0];
+		}
+    	if (form != undefined){
+    		var js_class = form.dataset.jsclass;
+			this.fireOnChange(js_class, field, operacao);
 		}
     },
 
@@ -359,14 +361,14 @@ var fpc = {
     },
 
     updateFields : function(form, update_fields){
-		var list_fields = $.makeArray(form.getElementsByClassName("form-control"));
+    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
     	for (field_update in update_fields){
     		var value = update_fields[field_update];
     		var is_object = typeof value  === "object";
 			for (var i = 0, len = list_fields.length; i < len; i++){
 				var field = list_fields[i];
 				var field_name = field.dataset.field;
-				if (field_name === field_update){
+				if (field_name === field_update || ((field_name === "id" && field_update == "pk") || (field_name === "pk" && field_update == "id"))){
 					if (is_object){
 						field.value = value.desc;
 						field.dataset.value = value.id;
@@ -380,7 +382,7 @@ var fpc = {
     },
     
     resetFields : function(form){
-		var list_fields = $.makeArray(form.getElementsByClassName("form-control"));
+    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
 		for (var i = 0, len = list_fields.length; i < len; i++){
 			var field = list_fields[i];
 			field.dataset.value = field.value;
@@ -393,13 +395,45 @@ var fpc = {
     fireOnReadyEvent : function(field, operacao){
 		var js_class = document.getElementById("dados_pesquisa").dataset.jsclass;
 		if (js_class != undefined){
-			var js_obj = window[js_class];
-			if (js_obj != undefined){
-				js_obj.onready(field, operacao);
+			var js_controller = this.findController(js_class);
+			if (js_controller != undefined && js_controller.onready != undefined){
+				js_controller.onready(field, operacao);
+			}
+		}
+    },
+    
+    fireOnChange : function(js_class, field, operacao){
+		if (js_class != undefined){
+			var js_controller = this.findController(js_class);
+			if (js_controller != undefined && js_controller.onchange != undefined){
+				js_controller.onchange(field, operacao);
 			}
 		}
     },
 
+    fireOnOpenForm : function(js_class, response){
+    	if (js_class != undefined){
+			var js_controller = this.findController(js_class);
+			if (js_controller != undefined && js_controller.on_open_form != undefined){
+				js_controller.on_open_form(response);
+			}
+    	}
+    },
+    
+    findController : function(js_class){
+		if (js_class != undefined && js_class.length > 4){
+			var js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1); 
+			var js_obj = window[js_var];
+			if (js_obj == undefined){
+				js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1,js_class.length-4) + "Controller";
+				var js_obj = window[js_var];
+				if (js_obj == undefined){
+					var js_obj = window[js_class];
+				}
+			}
+			return js_obj;
+		}
+    },
     
     checkRenderLazyFields : function(){
     	var lazyFields = fpc.lazyFields;
@@ -671,12 +705,13 @@ var fpc = {
     			if (dat.type === "lookup"){
     				obj[dfield] = escape(dat.key);
 	    		}else {
-	    			if (field.type === "radio"){
+	    			var field_type = field.type;
+	    			if (field_type === "radio"){
 	    				value = fpc.getValueFromRadio(field.name);
 	    				if (value != undefined){ 
 	    					obj[dfield] = value;
 	    				}
-	    			} else if (field.type === "select-one"){
+	    			} else if (field_type === "select-one"){
 	    				value = fpc.getValueFromSelect(field);
 	    				if (value != undefined){
 	    					obj[dfield] = value;
@@ -688,11 +723,15 @@ var fpc = {
 	    		fields_dirty.push(dfield);
     		}
     	}
-    	return obj;
+    	if (fields_dirty.length > 0){
+    		return obj;
+    	}else{
+    		return undefined;
+    	}
     },
     
     serializeForm : function(form){
-    	var list_fields = $.makeArray(form.getElementsByClassName("form-control"));
+    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
     	var result = [];
     	var fields_dirty = [];
     	for (var i = 0, len = list_fields.length; i < len; i++){
@@ -709,7 +748,20 @@ var fpc = {
     			if (dat.type === "lookup"){
 	    			result.push(escape(dat.key));
 	    		}else {
-	    			result.push(escape(field.value));
+	    			var field_type = field.type; 
+	    			if (field_type === "radio"){
+	    				value = fpc.getValueFromRadio(field.name);
+	    				if (value != undefined){ 
+	    					result.push(escape(value));
+	    				}
+	    			} else if (field_type === "select-one"){
+	    				value = fpc.getValueFromSelect(field);
+	    				if (value != undefined){
+	    					result.push(escape(value));
+	    				}
+	    			}else{
+	    				result.push(escape(field.value));
+	    			}
 	    		}
 	    		result.push("&");
 	    		fields_dirty.push(dfield);
@@ -766,16 +818,6 @@ var fpc = {
 			});
 	},
     
-    exibeForm : function exibeForm(url, data){
-    	$.ajax({
-			  type: "GET",
-			  url: url,
-			  data: data
-			}).done(function(response) {
-			  $("#painel_conteudo").html(response);
-			});
-    },
-
     exibeAjaxTab : function exibeAjaxTab(h_tab, ts, urlOrTemplate, id_tab){
     	if (h_tab.dataset.ajax != undefined){
     		return;
@@ -815,26 +857,35 @@ var fpc = {
     },
     
     execTs : function execTs(ts){
-		fpc.getJSON('/fpc.views.fpc_executa_transacao', { ts : ts }
+    	this.exibeForm('/fpc.views.fpc_executa_transacao', { ts : ts });
+    },
+
+    exibeForm : function exibeForm(url, params){
+		fpc.getJSON(url, params
 			).done(function(msg) {
 				var doc = document;
 				var param = msg.params[0]; 
 				var template = param.template;
 				var ts_id = param.ts;
 				var tipoTs = param.tipoTs;
-				var jpainel_conteudo = $("#painel_conteudo"); 
+				var jpainel_conteudo = $("#painel_conteudo");
 				jpainel_conteudo.html(template);
 				jpainel_conteudo.find("form").each(function(){ fpc.configFields(this); }); 
 				$(function () {
 			 	      $('#id_tab_registro a:first').tab('show'); // focu na primeira aba após renderizar
 			 	      var dat = document.body.dataset;
-			 	      dat.ts= ts_id;
+			 	      var form = doc.getElementById("f_form");
+			 	      dat.ts = ts_id;
 			 	      dat.tipoTs = tipoTs;
+			 	      if (form != undefined){
+						 js_class = form.dataset.jsclass;
+						 if (js_class != undefined){
+							fpc.fireOnOpenForm(js_class, msg);		
+						 }
+			 	      }
 				});
-				
 			});
     },
-
    
     exibeSistemas : function exibeSistemas(){
 		$.ajax({

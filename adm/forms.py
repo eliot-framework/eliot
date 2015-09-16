@@ -53,12 +53,11 @@ class FpcConfigForm(FpcForm):
         model = fpc.models.Fpc
         template = "fpc_config.html"
         layout = {  "_config" : { "tipo" : "form-horizontal",
-                                 "label_grid" : "col-sm-2 col-md-2 col-xs-2 col-lg-2",
-                                 "input_grid" : "col-sm-10 col-md-10 col-xs-10 col-lg-10",
-                                 "css_form_group" : "background:#e7e7e7; padding:6px; margin-bottom:1px;"
+                                  "label_grid" : "col-sm-2 col-md-2 col-xs-2 col-lg-2",
+                                  "input_grid" : "col-sm-10 col-md-10 col-xs-10 col-lg-10",
+                                  "css_form_group" : "background:#e7e7e7; padding:6px; margin-bottom:1px;"
                                 },
-                    "1:Configurações Gerais"  : (FpcField(name="pk", type="hidden"),
-                                                 FpcField(name="nome", label="Teste"), 
+                    "1:Configurações Gerais"  : ("nome", 
                                                 "descricao", 
                                                 "fale_conosco",
                                                 ),

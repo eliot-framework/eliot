@@ -1,5 +1,5 @@
 
-var ProdutoForm = {
+var produtoForm = {
 
     onchange : function(field, operacao) {
         var op = operacao;

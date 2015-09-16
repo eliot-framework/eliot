@@ -18,44 +18,6 @@ import operator
 
 from fpc.utils import EmsRest, json_encode_java
 
-
-class Fpc(models.Model):
-    """
-        Classe principal de configurações do Fpc
-    """
-    id = models.IntegerField('Id', primary_key=True)
-    developer = models.CharField(max_length=40, default="Everton de Vargas Agilar", null=False)
-    copyright = models.CharField(max_length=30, default="Copyright 2015 Everton de Vargas Agilar - Todos os direitos reservados.", null=False)
-    local = models.CharField(max_length=15, default="Brasília/DF", null=True, blank=True)
-    fale_conosco = models.CharField("Fale Conosco", max_length=250, default="", null=False)
-    nome = models.CharField("Nome", max_length=40, default="Eliot", null=False)
-    descricao = models.CharField("Descricao", max_length=250, default="Eliot Web Framework", null=False)
-    
-    # css styles do portal
-    css_header_background_color = models.CharField("Cor do cabeçalho", max_length=250, default="#f8f8f8", null=False)
-    
-    
-
-    __fpc = None;
-    user = None;
-
-    """ Obtém uma instância default da classe Fpc """
-    @classmethod
-    def getFpc(self):
-        if Fpc.__fpc == None:
-            Fpc.__fpc = Fpc.objects.get(pk=1)
-        return Fpc.__fpc 
-
-
-    @classmethod
-    def getCurrentUser(self):
-        return Fpc.getFpc().user
-
-    @classmethod
-    def setCurrentUser(self, user):
-        Fpc.getFpc().user = user
-
-
 class TransacaoDao(models.Manager):
 
     def get_or_new(self, nome):
@@ -354,7 +316,7 @@ class Transacao(models.Model):
         ts.nome = 'ts_config_fpc'
         ts.titulo = 'Personalizar Framework'
         ts.tipoTransacao = 'T'
-        ts.transacao_url = '/adm.views.personalizar_estilos_app'
+        ts.transacao_url = '/adm.views.personalizar_framework'
         ts.posicao = 1
         ts.formModel = 'adm.forms.FpcConfigForm'
         ts.model = 'fpc.models.Fpc'
@@ -599,7 +561,6 @@ class Transacao(models.Model):
         ts.nome = 'estudosocioeconomico_preliminar_sae'
         ts.titulo = 'Preencher Formulário'
         ts.tipoTransacao = 'T'
-        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
         ts.posicao = 1
         ts.formModel = 'sae.forms.EstudoSocioEconomicoForm'
         ts.model = 'sae.models.EstudoSocioEconomico'
@@ -1217,4 +1178,39 @@ class EmsModel(FpcModel):
     
 
 
+class Fpc(FpcModel):
+    """
+        Classe principal de configurações do Fpc
+    """
+    id = models.IntegerField('Id', primary_key=True)
+    developer = models.CharField(max_length=40, default="Everton de Vargas Agilar", null=False)
+    copyright = models.CharField(max_length=30, default="Copyright 2015 Everton de Vargas Agilar - Todos os direitos reservados.", null=False)
+    local = models.CharField(max_length=15, default="Brasília/DF", null=True, blank=True)
+    fale_conosco = models.CharField("Fale Conosco", max_length=250, default="", null=False)
+    nome = models.CharField("Nome", max_length=40, default="Eliot", null=False)
+    descricao = models.CharField("Descricao", max_length=250, default="Eliot Web Framework", null=False)
+    
+    # css styles do portal
+    css_header_background_color = models.CharField("Cor do cabeçalho", max_length=250, default="#f8f8f8", null=False)
+    
+    
+
+    __fpc = None;
+    user = None;
+
+    """ Obtém uma instância default da classe Fpc """
+    @classmethod
+    def getFpc(self):
+        if Fpc.__fpc == None:
+            Fpc.__fpc = Fpc.objects.get(pk=1)
+        return Fpc.__fpc 
+
+
+    @classmethod
+    def getCurrentUser(self):
+        return Fpc.getFpc().user
+
+    @classmethod
+    def setCurrentUser(self, user):
+        Fpc.getFpc().user = user
 

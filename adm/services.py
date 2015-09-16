@@ -1,11 +1,13 @@
 # -*- coding: UTF-8 -*-
 
 from adm.models import Sistema, Usuario, Telefone, Departamento, Endereco
+from fpc.models import Fpc
 from fpc.services import FpcService, fpc_public
 
 
 class ConfigFrameworkService(FpcService):
-    pass 
+    class Meta:
+        model = Fpc
 
 
 class SistemaService(FpcService):

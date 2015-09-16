@@ -6,7 +6,7 @@
     <ul class="bs-glyphicons-list">
 		{% for sistema in lista_sistemas %}
 		  {% if sistema.tipoTransacao != "L" %}
-		  <li onclick="{% if sistema.tipoTransacao == 'S' %}location.href='{% url 'exibe_sistema' %}?ts={{ sistema.id }}'{% else %}fpc.execTs({{ sistema.id }}) {% endif %}">
+		  <li onclick="{% if sistema.tipoTransacao == 'S' %}location.href='{% url 'exibe_sistema' %}?ts={{ sistema.id }}'{% else %} {% if sistema.transacao_url == None %}fpc.execTs({{ sistema.id }}){% else %}fpc.exibeForm('{{ sistema.transacao_url }}',{'ts':{{ sistema.id }}}){% endif %}{% endif %}">
 		        {% if sistema.image_url|slice:'0:5' == "class" %}
 				<span class="{{ sistema.image_url|slice:'6:' }}"></span>        
 		        {% elif sistema.image_url == "" %}

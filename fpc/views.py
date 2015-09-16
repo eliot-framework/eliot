@@ -188,6 +188,14 @@ def fpc_executa_transacao(request):
                                        "ts" : ts.pk, 
                                        "tipoTs" : ts.tipoTransacao})
 
+@fpc_request
+def fpc_exibe_pesquisa(request):
+    ts = request.ts
+    form = FpcForm.get_form(request)
+    template = form.createTemplate(FpcOperacaoForm.pesquisa)
+    return FpcJsonMessage("", "info", {"template" : template, 
+                                       "ts" : ts.pk, 
+                                       "tipoTs" : ts.tipoTransacao})
 
 
 @fpc_request
