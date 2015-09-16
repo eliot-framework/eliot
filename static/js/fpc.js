@@ -485,8 +485,8 @@ var fpc = {
         });
     },
     
-    configFields : function(f, operacao){
-        var list_inputs = $.makeArray(f.getElementsByClassName("form-control"));
+    configFields : function(form, operacao){
+		var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
         var isEdicao = operacao === "edicao";
         var isInsert = operacao === "novo";
         var jdoc = $(document); 
@@ -495,70 +495,75 @@ var fpc = {
         fpc.lazyFields = new Array();
         jdoc.off('scroll', fpc.checkCheckRenderLazyFields);
 
-        // Configura cada field conforme seu tipo 
-        for (var i = 0, len = list_inputs.length; i < len; i++){
-            var input = list_inputs[i];
-            var data_type = input.dataset.type;
-            var data_listener = input.dataset.listener;
+        // Configura cada field conforme seu tipo (data-type) 
+        for (var i = 0, len = list_fields.length; i < len; i++){
+            var input = list_fields[i];
+            var dat = input.dataset;
+            var data_type = dat.type;
+            var data_listener = dat.listener;
             input.style.backgroundColor="white";
-            if (data_type !== null && data_type != undefined){
-              data_type = data_type.toLowerCase();
-              if (data_type === "numero" || data_type === 'integer'){
-                this.somenteNumeros(input);
-              } 
-              else if (data_type === 'decimal'){
-            	  this.somenteDecimal(input);
-              }
-              else if (data_type === 'data'){
-            	  $(input).mask("99/99/9999");
-            	  input.setAttribute("size", 12);
-            	  this.somenteData(input);
-              }else if (data_type === "text"){
-            	  if (input.dataset.caixaAlta != undefined){
-            		  this.somenteCaixaAlta(input);
-            	  }
-            	  if (input.dataset.mascara != undefined){
-            		  $(input).mask(input.dataset.mascara, {placeholder: input.dataset.mascaraPlaceholder});
-            	  }
-              }else if (data_type === "combobox"){
-            	  var key = input.dataset.value;
-            	  if (key != null || key != ""){ 
-	            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
-	                      if (input[j].value == key) {
-	                        input[j].selected = true;
-	                        break;
-	                      }
-	                  }
-            	  }
-              } else if (data_type === "grid"){
-            	  
-              }
-              
-              if (input.dataset.lazy != undefined){
-            	  fpc.lazyFields.push(input);
-              }
-              
-              if (isEdicao && input.dataset.noEditable != undefined){
-              	input.setAttribute("readonly", "readonly");
-              	input.style.backgroundColor="LightYellow";
-              }
-
-              if (isInsert && input.dataset.noInsertable != undefined){
-              	input.setAttribute("readonly", "readonly");
-              	input.style.backgroundColor="LightYellow";
-              }
-              
-              if (data_listener != undefined){
-            	  if (data_listener.indexOf("onready") > -1){
-                	  fpc.fireOnReadyEvent(input, operacao);
-            	  } 
-              }
-              if (input.dataset.required != undefined){
-            	  input.parentElement.firstElementChild.style.fontWeight="bold";
-              }
-              
-              this.fieldChanged(input);
+            if (data_type != undefined && data_type !== null){
+	              data_type = data_type.toLowerCase();
+	              if (data_type === "numero" || data_type === 'integer'){
+		 	         this.somenteNumeros(input);
+	              } 
+	              else if (data_type === 'decimal'){
+	        	  	  this.somenteDecimal(input);
+	              }
+	              else if (data_type === 'data'){
+	            	  $(input).mask("99/99/9999");
+	            	  input.setAttribute("size", 12);
+	            	  this.somenteData(input);
+	              }else if (data_type === "text"){
+	            	  if (dat.caixaAlta != undefined){
+	            		  this.somenteCaixaAlta(input);
+	            	  }
+	            	  if (dat.mascara != undefined){
+	            		  $(input).mask(dat.mascara, {placeholder: dat.mascaraPlaceholder});
+	            	  }
+	              }else if (data_type === "combobox"){
+	            	  var key = dat.value;
+	            	  if (key != null || key != ""){ 
+		            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
+		                      if (input[j].value == key) {
+		                        input[j].selected = true;
+		                        break;
+		                      }
+		                  }
+	            	  }
+	              } else if (data_type === "grid"){
+	            	// nada ainda pra fazer	  
+	              }
             } 
+
+           if (dat.lazy != undefined){
+        	  fpc.lazyFields.push(input);
+           }
+          
+           if (isEdicao && dat.noEditable != undefined){
+            	input.setAttribute("readonly", "readonly");
+            	input.style.backgroundColor="LightYellow";
+           }
+
+           if (isInsert && dat.noInsertable != undefined){
+            	input.setAttribute("readonly", "readonly");
+          	    input.style.backgroundColor="LightYellow";
+           }
+          
+           if (data_listener != undefined){
+        	  if (data_listener.indexOf("onready") > -1){
+            	  fpc.fireOnReadyEvent(input, operacao);
+        	  } 
+           }
+
+           if (dat.required != undefined){
+        	  var label = fpc.getLabelFromField(input);
+        	  if (label != undefined){
+        	      label.style.fontWeight="bold";
+        	  }
+           }
+          
+           this.fieldChanged(input);
         }
 
         // Configura datatimepicker
@@ -605,17 +610,25 @@ var fpc = {
     	
     },
     
+    getLabelFromField : function(field){
+    	var label = undefined;
+    	if (field != undefined){
+	    	if (field.id != undefined){
+	    		label = field.form.querySelector('label[for="'+ field.id + '"]');
+	    	}else if (field.name != undefined){
+	    		label = field.form.querySelector('label[for="'+ field.name + '"]');
+	    	}
+    	}
+    	return label;
+    },
+    
     validaForm : function (f){
         var fieldLabels = [];
         var fieldRequeridos = $(f).find(':input[data-required]');
         for (var i = 0, len = fieldRequeridos.length; i < len; i++){
             var field = fieldRequeridos[i];
             if (field.value === "" && field.dataset.autoIncrement == undefined){
-            	if (field.parentElement.className === "input-group"){
-            		var label = field.parentElement.parentElement;	
-            	}else{
-            		var label = field.parentElement;	
-            	}
+            	var label = this.getLabelFromField(field);
                 if (label !== undefined && label !== null){
                 	var titulo = label.firstChild.textContent;
                 	if (fieldLabels.indexOf(titulo) == -1){
@@ -672,7 +685,7 @@ var fpc = {
 
     isFieldChanged : function(field){
     	var dat = field.dataset;
-    	if (dat.dirty == undefined || dat.dirty){
+    	if (dat.dirty){
     		return true;
     	}
     	if (dat.type === "lookup"){
@@ -868,17 +881,20 @@ var fpc = {
 				var template = param.template;
 				var ts_id = param.ts;
 				var tipoTs = param.tipoTs;
+				var operacao = param.operacao;
 				var jpainel_conteudo = $("#painel_conteudo");
 				jpainel_conteudo.html(template);
-				jpainel_conteudo.find("form").each(function(){ fpc.configFields(this); }); 
+				jpainel_conteudo.find("form").each(function(){ 
+					fpc.configFields(this, operacao); 
+				}); 
 				$(function () {
-			 	      $('#id_tab_registro a:first').tab('show'); // focu na primeira aba após renderizar
+			 	      $('#id_tab_registro a:first').tab('show');
 			 	      var dat = document.body.dataset;
-			 	      var form = doc.getElementById("f_form");
+			 	      var state = doc.getElementById("f_state");
 			 	      dat.ts = ts_id;
 			 	      dat.tipoTs = tipoTs;
-			 	      if (form != undefined){
-						 js_class = form.dataset.jsclass;
+			 	      if (state != undefined){
+						 js_class = state.dataset.jsclass;
 						 if (js_class != undefined){
 							fpc.fireOnOpenForm(js_class, msg);		
 						 }

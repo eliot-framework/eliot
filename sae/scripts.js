@@ -1,6 +1,17 @@
 
 var estudoSocioEconomicoForm = {
 
+	on_open_form : function(response){
+		var doc = document;
+		var param = response.params[0]; 
+		var update_fields = param.update_fields;
+		var f_form = doc.getElementById("f_form");
+		//fpc.updateFields(f_form, update_fields);
+		//fpc.resetFields(f_form);
+		alert('ok');
+	},
+		
+		
 	salva_e_avanca : function(){
     	var doc = document;
     	var f_estudo = doc.getElementById("f_estudo");
