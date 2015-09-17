@@ -694,7 +694,7 @@ var fpc = {
 
     isFieldChanged : function(field){
     	var dat = field.dataset;
-    	if (dat.dirty){
+    	if (dat.dirty || dat.field === "id" || dat.field === "pk"){
     		return true;
     	}
     	if (dat.type === "lookup"){
