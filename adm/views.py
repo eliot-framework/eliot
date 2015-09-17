@@ -41,6 +41,7 @@ def personalizar_framework(request):
     return FpcJsonMessage("", "info", {"template" : template, 
                                        "ts" : ts.pk, 
                                        "tipoTs" : ts.tipoTransacao,
-                                       "update_fields" : Fpc.getFpc().get_values()})
+                                       "update_fields" : Fpc.getFpc().get_values(),
+                                       "operacao" : "update"})
 
 

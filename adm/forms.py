@@ -52,18 +52,17 @@ class FpcConfigForm(FpcForm):
     class Meta:
         model = fpc.models.Fpc
         template = "fpc_config.html"
-        layout = {  "_config" : { "tipo" : "form-horizontal",
+        layout = {  "_config" : { "tipo" : "form-inline",
                                   "label_grid" : "col-sm-2 col-md-2 col-xs-2 col-lg-2",
                                   "input_grid" : "col-sm-10 col-md-10 col-xs-10 col-lg-10",
-                                  "css_form_group" : "background:#e7e7e7; padding:6px; margin-bottom:1px;"
+                                  "css_form_group" : "background:#e7e7e7; padding:6px; margin-bottom:1px; width:100%"
                                 },
                     "1:Configurações Gerais"  : ("nome", 
-                                                "descricao", 
-                                                "fale_conosco",
+                                                 "descricao", 
+                                                 "fale_conosco",
                                                 ),
-                    "2:Estilos css" : ( "fale_conosco", 
-                                        "descricao", 
-                                        "css_header_background_color"
+                    "2:Definição CSS (Cascading Style Sheets)" : ( 
+                                        "css_header_background_color",
                                       ),
                   }
         titulo = "Personalizar Framework"

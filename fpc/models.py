@@ -1183,12 +1183,12 @@ class Fpc(FpcModel):
         Classe principal de configurações do Fpc
     """
     id = models.IntegerField('Id', primary_key=True)
-    developer = models.CharField(max_length=40, default="Everton de Vargas Agilar", null=False)
-    copyright = models.CharField(max_length=30, default="Copyright 2015 Everton de Vargas Agilar - Todos os direitos reservados.", null=False)
-    local = models.CharField(max_length=15, default="Brasília/DF", null=True, blank=True)
-    fale_conosco = models.CharField("Fale Conosco", max_length=250, default="", null=False)
-    nome = models.CharField("Nome", max_length=40, default="Eliot", null=False)
-    descricao = models.CharField("Descricao", max_length=250, default="Eliot Web Framework", null=False)
+    developer = FpcTextField(max_length=40, default="Everton de Vargas Agilar", null=False, insertable=False, editable=False)
+    copyright = FpcTextField(max_length=100, default="Copyright 2015 Everton de Vargas Agilar - Todos os direitos reservados.", null=False, insertable=False, editable=False)
+    local = FpcTextField(max_length=30, default="Brasília/DF", null=True, blank=True)
+    fale_conosco = FpcTextField("Fale Conosco", max_length=250, default="", null=False,size=400)
+    nome = FpcTextField("Nome", max_length=40, default="Eliot", null=False,size=100)
+    descricao = FpcTextField("Descricao", max_length=250, default="Eliot Web Framework", null=False,size=400)
     
     # css styles do portal
     css_header_background_color = models.CharField("Cor do cabeçalho", max_length=250, default="#f8f8f8", null=False)

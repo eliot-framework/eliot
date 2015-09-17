@@ -1,3 +1,9 @@
+/*!
+ * fpc -- Framework de primeira camada
+ * Copyright 2011-2015 Everton de Vargas Agilar.
+ * Project: https://github.com/eliot-framework/eliot
+ */
+
 "use strict";
 
 function FpcError(message, url, params) {
@@ -487,8 +493,11 @@ var fpc = {
     
     configFields : function(form, operacao){
 		var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
-        var isEdicao = operacao === "edicao";
-        var isInsert = operacao === "novo";
+        if (operacao === "edicao" || operacao === "update" || operacao === "put"){
+        	operacao = "put";
+        }else if (operacao === "novo" || operacao === "insert" || operacao === "post"){
+        	operacao = "post";
+        }
         var jdoc = $(document); 
 
         // Inicializa a lista de campos lazy e remove o handler scroll 
@@ -540,12 +549,12 @@ var fpc = {
         	  fpc.lazyFields.push(input);
            }
           
-           if (isEdicao && dat.noEditable != undefined){
+           if (operacao === "put" && dat.noEditable != undefined){
             	input.setAttribute("readonly", "readonly");
             	input.style.backgroundColor="LightYellow";
            }
 
-           if (isInsert && dat.noInsertable != undefined){
+           if (operacao === "post" && dat.noInsertable != undefined){
             	input.setAttribute("readonly", "readonly");
           	    input.style.backgroundColor="LightYellow";
            }

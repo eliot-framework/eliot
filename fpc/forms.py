@@ -539,14 +539,10 @@ class FpcLayout(object):
                 content_tab = self.layout["_config"]
                 if "tipo" in content_tab:
                     self.tipo = content_tab["tipo"]
-                if self.tipo != "form-inline":
-                    self.label_grid = None
-                    self.input_grid = None
-                else:
-                    if "label_grid" in content_tab:
-                        self.label_grid = content_tab["label_grid"]
-                    if "input_grid" in content_tab:
-                        self.input_grid = content_tab["input_grid"]
+                if "label_grid" in content_tab:
+                    self.label_grid = content_tab["label_grid"]
+                if "input_grid" in content_tab:
+                    self.input_grid = content_tab["input_grid"]
                 if "css_form_group" in content_tab:
                     self.css_form_group = content_tab["css_form_group"]
                     self.css_form_group = 'style="%s"' % self.css_form_group 
@@ -554,7 +550,6 @@ class FpcLayout(object):
                     self.css_label = content_tab["css_label"]
                 if "css_input" in content_tab:
                     self.css_input = content_tab["css_input"]
-
                 self.layout.pop("_config")
 
             for tab in self.layout:
