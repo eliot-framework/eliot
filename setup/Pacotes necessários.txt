@@ -19,5 +19,10 @@ pip3 install pymysql
 
 apt-get install python3-psycopg2
 
+5. Suporte ao sqlite3 (Em Ubuntu já vem instalado, em Debian não)
+apt-get install sqlite3
+
+
+apt-get install python3-psycopg2
 
 
