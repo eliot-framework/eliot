@@ -18,5 +18,9 @@ processes=12
 threads=120
 
 # Run uwsgi
-uwsgi --socket $ip:$port --chdir $chdir --env $env --processes $processes --threads $threads --stats $stats  --protocol=http --wsgi-file $wsgi_file --static-map=$static_map --static-gzip-all --callable=eliot --max-requests=$max_requests --pidfile=$pidfile --master --buffer-size=$buffer_size --module $module --daemonize=$daemonize --log-maxsize 24M
+uwsgi --socket $ip:$port --chdir $chdir --env $env --processes $processes --threads $threads \
+      --stats $stats  --protocol=http --wsgi-file $wsgi_file --static-map=$static_map \
+      --static-gzip-all --callable=eliot --max-requests=$max_requests --pidfile=$pidfile \
+      --master --buffer-size=$buffer_size --module $module \
+      --daemonize=$daemonize --log-maxsize 24M
 
