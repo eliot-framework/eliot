@@ -1,0 +1,26 @@
+{% load fpc_tags %}
+{% if item|fpc_is_fieldset %}
+ 	<fieldset class="fpc_fieldset">
+ 	{% for item in item %}
+ 		 {% include "fpc_layout_item.html" %}
+ 	{% endfor %}
+ 	</fieldset>
+{%elif item|fpc_is_tupla %}
+ 	{% for item in item %}
+ 		 {% include "fpc_layout_item.html" %}
+ 	{% endfor %}
+{%elif item|fpc_is_form %}
+   	{% autoescape off %}
+        {{ item.field.tag }}
+	{% endautoescape %}
+{% else %}
+ 	{% if item.is_nl %}
+ 	<span class="fpc_nl"></span>
+ 	{% else %}
+   	{% autoescape off %}
+ 	<div class="form-group" {{ layout.css_form_group }}>
+        {{ item.field.tag }}
+	</div> 
+	{% endautoescape %}
+	{% endif %}
+{% endif %}

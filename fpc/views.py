@@ -212,7 +212,8 @@ def fpc_index(request):
     return render(request, "fpc_index.html", {"html5_cache": settings.HTML5_CACHE,
                                               "user"  : request.user,
                                               "lista_sistemas" : lista_sistemas,
-                                              "fpc" : Fpc.getFpc()}) 
+                                              "fpc" : Fpc.getFpc(),
+                                              "settings" : settings}) 
  
    
 @fpc_request    

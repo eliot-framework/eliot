@@ -1,14 +1,26 @@
 {% extends "fpc_base.html" %}
-{% block conteudo %}        
 
-   {% if opcao == "pesquisa" %}
-   		{% include "fpc_pesquisa.html" %}
-   {% elif opcao == "cadastro" %}
-   		{% include "fpc_cadastro.html" %}
-   {% elif opcao == "layout" %}
-   		{% include "fpc_layout.html" %}
-   {% else %}
-   		{% include "fpc_painel.html" %}
-   {% endif %}	
+{% block conteudo %}        
+      
+       <div id="painel_conteudo" class="span9">
+	         {% if opcao == "pesquisa" %}
+	         	{% include "fpc_pesquisa.html" %}
+	         {% elif opcao == "cadastro" %}
+	         	{% include "fpc_cadastro.html" %}
+	         {% else %}
+	         	{% include "fpc_painel.html" %}
+	         {% endif %}	
+    	</div>
 
 {% endblock conteudo %}
+
+	  	
+{% block scripts %}        
+
+	{% if opcao == "pesquisa" %}
+	
+		<!--  <script src="{{ STATIC_URL }}js/fpc_concat2.js.gz?c={{ fpc.hash_cache }}" type="text/javascript"></script> -->
+
+	{% endif %}
+  	
+{% endblock scripts %}	  	

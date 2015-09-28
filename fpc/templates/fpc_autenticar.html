@@ -11,27 +11,20 @@
 
 {% block conteudo %}
 
-      <form id="f_login" class="form-signin">
+      <form id="f_login" class="form-signin form-inline">
       	{% csrf_token %}
-        <h3>Autenticação</h3>
+        <h3 style="text-align:center">Autenticação</h3>
 	 	<div class="form-group">
-	        <label class="control-label"><span style="font-weight:bold">Usuário</span>
-	        	<input id="f_username" data-field="username" class="form-control" maxlength="30" style="width:200px;;" data-type="text" type="text">
-	        </label>
+	        <label class="control-label" for="f_username" style="font-weight: bold;">Usuário</label>
+	        <input id="f_username" data-field="username" class="form-control" maxlength="30" style="width:200px;;" data-type="text" type="text">
 		</div> 
 	 	<span class="fpc_nl"></span>
 	 	<div class="form-group">
-	        <label class="control-label"><span style="font-weight:bold">Senha</span>
-		        <input id="f_password" data-field="password" class="form-control" maxlength="10" style="width:200px;;" data-type="text" type="password">
-	        </label>
+	        <label class="control-label" for="f_password" style="font-weight: bold;">Senha</label>
+		    <input id="f_password" data-field="password" class="form-control" maxlength="10" style="width:200px;;" data-type="text" type="password">
 		</div> 
 	 	<span class="fpc_nl"></span>
-	 	<div class="checkbox">
-          <label>
-            <input id="b_remember" value="remember-me" type="checkbox"> Lembrar senha
-          </label>
-        </div>
-        <button id="b_entrar" class="btn btn-default btn-xs" type="button" onclick="fpc.login()">Entrar</button>
+        <button id="b_entrar" class="btn btn-default btn-xs" type="button" style="margin-top: 10px; width:120px" onclick="fpc.login()">Entrar</button>
       </form>
         
 {% endblock %}

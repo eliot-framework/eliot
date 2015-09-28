@@ -1,0 +1,37 @@
+{% extends "fpc_base.html" %}
+
+{% block barra_nav %}
+
+    <ul id="barra_nav" class="nav navbar-nav">
+      <li class="active"><a href="/eliot/index.html">Autenticar</a></li>
+    </ul>
+
+{% endblock %}
+
+
+{% block conteudo %}
+
+      <form id="f_login" class="form-signin">
+      	{% csrf_token %}
+        <h3>Autenticação</h3>
+	 	<div class="form-group">
+	        <label class="control-label"><span style="font-weight:bold">Usuário</span>
+	        	<input id="f_username" data-field="username" class="form-control" maxlength="30" style="width:200px;;" data-type="text" type="text">
+	        </label>
+		</div> 
+	 	<span class="fpc_nl"></span>
+	 	<div class="form-group">
+	        <label class="control-label"><span style="font-weight:bold">Senha</span>
+		        <input id="f_password" data-field="password" class="form-control" maxlength="10" style="width:200px;;" data-type="text" type="password">
+	        </label>
+		</div> 
+	 	<span class="fpc_nl"></span>
+	 	<div class="checkbox">
+          <label>
+            <input id="b_remember" value="remember-me" type="checkbox"> Lembrar senha
+          </label>
+        </div>
+        <button id="b_entrar" class="btn btn-default btn-xs" type="button" onclick="fpc.login()">Entrar</button>
+      </form>
+        
+{% endblock %}

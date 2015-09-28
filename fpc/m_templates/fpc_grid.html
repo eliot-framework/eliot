@@ -1,10 +1,10 @@
 {% if lazy %}
-	<table id="{{ field.id }}" class="fpc_field display" data-type="grid" data-listener="{{ field.listener }}" data-lazy data-field="{{ field.field }}" >
+	<table id="{{ field.id }}" class="display" data-type="grid" data-listener="{{ field.listener }}" data-lazy data-field="{{ field.field }}" >
 		<tr><td>Carregando dados, aguarde...</td></tr>
 	</table>
 {% else %}
 	{% load fpc_tags %}
-	<table id="{{ field.id }}" class="fpc_field display" data-type="grid" data-listener="{{ field.listener }}" data-field="{{ field.field }}"  >
+	<table id="{{ field.id }}" class="display" data-type="grid" data-listener="{{ field.listener }}" data-field="{{ field.field }}"  >
 		<thead>
 			<tr>
 				<th style="width:5px" >Seleção</th>

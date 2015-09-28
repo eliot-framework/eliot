@@ -567,7 +567,8 @@ class FpcLayout(object):
                           "form" : self.form, 
                           "ts" : self.form.ts, 
                           "modo_lazy" : self.modo_lazy, 
-                          "opcao" : "layout" }
+                          "opcao" : "layout",
+                          "settings" : settings }
         if hasattr(self.form, "get_context_params"):
             context_params.update(self.form.get_context_params())
         context = RequestContext(self.form.request, context_params)
@@ -855,8 +856,8 @@ class FpcCrud(FpcForm):
         breadcrumb = self.ts.get_breadcrumb()
         return { "menus" : menus,
                  "lista_sistemas" : lista_sistemas,
-                 "breadcrumb" : breadcrumb }
-
+                 "breadcrumb" : breadcrumb,
+                 "settings" : settings}
 
     
 class AutenticarForm(FpcForm):

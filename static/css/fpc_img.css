@@ -22,7 +22,7 @@
 .fpc-img-aumentar,
 .fpc-img-aumenta,
 .fpc-img-altocontraste,
-.fpc-img-barra-brasil{background-image:url('/static/img/fpc/fpc_img.png');background-repeat:no-repeat}
+.fpc-img-barra-brasil{background-image:url('../img/fpc/fpc_img.png');background-repeat:no-repeat}
 .fpc-img-glyphicons-halflings{background-position:0px 0px;width:469px;height:159px;}
 .fpc-img-ui-icons{background-position:0px -159px;width:256px;height:240px;}
 .fpc-img-ai{background-position:-256px -159px;width:161px;height:24px;}

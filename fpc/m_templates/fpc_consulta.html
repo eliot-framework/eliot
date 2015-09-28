@@ -8,19 +8,19 @@
         <div class="modalContent">
 	  		<div style="height:20px; margin-bottom: 6px; margin-top: 10px;">
 		  		<div id="barra_botao_consulta" style="width: 260px; float:left" data-ts="{{ ts.id }}">
-			  		<button id="btn_pesquisar_consulta" type="button" onclick="fpcForm.pesquisar('{{ ts.id }}', true)" >
-			  			<i class="glyphicon glyphicon-search"></i> Pesquisar
+			  		<button id="btn_pesquisar_consulta" type="button" onclick="fpc.pesquisar('{{ ts.id }}', true)" >
+			  			<i class="glyphicon glyphicon-search" /> Pesquisar
 			  		</button>
-					<button id="btn_retornar_consulta" style="display:none;" type="button" onclick="fpcForm.retornaRegistroConsulta()">
-						<i class="glyphicon glyphicon-check"></i> Selecionar Registro
+					<button id="btn_retornar_consulta" style="display:none;" type="button" onclick="fpc.retornaRegistroConsulta()">
+						<i class="glyphicon glyphicon-check"/> Selecionar Registro
 					</button>
 				</div>
 				<div style="float:right;">
-					<button id="btn_nova_pesquisa_consulta" style="display:none;" type="button" onclick="fpcForm.novaConsulta()">
-						<i class="glyphicon glyphicon-chevron-left"></i> Voltar para Pesquisa
+					<button id="btn_nova_pesquisa_consulta" style="display:none;" type="button" onclick="fpc.novaConsulta()">
+						<i class="glyphicon glyphicon-chevron-left"/> Voltar para Pesquisa
 					</button>
 				    <button id="btn_cancelar_consulta" type="button" onclick="btn_close_consulta.click();">
-						<i class="glyphicon glyphicon-remove"></i> Cancelar
+						<i class="glyphicon glyphicon-remove"/> Cancelar
 					</button>
 				</div>
 			</div>
@@ -31,9 +31,7 @@
 			</div>
 			<form  id="filtro_consulta" class="form_consulta">
 				<div id="filtro_pesquisa_consulta">
-			    	{% autoescape off %}
-					{{ form.tag }}
-					{% endautoescape %}
+			    	{% include "fpc_layout.html" %}
 				</div>
 				<div id="dados_pesquisa_consulta" data-ts="{{ ts.id }}" data-model="{{ form.name }}" data-id="" style="display:none">
 					<table id="dados_consulta" class="display">

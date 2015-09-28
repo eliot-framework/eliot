@@ -4,6 +4,7 @@ import os
 
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 DEBUG = True
@@ -50,7 +51,7 @@ ADMINS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', 
-        'NAME':  os.path.normpath(os.path.dirname(__file__)) + os.sep + 'db' + os.sep + 'database.db',                      
+        'NAME':  os.path.normpath(os.path.dirname(__file__)) + os.sep + 'db' + os.sep + 'eliot.sqlite3',                      
     }
 }
 
@@ -85,16 +86,19 @@ USE_TZ = False
 
 #STATIC_ROOT = os.path.join(SETTINGS_PATH, "static/")
 
-STATIC_URL = "/eliot/static/"
+ELIOT_DIR = BASE_DIR
 
+STATIC_URL = '/static/'
+STATIC_FPC = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(SETTINGS_PATH, "static/"),
+    os.path.join(ELIOT_DIR, "static/"),
 )
+
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -155,7 +159,6 @@ INSTALLED_APPS = (
     'fpc',
     'adm',
     'estoque',  
-    'sae',
     'eliot.apps.EliotConfig',
      
     #'debug_panel',
@@ -164,10 +167,6 @@ INSTALLED_APPS = (
 
 INTERNAL_IPS = ('127.0.0.1')
 
-
-FPC_REGISTER_MODULES = (
-    'adm', 'estoque', 'sae'
-)
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 #SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -214,7 +213,7 @@ LOGGING = {
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 
-# Configurações específicas do sistema
+# ******************** Configurações Eliot ***********************
 
 MANTEM_FORM_CACHE = False
 
@@ -224,6 +223,15 @@ HTML5_HASH_CACHE = "12"
 USE_GZIP = False
 USE_CLOSURE_COMPILE = False
 USE_CSSMINIFIER = False
+ERLANGMS_URL= "http://164.41.106.20/"
 
 IP_ERLANGMS = "localhost" 
 PORT_ERLANGMS = 2301
+
+STATIC_SCRIPTS = (
+    os.path.join(BASE_DIR, "adm/scripts.js"),
+    os.path.join(BASE_DIR, "estoque/scripts.js"),
+)
+
+TITULO_APP = "Eliot :: Dashboard"
+

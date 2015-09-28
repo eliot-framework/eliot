@@ -13,7 +13,7 @@ function FpcError(message, url, params) {
 FpcError.prototype = Error.prototype;
 
 
-var fpc = {
+var fpc = fpcForm = {
     csrftoken : "",
     lazyFields : null,
 
@@ -427,7 +427,14 @@ var fpc = {
     },
     
     findController : function(js_class){
-		if (js_class != undefined && js_class.length > 4){
+		var doc = document;
+    	if (js_class == undefined){
+    		f_state = doc.getElementById("f_state");
+    		if (f_state != undefined){
+    			js_class = f_state.dataset.jsclass;
+    		}
+		}
+    	if (js_class != undefined && js_class.length > 4){
 			var js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1); 
 			var js_obj = window[js_var];
 			if (js_obj == undefined){

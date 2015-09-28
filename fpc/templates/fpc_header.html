@@ -1,0 +1,60 @@
+{% block header_page %}
+	<div id="fpc_header">
+			<div id="fpc_header_top" >
+				<div class="fpc_centro" >
+					<div id="fpc_change_font">
+				        <ul>
+				            <li class="fpc-img-aumenta"><a title="Aumentar fonte" href="javascript:fontUp()">Aumentar Fonte</a></li>
+				            <li class="fpc-img-normal"><a title="Tamanho normal da fonte" href="javascript:fontReset()">Tamanho Normal</a></li>
+				            <li class="fpc-img-diminui"><a title="Diminuir fonte" href="javascript:fontDown()">Diminuir Fonte</a></li>
+			                <li class="fpc-img-altocontraste"><a title="Alto Contraste" href="javascript:setActiveStyleSheet('high')">Alto Contraste</a></li>
+			            </ul>
+					</div>
+					<div id="fpc_brasil">
+						<ul>
+				            <li><a href="http://www.acessoainformacao.gov.br" class="fpc-img-ai" title="Acesso à informação">www.sic.gov.br</a></li>
+				            <li><a href="http://www.brasil.gov.br" class="fpc-img-brasil" title="Portal de Estado do Brasil">www.brasil.gov.br</a></li>
+				        </ul>
+					</div>
+				</div>
+			</div>
+			<div id="fpc_header_midle">
+				<div class="fpc_centro" >
+					<div id="fpc_logo" onclick="window.open('http://www.unb.br/')">
+						<span class="fpc-img-logo"></span>
+					</div>
+					<div id="fpc_nome_sistema" >
+					{% block barra_nav %}	
+					
+					{% endblock %}					
+					</div>
+					<div id="fpc_menu_user">
+						<ul>
+							<li style="padding: 0 0 2px 8px;">Seja bem-vindo!</li>
+							<li><span class="glyphicon glyphicon-user"></span>{{ fpc.user.get_full_name }}</li>
+							<li>
+								<a href="#" onclick="fpcForm.exibeSistemas()"><span class="glyphicon glyphicon-asterisk"></span>Sistemas</a>&nbsp;
+								<a href="fpc.views.fpc_logout"><span class="glyphicon glyphicon-off" ></span>Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="fpc_header_bottom">
+				<div id="panel-north-south">
+					<div id="panel-north-south_b">
+					  <div class="container">
+			          	<a id="home_logo" class="navbar-brand" href="#">
+				            <strong id="fpc_nome_sistema_menu"></strong>
+ 			          	</a>
+					    <nav id="barra_nav" class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+		  		        	{% if  user.is_active %}
+					        	{% include "fpc_menu.html" %}
+					        {% endif %}	
+					    </nav>
+					  </div>
+					</div>
+				</div>
+			</div>
+	</div>
+{% endblock %}

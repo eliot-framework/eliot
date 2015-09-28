@@ -1,56 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-Br"{% if html5_cache %} manifest="{{ STATIC_URL }}fpc.manifest" {% endif %}>
+<html lang="pt-Br" {% if fpc.html5_cache %} manifest="{{ settings.STATIC_FPC }}fpc.manifest" {% endif %}>
 <head>
-{% include "fpc_head.html" %}
-{% block links %}{% endblock %}
+	{% include "fpc_head.html" %}
+	{% block links %}{% endblock %}
 </head>
 <body>
-	<!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a id="nome_sistema" class="navbar-brand" href="#">
-             <strong>
-                {{ fpc.nome }}
-             </strong>
-          </a>
-        </div>
-        <div id="fpc_menu" class="navbar-collapse collapse">
-          {% block barra_nav %}
-          <ul id="barra_nav" class="nav navbar-nav">
-            <li class="active"><a href="/eliot/index.html">Home</a></li>
-            <li><a href="/eliot/sobre.html">Sobre</a></li>
-          </ul>
-          {% endblock %}
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/eliot/index.html"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
-			<li><a href="fpc.views.fpc_logout"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    <div id="painel_conteudo" class="container">
-    {% block conteudo %}{% endblock %}
-    </div>
-    <div style="height: 90px"></div>
-	<div id="footer">
-      <div class="container">
-        <div class="col-lg-12" style="text-align:center;">
-			<p class="pull-right"><a href="#">Voltar ao Topo</a></p>
-			<p style="font-weight:bold">{{ fpc.copyright }}<br>
-				<small>Powered by <a href="https://github.com/eliot-framework/eliot">Eliot-Framework</a></small>
-			</p>
-		</div>
-      </div>
-   </div> 
-   <a id="btn_abrir_dialog" href="#openModal" style="display:none"></a>
-	<div id="f_dialog"></div>
-	<script type="application/javascript" async src="{{ STATIC_URL }}js/fpc_concat.js"></script>
+	{% include "fpc_header.html" %}
+	<div id="painel_conteudo" class="container panel-middle panel-middle_container">
+		{% block conteudo %}{% endblock %}
+	</div>
+	{% include "fpc_rodape.html" %}
 </body>
+{% include "fpc_footer.html" %}
 </html>

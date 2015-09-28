@@ -7,6 +7,7 @@ from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import DatabaseError
+from fpc.models import Transacao
 import gzip
 from http.client import HTTPConnection  
 import os
@@ -22,7 +23,7 @@ class EliotConfig(AppConfig):
     
     def ready(self):
         
-        print("Iniciando deploy, aguarde...")
+        print("Iniciando deploy do Eliot, aguarde...")
         print("Linha de comando: %s" % sys.argv)
          
         # As inicializações a seguir só devem ocorrer em deploy  
@@ -32,7 +33,7 @@ class EliotConfig(AppConfig):
                 Cadastra o objeto Fpc para armazenar configurações no banco
             """
             from fpc import utils
-            from fpc.models import Fpc, Transacao
+            from fpc.models import Fpc
 
             fpc = None
             try:
@@ -49,7 +50,7 @@ class EliotConfig(AppConfig):
                 Cadastra as funcionalidades fixas do framework
             """
             print("Cadastrando funcionalidades fixas do framework.")
-            Transacao.cadastra_ts_fixa()
+            self.cadastra_transacoes()
             
             
             
@@ -70,7 +71,7 @@ class EliotConfig(AppConfig):
                 ************* Geração dos arquivos js e css compactados da aplicação ***********************
             """
             
-            static_path = os.path.join(settings.SETTINGS_PATH, "static/")
+            static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static/")
             js_path = "%sjs%s" % (static_path, os.sep)
             css_path = "%scss%s" % (static_path, os.sep)
             css_concat_path = "%sfpc_concat.css" % css_path
@@ -191,8 +192,8 @@ class EliotConfig(AppConfig):
             
             # Gera a lista dos js dos módulos
             js_modulos = []
-            for m in settings.FPC_REGISTER_MODULES: 
-                js_modulos.append('%s%s%s%sscripts.js' % (settings.SETTINGS_PATH, os.sep, m, os.sep)),                           
+            for m in settings.STATIC_SCRIPTS: 
+                js_modulos.append(m),                           
             
 
             # Concatena cada arquivo no arquivo fpc_concat.js
@@ -214,13 +215,13 @@ class EliotConfig(AppConfig):
             # Utiliza o compilador closure para otimizar o javascript
             if settings.USE_CLOSURE_COMPILE:
                 with open(js_concat_path, 'rb') as f_in:
+                    js_code = f_in.read()
                     params = urlencode([
-                        ('js_code', f_in.read() ),
+                        ('js_code', js_code ),
                         ('compilation_level', 'SIMPLE_OPTIMIZATIONS'),  #WHITESPACE_ONLY
                         ('output_format', 'text'),
                         ('output_info', 'compiled_code'),
                       ])
-                
                 
                 headers = { "Content-type": "application/x-www-form-urlencoded" }
                 conn = HTTPConnection('closure-compiler.appspot.com')
@@ -250,6 +251,234 @@ class EliotConfig(AppConfig):
             
 
             
+    @classmethod
+    def cadastra_transacoes(cls):
+        
+        # Autenticar
+        ts = Transacao()
+        ts.nome = 'Autenticar'
+        ts.titulo = 'Autenticar'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_autenticar'
+        ts.posicao = 1
+        ts.formModel = 'fpc.forms.AutenticarForm'
+        ts.model = 'fpc.models.User'
+        try:
+            ts.save()
+        except:
+            pass
+        
+        
+        # Sobre
+        ts = Transacao()
+        ts.nome = 'Sobre'
+        ts.titulo = 'Sobre'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_sobre'
+        ts.posicao = 1
+        ts.formModel = 'fpc.forms.SobreForm'
+        ts.model = 'fpc.models.User'
+        try:
+            ts.save()
+        except:
+            pass;
+        
+        
+        ###################################### Módulo de administração ######################################
+
+        # Módulo de administração
+        ts_adm = Transacao.objects.get_or_new(nome='ts_adm')
+        ts_adm.nome = 'ts_adm'
+        ts_adm.titulo = 'Módulo de Administração'
+        ts_adm.tipoTransacao = 'S'
+        ts_adm.posicao = 1
+        ts_adm.image_url = 'class glyphicon glyphicon-book'
+        ts_adm.formModel = 'fpc.forms.SistemaForm'
+        try:
+            ts_adm.save()
+        except:
+            pass
+        
+         
+        # opção gerenciamento de usuários
+        ts_gerencia_usuario = Transacao.objects.get_or_new(nome='ts_gerencia_usuario')
+        ts_gerencia_usuario.nome = 'ts_gerencia_usuario'
+        ts_gerencia_usuario.titulo = 'Gerenciamento de Usuários'
+        ts_gerencia_usuario.tipoTransacao = 'F'
+        ts_gerencia_usuario.posicao = 1
+        ts_gerencia_usuario.formModel = 'fpc.forms.PainelForm'
+        ts_gerencia_usuario.image_url = 'class glyphicon glyphicon-list-alt'
+        ts_gerencia_usuario.transacaoPai_id = ts_adm.id
+        try:
+            ts_gerencia_usuario.save()
+        except:
+            pass
+         
+
+        # opção gerenciamento de interface com o usuário
+        ts_gerencia_ui = Transacao.objects.get_or_new(nome='ts_gerencia_ui')
+        ts_gerencia_ui.nome = 'ts_gerencia_ui'
+        ts_gerencia_ui.titulo = 'Gerenciamento das Configurações do Framework'
+        ts_gerencia_ui.tipoTransacao = 'F'
+        ts_gerencia_ui.posicao = 2
+        ts_gerencia_ui.formModel = 'fpc.forms.PainelForm'
+        ts_gerencia_ui.image_url = 'class glyphicon glyphicon-list-alt'
+        ts_gerencia_ui.transacaoPai_id = ts_adm.id
+        try:
+            ts_gerencia_ui.save()
+        except:
+            ts_gerencia_ui = Transacao.objects.get(nome='ts_gerencia_ui')
+
+
+        # cadastro de departamentos
+        ts = Transacao.objects.get_or_new(nome='ts_cad_departamento')
+        ts.nome = 'ts_cad_departamento'
+        ts.titulo = 'Cadastro de Departamentos'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 1
+        ts.formModel = 'adm.forms.DepartamentoForm'
+        ts.model = 'adm.models.Departamento'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-tree-deciduous'
+        ts.transacaoPai_id = ts_gerencia_usuario.id
+        try:
+            ts.save()
+        except:
+            pass;
+
+         
+
+        # menu cadastro de usuários
+        ts = Transacao.objects.get_or_new(nome='ts_cad_usuario')
+        ts.nome = 'ts_cad_usuario'
+        ts.titulo = 'Cadastro de Usuários'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 2
+        ts.formModel = 'adm.forms.UsuarioForm'
+        ts.model = 'adm.models.Usuario'
+        ts.image_url = 'class glyphicon glyphicon glyphicon glyphicon-user'
+        ts.transacaoPai_id = ts_gerencia_usuario.id
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # menu personalizar tela principal
+        ts = Transacao.objects.get_or_new(nome='ts_config_fpc')
+        ts.nome = 'ts_config_fpc'
+        ts.titulo = 'Personalizar Framework'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/adm.views.personalizar_framework'
+        ts.posicao = 1
+        ts.formModel = 'adm.forms.FpcConfigForm'
+        ts.model = 'fpc.models.Fpc'
+        ts.image_url = 'class glyphicon glyphicon glyphicon glyphicon-user'
+        ts.transacaoPai_id = ts_adm.id
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # cadastro de sistemas
+        ts = Transacao.objects.get_or_new(nome='ts_cad_sistema')
+        ts.nome = 'ts_cad_sistema'
+        ts.titulo = 'Cadastro de Sistemas'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 3
+        ts.formModel = 'adm.forms.SistemaForm'
+        ts.model = 'adm.models.Sistema'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai_id = ts_adm.id
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        ###################################### Módulo Estoque ######################################
+
+        # Sistema Estoque
+        ts = Transacao()
+        ts.nome = 'mod_estoque'
+        ts.titulo = 'Estoque'
+        ts.tipoTransacao = 'S'
+        ts.posicao = 2
+        ts.image_url = 'class glyphicon glyphicon-folder-close'
+        ts.formModel = 'fpc.forms.SistemaForm'
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # menu Estoque
+        ts = Transacao()
+        ts.nome = 'cad_estoque'
+        ts.titulo = 'Cadastro'
+        ts.tipoTransacao = 'F'
+        ts.posicao = 1
+        ts.formModel = 'fpc.forms.PainelForm'
+        ts.image_url = 'class glyphicon glyphicon-list-alt'
+        ts.transacaoPai = Transacao.objects.get(nome='mod_estoque')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # menu Cadastro de grupo 
+        ts = Transacao()
+        ts.nome = 'cad_grupo'
+        ts.titulo = 'Cadastro de Grupos'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 1
+        ts.formModel = 'estoque.forms.GrupoProdutoForm'
+        ts.model = 'estoque.models.GrupoProduto'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='cad_estoque')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # menu Cadastro de subgrupo 
+        ts = Transacao()
+        ts.nome = 'cad_subgrupo'
+        ts.titulo = 'Cadastro de Subgrupos'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 1
+        ts.formModel = 'estoque.forms.SubgrupoProdutoForm'
+        ts.model = 'estoque.models.SubgrupoProduto'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='cad_estoque')
+        try:
+            ts.save()
+        except:
+            pass;
+
+
+        # menu Cadastro de produto 
+        ts = Transacao()
+        ts.nome = 'cad_produto'
+        ts.titulo = 'Cadastro de Produtos'
+        ts.tipoTransacao = 'T'
+        ts.transacao_url = '/fpc.views.fpc_exibe_pesquisa'
+        ts.posicao = 1
+        ts.formModel = 'estoque.forms.ProdutoForm'
+        ts.model = 'estoque.models.Produto'
+        ts.image_url = 'class glyphicon glyphicon glyphicon-asterisk'
+        ts.transacaoPai = Transacao.objects.get(nome='cad_estoque')
+        try:
+            ts.save()
+        except:
+            pass;
     
     
     
