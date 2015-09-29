@@ -38,7 +38,8 @@ var fpc = fpcForm = {
     getValueFromSelect : function (select){
         for (var i=0; i < select.length; i++) {
             if (select[i].selected) {
-              return select[i].value;
+            	var result = select[i].value;    
+            	return result === "-" ? undefined : result;
             }
         }
         return undefined;
@@ -1143,7 +1144,8 @@ var fpc = fpcForm = {
     pesquisar : function pesquisar(ts, is_consulta){
     		var doc = document;
 	    	var frmFiltro = is_consulta ? doc.getElementById("filtro_consulta") : doc.getElementById("filtro");
-   			var filtro = this.serializeFormParaPesquisa(frmFiltro); 
+   			//var filtro = this.serializeFormParaPesquisa(frmFiltro);
+	    	var filtro = this.getObject(frmFiltro);
 			var id_dados_wrapper_jquery = null;
 			var id_dados_pesquisa_jquery = null;
 			var id_filtro_pesquisa_jquery = null;
@@ -1195,7 +1197,7 @@ var fpc = fpcForm = {
 			
 			fpcDataTable.createDataTable(
 					tbl = tbl_dados,
-					url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=" + is_consulta,
+					url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + JSON.stringify(filtro) + "'&filtroIds=''&isconsulta=" + is_consulta,
 					is_consulta = is_consulta,
 					row = function( nRow, aData, iDataIndex ) {
 								if (nRow.firstChild != undefined){

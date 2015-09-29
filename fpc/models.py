@@ -11,11 +11,12 @@ from django.db.backends.dummy.base import DatabaseError
 from django.db.models.aggregates import Max
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.query_utils import Q
+from fpc.utils import EmsRest, json_encode_java
 from functools import reduce
 import json
 import operator
+import os
 
-from fpc.utils import EmsRest, json_encode_java
 
 class TransacaoDao(models.Manager):
 
@@ -365,6 +366,10 @@ class FpcModel(models.Model):
     update_fields = None
     lista_models = None
 
+    def __init__(self, *args, **kwargs):
+        models.Model.__init__(self, *args, **kwargs)
+        pass
+
     def setAutoIncrementFields(self):
         manager = type(self).objects
         for field in self._meta.fields: 
@@ -673,8 +678,11 @@ class EmsManager(FpcManager):
     def pesquisar(self, filtro, fields, limit_ini, limit_fim):
         if isinstance(fields, tuple):
             fields = ",".join(fields)
-        url = '%s/%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
-            (settings.ERLANGMS_URL, self.model._meta.model_name, filtro, fields, limit_ini, limit_fim)
+        url = '%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
+            (self.model.service_url, filtro, fields, limit_ini, limit_fim)
+        #url = '/sae/%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
+        #    (self.model._meta.model_name, filtro, fields, limit_ini, limit_fim)
+
         result = EmsRest.get(url)
         return result
    
@@ -717,8 +725,10 @@ class EmsModel(FpcModel):
 
     def __init__(self, *args, **kwargs):
         super(FpcModel, self).__init__(*args, **kwargs)
-        pass
-    
+        if self.service_url != "":
+            self.service_url = os.path.join(self.service_url, os.sep)
+        else:
+            self.service_url = os.path.join(settings.ERLANGMS_URL, os.sep)
 
 
 class Fpc(FpcModel):
