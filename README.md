@@ -13,7 +13,7 @@ Ambiente de Desenvolvimento Recomendado
 * IDE -- https://eclipse.org/
 * PyDev para Eclipse -- http://www.pydev.org/
 * Python 3.4 -- https://www.python.org/downloads/
-* Django 1.7 -- https://www.djangoproject.com/
+* Django 1.7.4 -- https://www.djangoproject.com/
 
 Instalando as dependências do projeto e o framework
 ------------------------
@@ -26,7 +26,7 @@ Python 3 é instalado por padrão em modernas versões do Ubuntu.
 
 * Django
 ```
-sudo pip3 install Django==1.7.3
+sudo pip3 install Django==1.8.4
 ```
 * Suporte ao Mysql
 ```
