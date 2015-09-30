@@ -426,6 +426,16 @@ var fpc = fpcForm = {
 			js_controller.on_format_object(obj);
 		}
     },
+    
+    fireOnFormatCellDataTable : function(field, type, value, row, col, html_row, js_controller){
+		if (js_controller == undefined){
+			js_controller = this.findController(js_class);
+		}
+		if (js_controller != undefined && js_controller.on_format_cell_datable != undefined){
+			return js_controller.on_format_cell_datable(field, type, value, row, col, html_row);
+		}
+		return value;
+    },    
 
     fireOnOpenForm : function(js_class, response){
     	if (js_class != undefined){
@@ -1175,97 +1185,7 @@ var fpc = fpcForm = {
    		
    	},
    	
-    pesquisar : function pesquisar(ts, is_consulta){
-    		var doc = document;
-	    	var frmFiltro = is_consulta ? doc.getElementById("filtro_consulta") : doc.getElementById("filtro");
-   			//var filtro = this.serializeFormParaPesquisa(frmFiltro);
-	    	var filtro = this.getObject(frmFiltro);
-	    	filtro = filtro == undefined ? "" : JSON.stringify(filtro)
-			var id_dados_wrapper_jquery = null;
-			var id_dados_pesquisa_jquery = null;
-			var id_filtro_pesquisa_jquery = null;
-			var id_dados_jquery = null;
-			if (is_consulta){
-   				id_dados_wrapper_jquery = "#dados_consulta_wrapper";
-   				id_dados_pesquisa_jquery = "#dados_pesquisa_consulta";
-   				id_filtro_pesquisa_jquery = "#filtro_pesquisa_consulta";
-   				id_dados_jquery = "#dados_consulta";
-   				event_selecionaRegistro = "' onclick='fpc.selecionaRegistroConsulta(this)'";
-   			}else{
-   				id_dados_wrapper_jquery = "#dados_wrapper";
-   				id_dados_pesquisa_jquery = "#dados_pesquisa";
-   				id_id_selecionado = "f_id";
-   				id_filtro_pesquisa_jquery = "#filtro_pesquisa";
-   				id_dados_jquery = "#dados";
-   				event_selecionaRegistro = "' onclick='fpc.selecionaRegistro(this)'";
-   			}
-			
-			var tbl_dados = $(id_dados_jquery);
-			var dadospesquisa = $(id_dados_pesquisa_jquery);
-			dadospesquisa[0].dataset.id = "";
-			dadospesquisa.css("display", "block");
-			$(id_filtro_pesquisa_jquery).css("display", "none");
-
-			if (!$(id_dados_wrapper_jquery).length){
-				tbl_dados[0].dataset.html_orig = tbl_dados.html(); 
-				fpcDataTable.idsNovos = "";
-			}else{
-				tbl_dados.dataTable().fnDestroy();
-				var tbl = tbl_dados[0];
-				dadospesquisa = tbl.parentNode;
-				var html_tbl = tbl.dataset.html_orig; 
-				var nova_tbl = doc.createElement("table");
-				if (is_consulta){
-					nova_tbl.setAttribute("id", "dados_consulta");
-				}else{
-					nova_tbl.setAttribute("id", "dados");
-				}
-				nova_tbl.dataset.html_orig = html_tbl;
-				dadospesquisa.removeChild(tbl);
-				dadospesquisa.appendChild(nova_tbl);
-				tbl_dados = $(id_dados_jquery);
-				tbl_dados.html(html_tbl);
-				fpcDataTable.forceRefresh = true;
-				fpcDataTable.idsNovos = "";
-			}
-			
-			
-			fpcDataTable.createDataTable(
-					tbl = tbl_dados,
-					url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=" + is_consulta,
-					is_consulta = is_consulta,
-					row = function( nRow, aData, iDataIndex ) {
-						if (nRow.firstChild != undefined){
-							if (fpcDataTable.is_consulta){
-				        		  nRow.onclick = function(){
-				   				    	var divDadosPesquisaConsulta = document.getElementById("dados_pesquisa_consulta");  
-				   				    	var chkSeleciona = this.firstChild.firstChild;
-				   				    	var dat = divDadosPesquisaConsulta.dataset; 
-				   				    	dat.id = chkSeleciona.value;
-				   				    	dat.value = chkSeleciona.dataset.str;
-				   				    	chkSeleciona.checked = true;
-				   	   				};
-				   	   			}else{
-				   	   				nRow.onclick = function(){
-				   	   					var divDadosPesquisa = document.getElementById("dados_pesquisa");
-				   	   					var chkSeleciona = this.firstChild.firstChild;
-				   	   					divDadosPesquisa.dataset.id = chkSeleciona.value;
-				   	   					chkSeleciona.checked = true;
-				   	   				};
-				   	   			}
-							}
-						}
-			);
-
-			if (is_consulta){
-   				fpc.montaBarraBotaoConsulta("lista");
-   			}else{
-   				fpc.montaBarraBotao("lista");
-   			}
-	   					
-   	},
-   	
-   	novaPesquisa : function novaPesquisa(){
+   	novaPesquisa : function (){
    		var doc = document;
    		var dadosPesquisa = doc.getElementById("dados_pesquisa"); 
    		dadosPesquisa.style.display = "none";
@@ -1276,7 +1196,7 @@ var fpc = fpcForm = {
 		fpc.mensagem("", "");
    	},
    	
-   	novaConsulta : function novaConsulta(){
+   	novaConsulta : function (){
    		var doc = document;
    		doc.getElementById("dados_pesquisa_consulta").style.display = "none";
 		doc.getElementById("filtro_pesquisa_consulta").style.display = "block";
@@ -1284,7 +1204,7 @@ var fpc = fpcForm = {
 		fpc.mensagem("", "");
    	},
 
-   	voltarParaLista : function voltarParaLista(){
+   	voltarParaLista : function (){
    		var doc = document;
    		var dat = dados_pesquisa.dataset;
    		if (dat.ult_id !== "" && dat.id === ""){
@@ -1297,7 +1217,7 @@ var fpc = fpcForm = {
 		fpc.mensagem("", "");
    	},
 
-   	voltarParaListaConsulta : function voltarParaListaConsulta(){
+   	voltarParaListaConsulta : function (){
    		var doc = document;
    		doc.getElementById("dados_pesquisa").style.display = "block";
 		doc.getElementById("f_cadastro").style.display = "none";
@@ -1305,7 +1225,7 @@ var fpc = fpcForm = {
 		fpc.mensagem("", "");
    	},
 
-   	novo : function novo(ts, inclusao_direta){
+   	novo : function (ts, inclusao_direta){
    		fpc.getJSON("/fpc.views.fpc_novo_cadastro", {ts : ts}
 			).done(function(msg) {
 				var doc = document;
@@ -1332,7 +1252,7 @@ var fpc = fpcForm = {
 			});
    	},
    	
-   	editar : function editar(){
+   	editar : function (){
    		dados_pesquisa = document.getElementById("dados_pesquisa");
    		if (dados_pesquisa.dataset.id === ""){
    			alert('Selecione um registro primeiro!');
@@ -1365,7 +1285,7 @@ var fpc = fpcForm = {
    	},
    	
    	
-   	salvar : function salvar(){
+   	salvar : function (){
    		var divDadosPesquisa = document.getElementById("dados_pesquisa");
    		var s_form = fpc.serializeForm(f_cadastro);
 
@@ -1450,7 +1370,116 @@ var fpc = fpcForm = {
 	        	fpc.mensagem(error, "error");        
 	        });  
 		}
-   	}
+   	},
+
+    pesquisar : function (ts, is_consulta){
+		var doc = document;
+    	var frmFiltro = is_consulta ? doc.getElementById("filtro_consulta") : doc.getElementById("filtro");
+			//var filtro = this.serializeFormParaPesquisa(frmFiltro);
+    	var filtro = this.getObject(frmFiltro);
+    	filtro = filtro == undefined ? "" : JSON.stringify(filtro)
+		var id_dados_wrapper_jquery = null;
+		var id_dados_pesquisa_jquery = null;
+		var id_filtro_pesquisa_jquery = null;
+		var id_dados_jquery = null;
+		if (is_consulta){
+				id_dados_wrapper_jquery = "#dados_consulta_wrapper";
+				id_dados_pesquisa_jquery = "#dados_pesquisa_consulta";
+				id_filtro_pesquisa_jquery = "#filtro_pesquisa_consulta";
+				id_dados_jquery = "#dados_consulta";
+				event_selecionaRegistro = "' onclick='fpc.selecionaRegistroConsulta(this)'";
+			}else{
+				id_dados_wrapper_jquery = "#dados_wrapper";
+				id_dados_pesquisa_jquery = "#dados_pesquisa";
+				id_id_selecionado = "f_id";
+				id_filtro_pesquisa_jquery = "#filtro_pesquisa";
+				id_dados_jquery = "#dados";
+				event_selecionaRegistro = "' onclick='fpc.selecionaRegistro(this)'";
+			}
+		
+		var tbl_dados = $(id_dados_jquery);
+		var dadospesquisa = $(id_dados_pesquisa_jquery);
+		dadospesquisa[0].dataset.id = "";
+		dadospesquisa.css("display", "block");
+		$(id_filtro_pesquisa_jquery).css("display", "none");
+
+		if (!$(id_dados_wrapper_jquery).length){
+			tbl_dados[0].dataset.html_orig = tbl_dados.html(); 
+			fpcDataTable.idsNovos = "";
+		}else{
+			tbl_dados.dataTable().fnDestroy();
+			var tbl = tbl_dados[0];
+			dadospesquisa = tbl.parentNode;
+			var html_tbl = tbl.dataset.html_orig; 
+			var nova_tbl = doc.createElement("table");
+			if (is_consulta){
+				nova_tbl.setAttribute("id", "dados_consulta");
+			}else{
+				nova_tbl.setAttribute("id", "dados");
+			}
+			nova_tbl.dataset.html_orig = html_tbl;
+			dadospesquisa.removeChild(tbl);
+			dadospesquisa.appendChild(nova_tbl);
+			tbl_dados = $(id_dados_jquery);
+			tbl_dados.html(html_tbl);
+			fpcDataTable.forceRefresh = true;
+			fpcDataTable.idsNovos = "";
+		}
+		
+		
+		fpcDataTable.createDataTable(
+				tbl = tbl_dados,
+				url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=" + is_consulta,
+				is_consulta = is_consulta,
+				row = function( nRow, aData, iDataIndex ) {
+					if (nRow.firstChild != undefined){
+						if (fpcDataTable.is_consulta){
+			        		  nRow.onclick = function(){
+			   				    	var divDadosPesquisaConsulta = document.getElementById("dados_pesquisa_consulta");  
+			   				    	var chkSeleciona = this.firstChild.firstChild;
+			   				    	var dat = divDadosPesquisaConsulta.dataset; 
+			   				    	dat.id = chkSeleciona.value;
+			   				    	dat.value = chkSeleciona.dataset.str;
+			   				    	chkSeleciona.checked = true;
+			   	   				};
+			   	   			}else{
+			   	   				nRow.onclick = function(){
+			   	   					var divDadosPesquisa = document.getElementById("dados_pesquisa");
+			   	   					var chkSeleciona = this.firstChild.firstChild;
+			   	   					divDadosPesquisa.dataset.id = chkSeleciona.value;
+			   	   					chkSeleciona.checked = true;
+			   	   				};
+			   	   			}
+						}
+					},
+					col = function ( data, type, row, meta ) {
+						var dat = meta.settings.aoHeader[0][meta.col].cell.dataset;
+						var tipo = dat.type;
+						if (meta.col == 0){
+							return "<input class='fpc-option-grid' type='radio' name='f_id' value='"+ data + "'/>";
+						}else{
+							if (fpcDataTable.hasOnFormatCellDatatable){
+								return fpc.fireOnFormatCellDataTable(dat.field, dat.type, data, meta.row, meta.col, row, fpcDataTable.js_controller);
+							}else{
+								type_data = typeof data;
+								switch (type_data){
+									case "boolean": return data == true ? "Sim" : "Não";
+									default: return data;
+ 								}
+							}
+						}
+					},
+					js_controller = fpc.findController()
+					
+		);
+
+		if (is_consulta){
+				fpc.montaBarraBotaoConsulta("lista");
+			}else{
+				fpc.montaBarraBotao("lista");
+			}
+   					
+	}
    	
 };
 
@@ -1465,9 +1494,14 @@ var fpcDataTable = {
 		idsNovos: "",
 		selecionaPrimeiroReg: false,
 		is_consulta: false,
+		js_controller: undefined,
+		hasOnFormatCellDatatable : false,
 		
-	    createDataTable : function(tbl, url, is_consulta, row){
+	    createDataTable : function(tbl, url, is_consulta, row, col, js_controller){
 			fpcDataTable.is_consulta = is_consulta;
+			fpcDataTable.js_controller = js_controller;
+			fpcDataTable.hasOnFormatCellDatatable = js_controller != undefined && js_controller.on_format_cell_datable != undefined ? true : false;
+			
 			tbl.dataTable( {
 				"deferRender": true,
 				"processing": false,
@@ -1497,7 +1531,17 @@ var fpcDataTable = {
 		              pages: 5 
 		          }),
 		          "autoWidth": false,
-		          "createdRow": row
+		          "createdRow": row,
+		          "columnDefs": [
+		                         {
+		                             // The `data` parameter refers to the data for the cell (defined by the
+		                             // `data` option, which defaults to the column being worked with, in
+		                             // this case `data: 0`.
+		                             "render": col,
+		                             "targets": "_all"
+		                         },
+		                     ]		          
+		          
 			});
 	    },
 		
@@ -1581,12 +1625,12 @@ $.fn.dataTable.pipeline = function ( opts ) {
                     obj_json.draw = 1;
                     obj_json.recordsTotal = 1;
                     obj_json.recordsFiltered = 1;
-                    for (row in json){
+                    /*for (row in json){
                     	if (hasOnFormatObject){
                     		fpc.fireOnFormatObject(json[row], js_controller);
                     	}	
                     	json[row][0] = "<input class='fpc-option-grid' type='radio' name='f_id' value='"+ json[row][0] + "'/>"; 
-                    }
+                    }*/
                     obj_json.data = json;
                     json = obj_json;
                 	
