@@ -16,6 +16,7 @@ from functools import reduce
 import json
 import operator
 import os
+from urllib.parse import unquote
 
 
 class TransacaoDao(models.Manager):
@@ -313,6 +314,45 @@ class FpcManager(models.Manager):
     """
        Classe base para managers dos modelos
     """
+
+    def pesquisar(self, filtro, fields, limit_ini, limit_fim, sort, filtroIds):
+        if filtro != None and isinstance(filtro, str) and filtro != "" and filtro != "{}": 
+            filtro = json.loads(filtro)
+        else:
+            filtro = None
+
+        # Verifica os filtros a incluir  
+        if filtro != None: 
+            expr = []
+            result = None
+            for fname in filtro:
+                fvalue = filtro[fname] 
+                if isinstance(fvalue, str):
+                    fvalue = unquote(fvalue) 
+                expr.append(("%s__contains" % fname, fvalue))
+            
+            q_expr = [Q(x) for x in expr]    
+            q_expr = reduce(operator.and_, q_expr)
+    
+            # Verifica filtro de ids inseridos
+            if filtroIds != "":
+                listaIds = filtroIds.split(",")
+                q_expr2 = Q(("id__in", listaIds))    
+                result = self.values_list(*fields).filter(q_expr | q_expr2)
+            else:
+                result = self.values_list(*fields).filter(q_expr)
+        else:
+            result = self.values_list(*fields).all()
+
+        if result.exists():
+            # Deve trazer o resultado ordenado
+            if sort != None:
+                if isinstance(sort, str):
+                    sort = sort.split(",")
+                result = result.order_by(*sort)
+
+        return result
+
     
     def existe_campo_duplicado(self, obj, field):
         if type(field) == tuple:
@@ -675,7 +715,7 @@ class EmsManager(FpcManager):
         obj.set_values(obj_dict)
         return obj
 
-    def pesquisar(self, filtro, fields, limit_ini, limit_fim):
+    def pesquisar(self, filtro, fields, limit_ini, limit_fim, sort, filtroIds):
         if isinstance(fields, tuple):
             fields = ",".join(fields)
         url = '%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \

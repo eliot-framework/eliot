@@ -702,19 +702,32 @@ var fpc = fpcForm = {
 
     isFieldChanged : function(field){
     	var dat = field.dataset;
-    	if (dat.dirty || dat.field === "id" || dat.field === "pk"){
+    	if (dat.field === "id" || dat.field === "pk"){
     		return true;
     	}
-    	if (dat.type === "lookup"){
-			var dat_key = dat.key; 
-    		if (dat_key != undefined && dat.value !== dat_key){
-				return true;
-			}
-		}else {
-			var field_value = field.value; 
+		var field_type = field.type;
+		if (field_type === "radio"){
+			var field_value = fpc.getValueFromRadio(field.name); 
     		if (field_value != undefined && field_value !== dat.value){
        			return true;
     		}
+		} else if (field_type === "select-one"){
+			var field_value = fpc.getValueFromSelect(field);
+    		if (field_value != undefined && field_value !== dat.value){
+       			return true;
+    		}
+		}else{
+	    	if (dat.type === "lookup"){
+				var dat_key = dat.key; 
+	    		if (dat_key != undefined && dat.value !== dat_key){
+					return true;
+				}
+			}else {
+				var field_value = field.value; 
+	    		if (field_value != undefined && field_value !== dat.value){
+	       			return true;
+	    		}
+			}
 		}
 		return false;
     },
@@ -1146,6 +1159,7 @@ var fpc = fpcForm = {
 	    	var frmFiltro = is_consulta ? doc.getElementById("filtro_consulta") : doc.getElementById("filtro");
    			//var filtro = this.serializeFormParaPesquisa(frmFiltro);
 	    	var filtro = this.getObject(frmFiltro);
+	    	filtro = filtro == undefined ? "" : JSON.stringify(filtro)
 			var id_dados_wrapper_jquery = null;
 			var id_dados_pesquisa_jquery = null;
 			var id_filtro_pesquisa_jquery = null;
@@ -1197,29 +1211,29 @@ var fpc = fpcForm = {
 			
 			fpcDataTable.createDataTable(
 					tbl = tbl_dados,
-					url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + JSON.stringify(filtro) + "'&filtroIds=''&isconsulta=" + is_consulta,
+					url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=" + is_consulta,
 					is_consulta = is_consulta,
 					row = function( nRow, aData, iDataIndex ) {
-								if (nRow.firstChild != undefined){
-					        	  if (fpcDataTable.is_consulta){
-					        		  nRow.onclick = function(){
-					   				    	var divDadosPesquisaConsulta = document.getElementById("dados_pesquisa_consulta");  
-					   				    	var chkSeleciona = this.firstChild.firstChild;
-					   				    	var dat = divDadosPesquisaConsulta.dataset; 
-					   				    	dat.id = chkSeleciona.value;
-					   				    	dat.value = chkSeleciona.dataset.str;
-					   				    	chkSeleciona.checked = true;
-					   	   				};
-					   	   			}else{
-					   	   				nRow.onclick = function(){
-					   	   					var divDadosPesquisa = document.getElementById("dados_pesquisa");
-					   	   					var chkSeleciona = this.firstChild.firstChild;
-					   	   					divDadosPesquisa.dataset.id = chkSeleciona.value;
-					   	   					chkSeleciona.checked = true;
-					   	   				};
-					   	   			}
-								}
+						if (nRow.firstChild != undefined){
+							if (fpcDataTable.is_consulta){
+				        		  nRow.onclick = function(){
+				   				    	var divDadosPesquisaConsulta = document.getElementById("dados_pesquisa_consulta");  
+				   				    	var chkSeleciona = this.firstChild.firstChild;
+				   				    	var dat = divDadosPesquisaConsulta.dataset; 
+				   				    	dat.id = chkSeleciona.value;
+				   				    	dat.value = chkSeleciona.dataset.str;
+				   				    	chkSeleciona.checked = true;
+				   	   				};
+				   	   			}else{
+				   	   				nRow.onclick = function(){
+				   	   					var divDadosPesquisa = document.getElementById("dados_pesquisa");
+				   	   					var chkSeleciona = this.firstChild.firstChild;
+				   	   					divDadosPesquisa.dataset.id = chkSeleciona.value;
+				   	   					chkSeleciona.checked = true;
+				   	   				};
+				   	   			}
 							}
+						}
 			);
 
 			if (is_consulta){
@@ -1540,7 +1554,17 @@ $.fn.dataTable.pipeline = function ( opts ) {
                 "dataType": "json",
                 "cache":    false,
                 "success":  function ( json ) {
-                    cacheLastJson = $.extend(true, {}, json);
+                    obj_json = new Object();
+                    obj_json.draw = 1;
+                    obj_json.recordsTotal = 1;
+                    obj_json.recordsFiltered = 1;
+                    for (row in json){
+                    	json[row][0] = "<input type='radio' name='f_id' value='"+ json[row][0] + "'/>"; 
+                    }
+                    obj_json.data = json;
+                    json = obj_json;
+                	
+                	cacheLastJson = $.extend(true, {}, json);
  
                     if ( cacheLower != requestStart ) {
                         json.data.splice( 0, requestStart-cacheLower );

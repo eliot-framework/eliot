@@ -6,7 +6,7 @@ var produtoForm = {
         if (op === "novo"){
         		op = "inclusão";
         }
-    	alert('O Campo "' + field.dataset.field + '" com id ' + field.id + ' foi alterado em uma '+ op + '.');
+    	//alert('O Campo "' + field.dataset.field + '" com id ' + field.id + ' foi alterado em uma '+ op + '.');
     },
 
     
@@ -15,7 +15,7 @@ var produtoForm = {
         if (op === "novo"){
         		op = "inclusão";
         }
-    	alert('O elemento "' + field.id + '" foi carregado. Operacao:  ' + op + '.');
+    	//alert('O elemento "' + field.id + '" foi carregado. Operacao:  ' + op + '.');
     },
     
 };    

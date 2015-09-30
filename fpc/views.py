@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from adm.models import Usuario
 import copy
 import datetime
 import decimal
@@ -7,24 +8,22 @@ from django.contrib import auth
 from django.contrib.auth import logout
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.db.models.query import QuerySet
+from django.db.models.query import QuerySet, ValuesQuerySet, ValuesListQuerySet
 from django.db.utils import DatabaseError, IntegrityError
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
+from eliot import settings
+from fpc.forms import AutenticarForm, FpcOperacaoForm, FpcForm
+from fpc.models import Fpc, Transacao, FpcValidation, FpcModel, EmsModel
+from fpc.services import FpcService
+from fpc.utils import FpcCache
 from functools import reduce
 import importlib
 from io import StringIO
 import json
 import operator
 from urllib.parse import unquote
-
-from adm.models import Usuario
-from eliot import settings
-from fpc.forms import AutenticarForm, FpcOperacaoForm, FpcForm
-from fpc.models import Fpc, Transacao, FpcValidation, FpcModel, EmsModel
-from fpc.services import FpcService
-from fpc.utils import FpcCache
 
 
 def json_encode(obj):
@@ -240,11 +239,23 @@ def fpc_pesquisar(request):
     else:
         model = form.model 
     
-    tuplaCamposGrid = form.getTuplaCamposGrid()
+    fields = form.getTuplaCamposGrid()
 
-    if model.Meta == EmsModel.Meta:
-        jstr =  model.objects.pesquisar(filtro, tuplaCamposGrid, limit_ini, limit_fim)
-    else:
+    # Verificar se deve ordenar os dados
+    sort = []
+    if 'order[0][column]' in request.GET:
+        for i in range(0, len(fields)):
+            if 'order[%d][column]' % i in request.GET:  
+                if request.GET['order[%d][dir]' % i] == "asc": 
+                    sort.append(fields[i])
+                    #result = result.order_by(tuplaCamposGrid[i])
+                else:
+                    sort.append("-" + fields[i])
+                    #result = result.order_by("-" + tuplaCamposGrid[i])
+
+    #if model.Meta == EmsModel.Meta:
+    result =  model.objects.pesquisar(filtro, fields, limit_ini, limit_fim, sort, filtroIds)
+    """else:
         # Verifica os filtros a incluir  
         if filtro != None and len(filtro) > 0: 
             expr = []
@@ -268,7 +279,6 @@ def fpc_pesquisar(request):
         else:
             result = model.objects.values_list(*tuplaCamposGrid).all()
             
-            
         # Verifica se foi incluído filtro na grid
         if request.GET['search[value]'] != "":
             expr = []
@@ -282,14 +292,17 @@ def fpc_pesquisar(request):
         if result.exists():
             
             # Verificar se deve ordenar os dados
+            sort = []
             if 'order[0][column]' in request.GET:
                 for i in range(0, len(tuplaCamposGrid)):
                     if 'order[%d][column]' % i in request.GET:  
                         if request.GET['order[%d][dir]' % i] == "asc": 
-                            result = result.order_by(tuplaCamposGrid[i])
+                            sort.append(tuplaCamposGrid[i])
+                            #result = result.order_by(tuplaCamposGrid[i])
                         else:
-                            result = result.order_by("-" + tuplaCamposGrid[i])
-                        
+                            sort.append("-" + tuplaCamposGrid[i])
+                            #result = result.order_by("-" + tuplaCamposGrid[i])
+            sort = sort.join(",")
            
             result = result[limit_ini:limit_fim]
             qtdRegistros = result.count()
@@ -322,8 +335,12 @@ def fpc_pesquisar(request):
             jstr_row.close()
         else:
             jstr = '{"draw": %s,"recordsTotal": "0","recordsFiltered": "0","data" : []}' % request.GET['draw']
+    """
    
-    return HttpResponse(jstr)
+    if isinstance(result, ValuesListQuerySet):
+        result = list(result)
+        result = json.dumps(result, default=json_encode)
+    return HttpResponse(result)
 
 
 @fpc_request    
