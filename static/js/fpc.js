@@ -418,6 +418,15 @@ var fpc = fpcForm = {
 		}
     },
 
+    fireOnFormatObject : function(obj, js_controller){
+		if (js_controller == undefined){
+			js_controller = this.findController(js_class);
+		}
+		if (js_controller != undefined && js_controller.on_format_object != undefined){
+			js_controller.on_format_object(obj);
+		}
+    },
+
     fireOnOpenForm : function(js_class, response){
     	if (js_class != undefined){
 			var js_controller = this.findController(js_class);
@@ -439,7 +448,7 @@ var fpc = fpcForm = {
 			var js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1); 
 			var js_obj = window[js_var];
 			if (js_obj == undefined){
-				js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1,js_class.length-4) + "Controller";
+				js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1,js_class.length-5) + "Controller";
 				var js_obj = window[js_var];
 				if (js_obj == undefined){
 					var js_obj = window[js_class];
@@ -521,24 +530,36 @@ var fpc = fpcForm = {
             input.style.backgroundColor="white";
             if (data_type != undefined && data_type !== null){
 	              data_type = data_type.toLowerCase();
-	              if (data_type === "numero" || data_type === 'integer'){
-		 	         this.somenteNumeros(input);
+	              if (data_type === "numero"  || 
+	            	  data_type === "number"  || 
+	            	  data_type === "integer" || 
+	            	  data_type === "int"){
+		 	         	this.somenteNumeros(input);
 	              } 
-	              else if (data_type === 'decimal'){
+	              else if (data_type === "decimal"  || 
+	            		   data_type === "money"    || 
+	            		   data_type === "currency" || 
+	            		   data_type === "real"     || 
+	            		   data_type === "double") {
 	        	  	  this.somenteDecimal(input);
 	              }
-	              else if (data_type === 'data'){
+	              else if (data_type === "data" || data_type === "date"){
 	            	  $(input).mask("99/99/9999");
 	            	  input.setAttribute("size", 12);
 	            	  this.somenteData(input);
-	              }else if (data_type === "text"){
+	              }else if (data_type === "text"    || 
+	            		  	data_type === "texto"   || 
+	            		  	data_type === "string"  ||
+	            		  	data_type === "char"){
 	            	  if (dat.caixaAlta != undefined){
 	            		  this.somenteCaixaAlta(input);
 	            	  }
 	            	  if (dat.mascara != undefined){
 	            		  $(input).mask(dat.mascara, {placeholder: dat.mascaraPlaceholder});
 	            	  }
-	              }else if (data_type === "combobox"){
+	              }else if (data_type === "combobox" || 
+	            		  	data_type === "dropdown" || 
+	            		  	data_type === "select"){
 	            	  var key = dat.value;
 	            	  if (key != null || key != ""){ 
 		            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
@@ -1554,12 +1575,17 @@ $.fn.dataTable.pipeline = function ( opts ) {
                 "dataType": "json",
                 "cache":    false,
                 "success":  function ( json ) {
-                    obj_json = new Object();
+                    var js_controller = fpc.findController();
+                    var hasOnFormatObject = (js_controller != undefined && js_controller.on_format_object != undefined);
+                	obj_json = new Object();
                     obj_json.draw = 1;
                     obj_json.recordsTotal = 1;
                     obj_json.recordsFiltered = 1;
                     for (row in json){
-                    	json[row][0] = "<input type='radio' name='f_id' value='"+ json[row][0] + "'/>"; 
+                    	if (hasOnFormatObject){
+                    		fpc.fireOnFormatObject(json[row], js_controller);
+                    	}	
+                    	json[row][0] = "<input class='fpc-option-grid' type='radio' name='f_id' value='"+ json[row][0] + "'/>"; 
                     }
                     obj_json.data = json;
                     json = obj_json;

@@ -60,7 +60,7 @@
 				<tr>
 					<th style="width:5px" ></th>
 					{% for field in form.campos_grid_pesquisa %}
-						<th>{{ field.verbose_name }}</th>
+						<th data-type="{{ field.tipo_str }}">{{ field.verbose_name }}</th>
 					{% endfor %}
 				</tr>
 			</thead>

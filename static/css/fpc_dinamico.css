@@ -2256,3 +2256,9 @@ html>body #panel-south-south_c {
 	border-radius: 6px;
 	margin:2px !important;
 }
+
+.fpc-option-grid{
+	height:12px !important;
+	margin:0 !important;
+	padding:0 !important;	
+}

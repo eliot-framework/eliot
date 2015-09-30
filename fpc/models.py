@@ -672,19 +672,26 @@ class FpcModel(models.Model):
         else:
             tipo_field_model = type(field)
             tipo = None
+            tipo_str = None
             if tipo_field_model == FpcTextField or tipo_field_model == models.CharField:
                 tipo = FpcTipoField.text
+                tipo_str = "text"
             elif tipo_field_model == FpcIntegerField or tipo_field_model == models.IntegerField or tipo_field_model == models.AutoField:
                 tipo = FpcTipoField.number
+                tipo_str = "numero"
             elif tipo_field_model == FpcDecimalField or tipo_field_model == models.DecimalField:
-                tipo = FpcTipoField.decimal 
+                tipo = FpcTipoField.decimal
+                tipo_str = "decimal" 
             elif tipo_field_model == models.DateField:
                 tipo = FpcTipoField.date
+                tipo_str = "data"
             elif tipo_field_model == models.ForeignKey:
                 tipo = FpcTipoField.lookup
+                tipo_str = "lookup"
             else:
                 raise ValidationError("Não foi possível obter o tipo do campo %s." % field.name)
             field.tipo = tipo
+            field.tipo_str = tipo_str
             return tipo
 
         
@@ -718,8 +725,10 @@ class EmsManager(FpcManager):
     def pesquisar(self, filtro, fields, limit_ini, limit_fim, sort, filtroIds):
         if isinstance(fields, tuple):
             fields = ",".join(fields)
-        url = '%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
-            (self.model.service_url, filtro, fields, limit_ini, limit_fim)
+        if isinstance(sort, list):
+            sort = ",".join(sort)
+        url = '%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d&sort="%s"' % \
+            (self.model.service_url, filtro, fields, limit_ini, limit_fim, sort)
         #url = '/sae/%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
         #    (self.model._meta.model_name, filtro, fields, limit_ini, limit_fim)
 
