@@ -276,10 +276,11 @@ class FpcTextField(models.CharField, FpcCustomField):
 
 
 class FpcIntegerField(models.IntegerField, FpcCustomField):
-    def __init__(self, verbose_name=None, auto_increment=False, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, auto_increment=False, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, radio=None, onchange=False, **kargs):
         models.IntegerField.__init__(self, **kargs)
         FpcCustomField.__init__(self, verbose_name, mascara, mascara_placeholder, subtipo, insertable, size, onchange, **kargs)
         self.auto_increment = auto_increment
+        self.radio = radio
 
 
 class FpcDecimalField(models.DecimalField, FpcCustomField):

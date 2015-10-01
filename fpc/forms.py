@@ -329,9 +329,13 @@ class FpcField(FpcWidget):
             if iscombobox:
                 data_type_tag = 'data-type="combobox"'
             else:
-                data_type_tag = 'data-type="numero"'
+                isradio = hasattr(self.field, "radio") and self.field.radio != None and len(self.field.radio) > 0
+                if isradio:
+                    data_type_tag = 'data-type="radio"'
+                else:
+                    data_type_tag = 'data-type="numero"'
             self.widthGrid = 40
-            if not iscombobox and hasattr(self.field, "auto_increment"):
+            if hasattr(self.field, "auto_increment") and self.field.auto_increment:
                 auto_inc_tag = "data-auto-increment"
             else:
                 auto_inc_tag = ""
@@ -339,7 +343,16 @@ class FpcField(FpcWidget):
                 tag_escolha = "<option value='-'>Selecione uma opção</option>%s" % ("".join(['<option value="%s">%s</option>' % (tupla[0], tupla[1]) for tupla in self.field.choices]))
                 result = r'<select id="%s" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, data_type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, destaca_campo_tag, tag_escolha)
             else:
-                result = r'<input id="%s" data-field="%s" class="form-control" type="%s" %s  %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s/>' % (self.id, self.name, self.type, max_length_tag, data_type_tag, self.value, self.value, required_tag, auto_inc_tag, editable_tag, insertable_tag, self.css.get_value(), default_tag, onchange_tag, destaca_campo_tag, hidden_tag)
+                if isradio:
+                    idx_radio = 0
+                    result = ""
+                    for radio_value in self.field.radio:
+                        id_radio = "%s_%d" % (self.id, idx_radio) 
+                        label_radio = '<label for="%s">%s</label>' % (id_radio, radio_value[1])
+                        result = result + r'<input id="%s" name="f_%s" data-field="%s" class="form-control" type="radio" %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s/>%s' % (id_radio, self.name, self.name, data_type_tag, radio_value[0], radio_value[0], required_tag, auto_inc_tag, editable_tag, insertable_tag, self.css.get_value(), default_tag, onchange_tag, destaca_campo_tag, hidden_tag, label_radio)
+                        idx_radio = idx_radio + 1
+                else:
+                    result = r'<input id="%s" data-field="%s" class="form-control" type="%s" %s  %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s/>' % (self.id, self.name, self.type, max_length_tag, data_type_tag, self.value, self.value, required_tag, auto_inc_tag, editable_tag, insertable_tag, self.css.get_value(), default_tag, onchange_tag, destaca_campo_tag, hidden_tag)
         elif self.tipo == FpcTipoField.decimal:
             data_type_tag = 'data-type="decimal"'
             if self.field.max_digits != None:
