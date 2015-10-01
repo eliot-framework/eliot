@@ -17,7 +17,7 @@ var fpc = fpcForm = {
     csrftoken : "",
     lazyFields : null,
 
-    getValueFromRadio : function(radio){
+    getValueFromRadio : function(radio, form){
     	tipo = typeof radio;
     	if (tipo === "object"){
     		var inputName = radio.name;
@@ -26,7 +26,11 @@ var fpc = fpcForm = {
     	}else{
     		throw new Error("Argumento inválido para getValueFromRadio: deve ser um radio ou nome do radio.");
     	}
-    	var radios = document.getElementsByName(inputName);
+    	if (form != undefined){
+    		var radios = form.querySelectorAll('[name='+ inputName + ']')	
+    	}else{
+    		var radios = document.getElementsByName(inputName);
+    	}
     	for (var i = 0, length = radios.length; i < length; i++) {
     	    if (radios[i].checked) {
     	        return radios[i].value;
@@ -738,8 +742,8 @@ var fpc = fpcForm = {
     	}
 		var field_type = field.type;
 		if (field_type === "radio"){
-			var field_value = fpc.getValueFromRadio(field.name); 
-    		if (field_value != undefined && field_value !== dat.value){
+			var field_value = fpc.getValueFromRadio(field.name, field.form); 
+    		if (field_value != undefined){
        			return true;
     		}
 		} else if (field_type === "select-one"){
@@ -781,7 +785,7 @@ var fpc = fpcForm = {
 	    		}else {
 	    			var field_type = field.type;
 	    			if (field_type === "radio"){
-	    				value = fpc.getValueFromRadio(field.name);
+	    				value = fpc.getValueFromRadio(field.name, form);
 	    				if (value != undefined){ 
 	    					obj[dfield] = value;
 	    				}

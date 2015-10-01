@@ -184,7 +184,11 @@ class Transacao(models.Model):
 
     @classmethod
     def getIdByModel(self, model_str):
-        return Transacao.objects.values_list('pk', flat=True).get(model=model_str)
+        try:
+            return Transacao.objects.values_list('pk', flat=True).get(model=model_str)
+        except Exception:
+            raise Exception("Model %s não possui transação cadastrado!" % model_str)
+            
     
     def get_breadcrumb(self):
         if not hasattr(self, "_breadcrumb"):

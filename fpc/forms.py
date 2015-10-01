@@ -795,13 +795,15 @@ class FpcCrud(FpcForm):
 
             
     def _getCamposGridPesquisa(self):
-        self.campos_grid_pesquisa = []
-        for nome_campo in self.Meta.campos_grid_pesquisa:
-            try:
-                self.campos_grid_pesquisa.append([campo for campo in self.campos if campo.name == nome_campo][0])
-            except IndexError: 
-                pass 
-                
+        if hasattr(self.Meta, "campos_grid_pesquisa"):
+            self.campos_grid_pesquisa = []
+            for nome_campo in self.Meta.campos_grid_pesquisa:
+                try:
+                    self.campos_grid_pesquisa.append([campo for campo in self.campos if campo.name == nome_campo][0])
+                except IndexError: 
+                    pass 
+        else:
+            self.campos_grid_pesquisa = self.campos[1:]
 
     
     def getFieldNames(self):
@@ -839,8 +841,12 @@ class FpcCrud(FpcForm):
     
 
     def getTuplaCamposGrid(self):
-        if self._tupla_campos_grid == None:
+        if self._tupla_campos_grid == None and hasattr(self.Meta, "campos_grid_pesquisa"):
             self._tupla_campos_grid = list(self.Meta.campos_grid_pesquisa)
+            self._tupla_campos_grid.insert(0, "pk")
+            self._tupla_campos_grid = tuple(self._tupla_campos_grid)
+        else:
+            self._tupla_campos_grid = self.getFieldNames()
             self._tupla_campos_grid.insert(0, "pk")
             self._tupla_campos_grid = tuple(self._tupla_campos_grid)
         return self._tupla_campos_grid
