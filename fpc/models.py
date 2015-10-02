@@ -634,10 +634,13 @@ class FpcModel(models.Model):
                     if flat:
                         value = key
                     else:
-                        value = {}
-                        value["id"] = key
-                        obj = getattr(self, field.name)
-                        value["desc"] = obj.__str__()
+                        try:
+                            obj = getattr(self, field.name)
+                            value = {}
+                            value["id"] = key
+                            value["desc"] = obj.__str__()
+                        except Exception:
+                            value = None
             elif tipo == FpcTipoField.memo:
                 value = getattr(self, field.name)
             if value == None:
