@@ -18,60 +18,68 @@ var fpc = fpcForm = {
     lazyFields : null,
 
     getValueFromRadio : function(radio, form){
-    	tipo = typeof radio;
-    	if (tipo === "object"){
-    		var inputName = radio.name;
-    	}else if (tipo === "string"){
-    		var inputName = radio;
-    	}else{
-    		throw new Error("Argumento inválido para getValueFromRadio: deve ser um radio ou nome do radio.");
-    	}
-    	if (form != undefined){
-    		var radios = form.querySelectorAll('[name='+ inputName + ']')	
-    	}else{
-    		var radios = document.getElementsByName(inputName);
-    	}
-    	for (var i = 0, length = radios.length; i < length; i++) {
-    	    if (radios[i].checked) {
-    	        return radios[i].value;
-    	    }
+    	if (radio != undefined){
+	    	tipo = typeof radio;
+	    	if (tipo === "object"){
+	    		var inputName = radio.name;
+	    	}else if (tipo === "string"){
+	    		var inputName = radio;
+	    	}else{
+	    		throw new Error("Argumento inválido para getValueFromRadio: deve ser um radio ou nome do radio.");
+	    	}
+	    	if (form != undefined){
+	    		var radios = form.querySelectorAll('[name='+ inputName + ']')	
+	    	}else{
+	    		var radios = document.getElementsByName(inputName);
+	    	}
+	    	for (var i = 0, length = radios.length; i < length; i++) {
+	    	    if (radios[i].checked) {
+	    	        return radios[i].value;
+	    	    }
+	    	}
     	}
     	return undefined;
     },
     
     getValueFromSelect : function (select){
-        for (var i=0; i < select.length; i++) {
-            if (select[i].selected) {
-            	var result = select[i].value;    
-            	return result === "-" ? undefined : result;
-            }
+        if (select != undefined){
+	    	for (var i=0; i < select.length; i++) {
+	            if (select[i].selected) {
+	            	var result = select[i].value;    
+	            	return result === "-" ? undefined : result;
+	            }
+	        }
         }
         return undefined;
     },    
     
     postUrl : function (url, params) {
-        var doc = document;
-    	var form = doc.createElement('form');
-        form.action = url;
-        form.method = 'POST';
-        
-        var input = doc.createElement('input');
-        input.type = 'hidden';
-        input.name = "csrfmiddlewaretoken";
-        input.value = fpc.csrftoken;
-        form.appendChild(input);
-        
-        for (var i in params) {
-            if (params.hasOwnProperty(i)) {
-                input = doc.createElement('input');
-                input.type = 'hidden';
-                input.name = i;
-                input.value = params[i];
-                form.appendChild(input);
-            }
-        }
-        doc.body.appendChild(form);
-        form.submit();
+       if (url != undefined){
+	    	var doc = document;
+	    	var form = doc.createElement('form');
+	        form.action = url;
+	        form.method = 'POST';
+	        
+	        var input = doc.createElement('input');
+	        input.type = 'hidden';
+	        input.name = "csrfmiddlewaretoken";
+	        input.value = fpc.csrftoken;
+	        form.appendChild(input);
+	        
+	        for (var i in params) {
+	            if (params.hasOwnProperty(i)) {
+	                input = doc.createElement('input');
+	                input.type = 'hidden';
+	                input.name = i;
+	                input.value = params[i];
+	                form.appendChild(input);
+	            }
+	        }
+	        doc.body.appendChild(form);
+	        form.submit();
+       }else{
+    	   throw new Error("Erro no método postUrl. Informa a url!");
+       }
     },
 
    	getJSON : function(url, params){
@@ -315,14 +323,16 @@ var fpc = fpcForm = {
     			var operacao = document.getElementById("barra_botao").dataset.tipo;
     			var field_name = this.dataset.field;
     			 
-        		// sincroniza campos com o mesmo field
-    			var list_fields = $.makeArray(this.form.querySelectorAll('[data-field]'));
-				for (var i = 0, len = list_fields.length; i < len; i++){
-					var field = list_fields[i];
-    				if (field != this && field.dataset.field === field_name){
-    					field.value = this.value;
-    					field.dataset.dirty = true;
-    				}
+        		// sincroniza campos com o mesmo field (não para radio)
+    			if (this.type != "radio"){
+	    			var list_fields = $.makeArray(this.form.querySelectorAll('[data-field]'));
+					for (var i = 0, len = list_fields.length; i < len; i++){
+						var field = list_fields[i];
+	    				if (field != this && field.dataset.field === field_name){
+	    					field.value = this.value;
+	    					field.dataset.dirty = true;
+	    				}
+	    			}
     			}
     			
     			// dispara o evento onchange no servidor e depois onchange no cliente
@@ -372,35 +382,43 @@ var fpc = fpcForm = {
     },
 
     updateFields : function(form, update_fields){
-    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
-    	for (field_update in update_fields){
-    		var value = update_fields[field_update];
-    		var is_object = typeof value  === "object";
-			for (var i = 0, len = list_fields.length; i < len; i++){
-				var field = list_fields[i];
-				var field_name = field.dataset.field;
-				if (field_name === field_update || ((field_name === "id" && field_update == "pk") || (field_name === "pk" && field_update == "id"))){
-					if (is_object){
-						field.value = value.desc;
-						field.dataset.value = value.id;
-					}else{
-						field.value = value;	
+    	if (form != undefined){
+	    	try{
+		    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
+		    	for (field_update in update_fields){
+		    		var value = update_fields[field_update];
+		    		var is_object = typeof value  === "object";
+					for (var i = 0, len = list_fields.length; i < len; i++){
+						var field = list_fields[i];
+						var field_name = field.dataset.field;
+						if (field_name === field_update || ((field_name === "id" && field_update == "pk") || (field_name === "pk" && field_update == "id"))){
+							if (is_object){
+								field.value = value.desc;
+								field.dataset.value = value.id;
+							}else{
+								field.value = value;	
+							}
+							field.dataset.dirty = true;
+						}
 					}
-					field.dataset.dirty = true;
 				}
+			}catch (e){
+				fpc.mensagem("Erro no método updateFields do formulário "+ form.id  + ". " + e + ".", "erro");
 			}
-		}
+    	}
     },
     
     resetFields : function(form){
-    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
-		for (var i = 0, len = list_fields.length; i < len; i++){
-			var field = list_fields[i];
-			field.dataset.value = field.value;
-			if (field.dataset.dirty != undefined){
-				field.removeAttribute("data-dirty"); 
+    	if (form != undefined){
+	    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
+			for (var i = 0, len = list_fields.length; i < len; i++){
+				var field = list_fields[i];
+				field.dataset.value = field.value;
+				if (field.dataset.dirty != undefined){
+					field.removeAttribute("data-dirty"); 
+				}
 			}
-		}
+    	}
     },
 
     fireOnReadyEvent : function(field, operacao){
@@ -408,67 +426,98 @@ var fpc = fpcForm = {
 		if (js_class != undefined){
 			var js_controller = this.findController(js_class);
 			if (js_controller != undefined && js_controller.onready != undefined){
-				js_controller.onready(field, operacao);
+				try{
+					js_controller.onready(field, operacao);
+				}catch (e){
+					fpc.mensagem("Erro no evento onready do campo " + field + ". " + e + ".", "erro");
+				}
 			}
 		}
     },
     
     fireOnChange : function(js_class, field, operacao){
-		if (js_class != undefined){
+		if (js_class != undefined && field != undefined){
 			var js_controller = this.findController(js_class);
 			if (js_controller != undefined && js_controller.onchange != undefined){
-				js_controller.onchange(field, operacao);
+				try{
+					js_controller.onchange(field, operacao);
+				}catch (e){
+					fpc.mensagem("Erro no evento onchange do campo " + field + ". " + e + ".", "erro");
+				}
 			}
 		}
     },
 
     fireOnFormatObject : function(obj, js_controller){
-		if (js_controller == undefined){
-			js_controller = this.findController(js_class);
-		}
-		if (js_controller != undefined && js_controller.on_format_object != undefined){
-			js_controller.on_format_object(obj);
+		if (obj != undefined){
+	    	if (js_controller == undefined){
+				js_controller = this.findController(js_class);
+			}
+			if (js_controller != undefined && js_controller.on_format_object != undefined){
+				try{
+					js_controller.on_format_object(obj);
+				}catch (e){
+					fpc.mensagem("Erro na formatação dos campos do objeto (no evento on_format_object). " + e + ".", "erro");
+				}
+			}
 		}
     },
     
     fireOnFormatCellDataTable : function(field, type, value, row, col, html_row, js_controller){
-		if (js_controller == undefined){
-			js_controller = this.findController(js_class);
-		}
-		if (js_controller != undefined && js_controller.on_format_cell_datable != undefined){
-			return js_controller.on_format_cell_datable(field, type, value, row, col, html_row);
-		}
-		return value;
+    	if (field != undefined && value != undefined){ 
+	    	if (js_controller == undefined){
+				js_controller = this.findController(js_class);
+			}
+			if (js_controller != undefined && js_controller.on_format_cell_datable != undefined){
+				try{
+					return js_controller.on_format_cell_datable(field, type, value, row, col, html_row);
+				}catch (e){
+					fpc.mensagem("Erro na formatação dos dados ("+ value + ") do campo "+ field + " da grid (no evento on_format_cell_datable). " + e + ".", "erro");
+				}
+			}
+			return value;
+    	}else{
+    		return "";
+    	}
     },    
 
     fireOnOpenForm : function(js_class, response){
     	if (js_class != undefined){
 			var js_controller = this.findController(js_class);
 			if (js_controller != undefined && js_controller.on_open_form != undefined){
-				js_controller.on_open_form(response);
+				try{
+					js_controller.on_open_form(response);
+				}catch (e){
+					fpc.mensagem("Erro ao abrir formulário (no evento on_open_form). " + e + ".", "erro");
+				}
 			}
     	}
     },
     
     findController : function(js_class){
 		var doc = document;
-    	if (js_class == undefined){
-    		f_state = doc.getElementById("f_state");
-    		if (f_state != undefined){
-    			js_class = f_state.dataset.jsclass;
-    		}
-		}
-    	if (js_class != undefined && js_class.length > 4){
-			var js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1); 
-			var js_obj = window[js_var];
-			if (js_obj == undefined){
-				js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1,js_class.length-5) + "Controller";
+		try{
+			if (js_class == undefined){
+	    		f_state = doc.getElementById("f_state");
+	    		if (f_state != undefined){
+	    			js_class = f_state.dataset.jsclass;
+	    		}
+			}
+	    	if (js_class != undefined && js_class.length > 4){
+				var js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1); 
 				var js_obj = window[js_var];
 				if (js_obj == undefined){
-					var js_obj = window[js_class];
+					js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1,js_class.length-5) + "Controller";
+					var js_obj = window[js_var];
+					if (js_obj == undefined){
+						var js_obj = window[js_class];
+					}
 				}
+				return js_obj;
 			}
-			return js_obj;
+		}catch (e){
+			fpc.mensagem("Erro ao localizar controller do formulário. " + e + ".", "erro");
+			return undefined;
 		}
     },
     
@@ -537,85 +586,96 @@ var fpc = fpcForm = {
 
         // Configura cada field conforme seu tipo (data-type) 
         for (var i = 0, len = list_fields.length; i < len; i++){
-            var input = list_fields[i];
-            var dat = input.dataset;
-            var data_type = dat.type;
-            var data_listener = dat.listener;
-            input.style.backgroundColor="white";
-            if (data_type != undefined && data_type !== null){
-	              data_type = data_type.toLowerCase();
-	              if (data_type === "numero"  || 
-	            	  data_type === "number"  || 
-	            	  data_type === "integer" || 
-	            	  data_type === "int"){
-		 	         	this.somenteNumeros(input);
-	              } 
-	              else if (data_type === "decimal"  || 
-	            		   data_type === "money"    || 
-	            		   data_type === "currency" || 
-	            		   data_type === "real"     || 
-	            		   data_type === "double") {
-	        	  	  this.somenteDecimal(input);
-	              }
-	              else if (data_type === "data" || data_type === "date"){
-	            	  $(input).mask("99/99/9999");
-	            	  input.setAttribute("size", 12);
-	            	  this.somenteData(input);
-	              }else if (data_type === "text"    || 
-	            		  	data_type === "texto"   || 
-	            		  	data_type === "string"  ||
-	            		  	data_type === "char"){
-	            	  if (dat.caixaAlta != undefined){
-	            		  this.somenteCaixaAlta(input);
-	            	  }
-	            	  if (dat.mascara != undefined){
-	            		  $(input).mask(dat.mascara, {placeholder: dat.mascaraPlaceholder});
-	            	  }
-	              }else if (data_type === "combobox" || 
-	            		  	data_type === "dropdown" || 
-	            		  	data_type === "select"){
-	            	  var key = dat.value;
-	            	  if (key != null || key != ""){ 
-		            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
-		                      if (input[j].value == key) {
-		                        input[j].selected = true;
-		                        break;
-		                      }
-		                  }
-	            	  }
-	              } else if (data_type === "grid"){
-	            	// nada ainda pra fazer	  
-	              }
-            } 
+            try{
+	        	var input = list_fields[i];
+	            var dat = input.dataset;
+	            var data_type = dat.type;
+	            var data_listener = dat.listener;
+	            input.style.backgroundColor="white";
+	            if (data_type != undefined && data_type !== null){
+		              data_type = data_type.toLowerCase();
+		              if (data_type === "numero"  || 
+		            	  data_type === "number"  || 
+		            	  data_type === "integer" || 
+		            	  data_type === "int"){
+		            	  	dat.type = "numero";
+			 	         	this.somenteNumeros(input);
+		              } 
+		              else if (data_type === "decimal"  || 
+		            		   data_type === "money"    || 
+		            		   data_type === "currency" || 
+		            		   data_type === "real"     || 
+		            		   data_type === "double") {
+		            	  dat.type = "decimal";
+		        	  	  this.somenteDecimal(input);
+		              }
+		              else if (data_type === "data" || data_type === "date"){
+		            	  $(input).mask("99/99/9999");
+		            	  dat.type = "data";
+		            	  input.setAttribute("size", 12);
+		            	  this.somenteData(input);
+		              }else if (data_type === "text"    || 
+		            		  	data_type === "texto"   || 
+		            		  	data_type === "string"  ||
+		            		  	data_type === "char"){
+		            	  dat.type = "text";
+		            	  if (dat.caixaAlta != undefined){
+		            		  this.somenteCaixaAlta(input);
+		            	  }
+		            	  if (dat.mascara != undefined){
+		            		  $(input).mask(dat.mascara, {placeholder: dat.mascaraPlaceholder});
+		            	  }
+		              }else if (data_type === "combobox" || 
+		            		  	data_type === "dropdown" || 
+		            		  	data_type === "select"){
+		            	  dat.type = "combobox";
+		            	  var key = dat.value;
+		            	  if (key != null || key != ""){ 
+			            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
+			                      if (input[j].value == key) {
+			                        input[j].selected = true;
+			                        break;
+			                      }
+			                  }
+		            	  }
+		              } else if (data_type === "grid"){
+		            	  dat.type = "grid";
+		            	// nada ainda pra fazer	  
+		              }
+	            } 
+	
+	           if (dat.lazy != undefined){
+	        	  fpc.lazyFields.push(input);
+	           }
+	          
+	           if (operacao === "put" && dat.noEditable != undefined){
+	            	input.setAttribute("readonly", "readonly");
+	            	input.style.backgroundColor="LightYellow";
+	           }
+	
+	           if (operacao === "post" && dat.noInsertable != undefined){
+	            	input.setAttribute("readonly", "readonly");
+	          	    input.style.backgroundColor="LightYellow";
+	           }
+	          
+	           if (data_listener != undefined){
+	        	  if (data_listener.indexOf("onready") > -1){
+	            	  fpc.fireOnReadyEvent(input, operacao);
+	        	  } 
+	           }
+	
+	           if (dat.required != undefined){
+	        	  var label = fpc.getLabelFromField(input);
+	        	  if (label != undefined){
+	        	      label.style.fontWeight="bold";
+	        	  }
+	           }
+	          
+	           this.fieldChanged(input);
 
-           if (dat.lazy != undefined){
-        	  fpc.lazyFields.push(input);
-           }
-          
-           if (operacao === "put" && dat.noEditable != undefined){
-            	input.setAttribute("readonly", "readonly");
-            	input.style.backgroundColor="LightYellow";
-           }
-
-           if (operacao === "post" && dat.noInsertable != undefined){
-            	input.setAttribute("readonly", "readonly");
-          	    input.style.backgroundColor="LightYellow";
-           }
-          
-           if (data_listener != undefined){
-        	  if (data_listener.indexOf("onready") > -1){
-            	  fpc.fireOnReadyEvent(input, operacao);
-        	  } 
-           }
-
-           if (dat.required != undefined){
-        	  var label = fpc.getLabelFromField(input);
-        	  if (label != undefined){
-        	      label.style.fontWeight="bold";
-        	  }
-           }
-          
-           this.fieldChanged(input);
+            }catch (e){
+				fpc.mensagem("Erro ao configurar campo " + input.id + " (no metodo configFields). " + e + ".", "erro");
+			}
         }
 
         // Configura datatimepicker
@@ -737,7 +797,8 @@ var fpc = fpcForm = {
 
     isFieldChanged : function(field){
     	var dat = field.dataset;
-    	if (dat.field === "id" || dat.field === "pk"){
+    	var dfield = dat.field;
+    	if (dfield === "id" || dfield === "pk"){
     		return true;
     	}
 		var field_type = field.type;
@@ -758,8 +819,11 @@ var fpc = fpcForm = {
 					return true;
 				}
 			}else {
-				var field_value = field.value; 
-	    		if (field_value != undefined && field_value !== dat.value){
+				var field_value = field.value;
+				if (dat.type === "data" && field_value === "__/__/____"){
+					return false;
+				}  
+	    		if (field_value != undefined && field_value != "" && field_value !== dat.value){
 	       			return true;
 	    		}
 			}
@@ -768,87 +832,112 @@ var fpc = fpcForm = {
     },
 
     getObject : function(form){
-    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
-    	var obj = {};
-    	var fields_dirty = [];
-    	for (var i = 0, len = list_fields.length; i < len; i++){
-    		var field = list_fields[i];
-    		// se o field estiver em outro form não serialize 
-    		if (field.form != form){
-    			continue; 
-    		}
-    		var dat = field.dataset;
-    		var dfield = dat.field;
-    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
-    			if (dat.type === "lookup"){
-    				obj[dfield] = escape(dat.key);
-	    		}else {
-	    			var field_type = field.type;
-	    			if (field_type === "radio"){
-	    				value = fpc.getValueFromRadio(field.name, form);
-	    				if (value != undefined){ 
-	    					obj[dfield] = value;
-	    				}
-	    			} else if (field_type === "select-one"){
-	    				value = fpc.getValueFromSelect(field);
-	    				if (value != undefined){
-	    					obj[dfield] = value;
-	    				}
-	    			}else{
-	    				obj[dfield] = escape(field.value);	
-	    			}
-	    		}
-	    		fields_dirty.push(dfield);
-    		}
-    	}
-    	if (fields_dirty.length > 0){
-    		return obj;
+    	if (form != undefined){
+	    	try{
+		    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
+		    	var obj = {};
+		    	var fields_dirty = [];
+		    	for (var i = 0, len = list_fields.length; i < len; i++){
+		    		var field = list_fields[i];
+		    		// se o field estiver em outro form ou for undefined não serializar 
+		    		if (field.form != form || field.type == undefined){
+		    			continue; 
+		    		}
+		    		var dat = field.dataset;
+		    		var dfield = dat.field;
+		    		var dtype = dat.type;
+		    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
+		    			if (dtype === "lookup"){
+		    				obj[dfield] = escape(dat.key);
+			    		}else {
+			    			var field_type = field.type;
+			    			if (field_type === "radio"){
+			    				value = fpc.getValueFromRadio(field.name, form);
+			    				if (value != undefined){ 
+			    					obj[dfield] = value;
+			    				}
+			    			} else if (field_type === "select-one"){
+			    				value = fpc.getValueFromSelect(field);
+			    				if (value != undefined){
+			    					obj[dfield] = value;
+			    				}
+			    			}else{
+			    				if (dtype === "decimal"){
+			    					obj[dfield] = field.value.replace(",", ".");
+			    				}else{
+			    					obj[dfield] = field.value;
+			    				}
+			    			}
+			    		}
+			    		fields_dirty.push(dfield);
+		    		}
+		    	}
+		    	if (fields_dirty.length > 0){
+		    		return obj;
+		    	}else{
+		    		return undefined;
+		    	}
+	        }catch (e){
+				fpc.mensagem("Erro ao serializar objeto do form "+ form.id + "(no metodo getObject). " + e + ".", "erro");
+			}
     	}else{
     		return undefined;
     	}
     },
     
     serializeForm : function(form){
-    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
-    	var result = [];
-    	var fields_dirty = [];
-    	for (var i = 0, len = list_fields.length; i < len; i++){
-    		var field = list_fields[i];
-    		// se o field estiver em outro form não serialize 
-    		if (field.form != form){
-    			continue; 
-    		}
-    		var dat = field.dataset;
-    		var dfield = dat.field;
-    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
-    			result.push(dfield);
-    			result.push("=");
-    			if (dat.type === "lookup"){
-	    			result.push(escape(dat.key));
-	    		}else {
-	    			var field_type = field.type; 
-	    			if (field_type === "radio"){
-	    				value = fpc.getValueFromRadio(field.name);
-	    				if (value != undefined){ 
-	    					result.push(escape(value));
-	    				}
-	    			} else if (field_type === "select-one"){
-	    				value = fpc.getValueFromSelect(field);
-	    				if (value != undefined){
-	    					result.push(escape(value));
-	    				}
-	    			}else{
-	    				result.push(escape(field.value));
-	    			}
-	    		}
-	    		result.push("&");
-	    		fields_dirty.push(dfield);
-    		}
+    	if (form != undefined){
+    		try{
+	    		var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
+		    	var result = [];
+		    	var fields_dirty = [];
+		    	for (var i = 0, len = list_fields.length; i < len; i++){
+		    		var field = list_fields[i];
+		    		// se o field estiver em outro form não serialize 
+		    		if (field.form != form){
+		    			continue; 
+		    		}
+		    		var dat = field.dataset;
+		    		var dfield = dat.field;
+		    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
+		    			result.push(dfield);
+		    			result.push("=");
+		    			if (dat.type === "lookup"){
+			    			result.push(escape(dat.key));
+			    		}else {
+			    			var field_type = field.type; 
+			    			if (field_type === "radio"){
+			    				value = fpc.getValueFromRadio(field.name);
+			    				if (value != undefined){ 
+			    					result.push(escape(value));
+			    				}
+			    			} else if (field_type === "select-one"){
+			    				value = fpc.getValueFromSelect(field);
+			    				if (value != undefined){
+			    					result.push(escape(value));
+			    				}
+			    			}else{
+			    				if (dtype === "decimal"){
+			    					result.pusth(field.value.replace(",", "."));
+			    				}else{
+				    				result.push(escape(field.value));
+			    				}
+			    			}
+			    		}
+			    		result.push("&");
+			    		fields_dirty.push(dfield);
+		    		}
+		    	}
+		    	if (result.length > 0){
+		    		result.pop();
+		    	}
+		    	return result.join("");
+	        }catch (e){
+				fpc.mensagem("Erro ao serializar objeto do form "+ form.id + "(no metodo serializeForm). " + e + ".", "erro");
+			}
+    	}else{
+    		return "";
     	}
-    	if (result.length > 0){
-    		result.pop();
-    	}
-    	return result.join("");
     },
     
     serializeFormParaPesquisa : function(form){
@@ -1023,7 +1112,7 @@ var fpc = fpcForm = {
 				}
 				
 			}else {
-				if (tipo === "info") {
+				if (tipo === "info" || tipo == undefined || tipo === "") {
 					msg_text = '<i class="glyphicon glyphicon-ok"/>' + msg;
 				} else if (tipo === "erro" || tipo === "error") { 
 					msg_text = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + msg;

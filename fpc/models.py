@@ -508,12 +508,15 @@ class FpcModel(models.Model):
     
     def set_values(self, values):
         for field_name in values:
-            field = self.field_by_name(field_name)
-            value = self.text_to_value(field, values[field_name])
-            if self.get_tipo_field(field) == FpcTipoField.lookup:
-                setattr(self, field_name + "_id", value)
-            else:
-                setattr(self, field_name, value)
+            try:
+                field = self.field_by_name(field_name)
+                value = self.text_to_value(field, values[field_name])
+                if self.get_tipo_field(field) == FpcTipoField.lookup:
+                    setattr(self, field_name + "_id", value)
+                else:
+                    setattr(self, field_name, value)
+            except FieldDoesNotExist:
+                pass
     
     def getNome(self):
         return str(self)[8:-2]
@@ -553,9 +556,10 @@ class FpcModel(models.Model):
                         raise ValidationError()
                 elif tipo == FpcTipoField.decimal:
                     if type(value) == str:
-                        formata = lambda value, decimal : ("%.*f" % (decimal, value)).replace(".", ",")
-                        value =  formata(value, field.decimal_places)
-                        value = Decimal(value.replace(",", "."))
+                        value = float(value)
+                    formata = lambda value, decimal : ("%.*f" % (decimal, value)).replace(".", ",")
+                    value =  formata(value, field.decimal_places)
+                    value = Decimal(value.replace(",", "."))
                 return value
             except Exception as e:
                 raise ValidationError("Não foi possível formatar o campo %s. Erro interno: %s" % (field.name, e))
@@ -720,7 +724,9 @@ class EmsManager(FpcManager):
         Classe base para manager ErlangMS
     """
     def get(self, pk):
-        url = '/fpc/get?db_table="%s"&pk=%s' % (self.model._meta.db_table, pk)
+        if isinstance(pk, str):
+            pk = int(pk)
+        url = '%s/%d' % (self.model.service_url, pk)
         json_str = EmsRest.get(url)
         obj_dict = json.loads(json_str)
         obj = self.model()
@@ -734,9 +740,6 @@ class EmsManager(FpcManager):
             sort = ",".join(sort)
         url = '%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d&sort="%s"' % \
             (self.model.service_url, filtro, fields, limit_ini, limit_fim, sort)
-        #url = '/sae/%s?filtro="%s"&fields="%s"&limit_ini=%d&limit_fim=%d' % \
-        #    (self.model._meta.model_name, filtro, fields, limit_ini, limit_fim)
-
         result = EmsRest.get(url)
         return result
    
