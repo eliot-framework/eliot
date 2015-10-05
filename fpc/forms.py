@@ -264,7 +264,13 @@ class FpcField(FpcWidget):
         editable_tag = ""
         insertable_tag = ""
         destaca_campo_tag = ""
-        iscombobox = len(self.field.choices) > 0
+        lazy_tag = ""
+        if hasattr(self.field, "render"): 
+            render = self.field.render
+        else:
+            render = "input"
+        iscombobox =  render == "combobox"
+        isradio = render == "radio"
         is_model_fpc = issubclass(self.form.model, FpcModel)
 
         if self.form.destacaCampos and not self.field.blank:
@@ -284,6 +290,9 @@ class FpcField(FpcWidget):
                 
         if hasattr(self.field, "insertable") and not self.field.insertable:
             insertable_tag = "data-no-insertable"
+
+        if hasattr(self.field, "lazy") and self.field.lazy:
+            lazy_tag = "data-lazy"
 
         # Seta um max_length mesmo que o atributo não tenha sido definido
         if self.field.max_length == None:
@@ -329,7 +338,6 @@ class FpcField(FpcWidget):
             if iscombobox:
                 data_type_tag = 'data-type="combobox"'
             else:
-                isradio = hasattr(self.field, "radio") and self.field.radio != None and len(self.field.radio) > 0
                 if isradio:
                     data_type_tag = 'data-type="radio"'
                 else:
@@ -341,12 +349,12 @@ class FpcField(FpcWidget):
                 auto_inc_tag = ""
             if iscombobox:
                 tag_escolha = "<option value='-'>Selecione uma opção</option>%s" % ("".join(['<option value="%s">%s</option>' % (tupla[0], tupla[1]) for tupla in self.field.choices]))
-                result = r'<select id="%s" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, data_type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, destaca_campo_tag, tag_escolha)
+                result = r'<select id="%s" data-field="%s" class="form-control" %s data-value="%s" %s %s %s %s %s %s %s %s>%s</select>' % (self.id, self.name, self.css.get_value(), self.value, required_tag, data_type_tag, editable_tag, insertable_tag, default_tag, onchange_tag, destaca_campo_tag, lazy_tag, tag_escolha)
             else:
                 if isradio:
                     idx_radio = 0
                     result = ""
-                    for radio_value in self.field.radio:
+                    for radio_value in self.field.choices:
                         id_radio = "%s_%d" % (self.id, idx_radio) 
                         label_radio = '<label for="%s">%s</label>' % (id_radio, radio_value[1])
                         result = result + r'<input id="%s" name="f_%s" data-field="%s" class="form-control" type="radio" %s value="%s" data-value="%s" %s %s %s %s %s %s %s %s %s/>%s' % (id_radio, self.name, self.name, data_type_tag, radio_value[0], radio_value[0], required_tag, auto_inc_tag, editable_tag, insertable_tag, self.css.get_value(), default_tag, onchange_tag, destaca_campo_tag, hidden_tag, label_radio)

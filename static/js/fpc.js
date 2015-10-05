@@ -16,7 +16,78 @@ FpcError.prototype = Error.prototype;
 var fpc = fpcForm = {
     csrftoken : "",
     lazyFields : null,
+    erlangms_url: "http://localhost:2301",
 
+    callRest : function(url, params){
+    	var url = this.erlangms_url + url;
+    	var params = (params == undefined ? {} : params);
+	    return $.ajax({
+            url:  url,
+            data : params,
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            dataType: "json",
+            timeout: 6500,
+            crossDomain: true,
+            success: function(response) {
+				return response;
+            },
+            error: function(xhr, textStatus, error) {
+		    	document.body.style.cursor = "default";
+				fpc.mensagem(error, "erro");
+				throw new FpcError(error, url, params);
+            }
+		});
+    },
+
+    callRestIfNull : function(value, url, params){
+    	if (value == null){
+    		return this.callRest(url, params);
+    	}else{
+    		var ret = {
+    			done : function(obj){
+    				return function(fn) {
+    					return fn(value);
+    				}
+    			}(value)
+    		};
+    		return ret;
+    	}
+    },
+    
+   	getJSON : function(url, params){
+	    return $.ajax({
+            url:  url,
+            data : params,
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            dataType: "json",
+            timeout: 6500,
+            crossDomain: true,
+            success: function(msg) {
+				var doc = document;
+				if (msg.tipo === "erro"){
+					doc.body.style.cursor = "default"; 
+					msg_erro = fpc.mensagem(msg.messages, "erro");
+					throw new FpcError(JSON.stringify(msg.messages), url, params);
+				}
+            },
+            error: function(xhr, textStatus, error) {
+		    	document.body.style.cursor = "default";
+				fpc.mensagem(error, "erro");
+				throw new FpcError(error, url, params);
+            }
+		});
+   	},
+    
+    fillComboboxFromArray : function(combobox, obj){
+    	if (obj instanceof Array){
+	    	for (var i=0; i < obj.length; i++) {
+	    		 $(combobox).append("<option value='"+ obj[i][0]+ "'>" + obj[i][1] + "</option>");
+	        }
+    	}
+    },
+    
     getValueFromRadio : function(radio, form){
     	if (radio != undefined){
 	    	tipo = typeof radio;
@@ -82,22 +153,6 @@ var fpc = fpcForm = {
        }
     },
 
-   	getJSON : function(url, params){
-   		return $.getJSON(url, params
-			).done(function(msg) {
-				var doc = document;
-				if (msg.tipo === "erro"){
-					doc.body.style.cursor = "default"; 
-					msg_erro = fpc.mensagem(msg.messages, "erro");
-					throw new FpcError(JSON.stringify(msg.messages), url, params);
-				}
-		    }).fail(function(jqxhr, textStatus, error){
-		    	document.body.style.cursor = "default";
-				fpc.mensagem(error, "erro");
-				throw new FpcError(error, url, params);
-		    });			
-   	},
-    
     consultar : function (ts, lookup){
     	document.getElementById("f_dialog").dataset.lookup = lookup;
     	fpc.getJSON('/fpc.views.fpc_consultar', { ts : ts }
@@ -494,6 +549,17 @@ var fpc = fpcForm = {
     	}
     },
     
+    fireOnRenderLazyField : function(field){
+		var js_controller = this.findController();
+		if (js_controller != undefined && js_controller.on_render_lazy_field != undefined){
+			try{
+				js_controller.on_render_lazy_field(field);
+			}catch (e){
+				fpc.mensagem("Erro ao renderizar campo lazy (no evento on_render_lazy_field). " + e + ".", "erro");
+			}
+		}
+    },
+
     findController : function(js_class){
 		var doc = document;
 		try{
@@ -534,7 +600,8 @@ var fpc = fpcForm = {
 	    				field.removeAttribute("data-lazy");
 	    				lazyFields.splice(i, 1);
 	    				++j;
-	    				fpc.renderLazyField(field);
+	    				fpc.fireOnRenderLazyField(field);
+	    				//fpc.renderLazyField(field);
 	    			}
 	    		}
 	    	}
@@ -630,7 +697,7 @@ var fpc = fpcForm = {
 		            		  	data_type === "select"){
 		            	  dat.type = "combobox";
 		            	  var key = dat.value;
-		            	  if (key != null || key != ""){ 
+		            	  if (key != null && key != ""){ 
 			            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
 			                      if (input[j].value == key) {
 			                        input[j].selected = true;
@@ -1800,6 +1867,6 @@ $(this).ready(function(){
 	fpc.csrftoken = fpc.getCookie('csrftoken');
  	$(document).ajaxSend(function(event, xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", fpc.csrftoken);
-        xhr.setRequestHeader("Accept", "application/zip");
+        xhr.setRequestHeader("Accept", "application/json,application/zip");
  	});
 });

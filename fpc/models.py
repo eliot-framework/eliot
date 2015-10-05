@@ -234,7 +234,7 @@ class FpcCustomField(object):
         
         Objetivo: Estender os tipos basicos do Django com mais funcionalidades. 
     """
-    def __init__(self, verbose_name=None, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, onchange=False, lazy=False, render="input", **kargs):
         self.verbose_name = verbose_name  
         self.mascara = mascara 
         self.mascara_placeholder = mascara_placeholder 
@@ -242,6 +242,8 @@ class FpcCustomField(object):
         self.insertable = insertable 
         self.size = size 
         self.onchange = onchange
+        self.lazy = lazy
+        self.render = render
         if self.subtipo != None:
             if self.subtipo == "telefone":
                 kargs["max_length"] = 15
@@ -273,36 +275,42 @@ class FpcCustomField(object):
     
 
 class FpcTextField(models.CharField, FpcCustomField):
-    def __init__(self, verbose_name=None, caixa_alta=True, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, caixa_alta=True, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, onchange=False, lazy=False, render="input", **kargs):
         models.TextField.__init__(self, **kargs)
-        FpcCustomField.__init__(self, verbose_name, mascara, mascara_placeholder, subtipo, insertable, size, onchange, **kargs)
+        FpcCustomField.__init__(self, verbose_name, mascara, mascara_placeholder, subtipo, insertable, size, onchange, lazy, render, **kargs)
         self.caixa_alta = caixa_alta
 
 
 class FpcIntegerField(models.IntegerField, FpcCustomField):
-    def __init__(self, verbose_name=None, auto_increment=False, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, radio=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, auto_increment=False, mascara=None, mascara_placeholder="_", subtipo=None, insertable=True, size=None, radio=None, onchange=False, lazy=False, render="input", **kargs):
         models.IntegerField.__init__(self, **kargs)
-        FpcCustomField.__init__(self, verbose_name, mascara, mascara_placeholder, subtipo, insertable, size, onchange, **kargs)
+        FpcCustomField.__init__(self, verbose_name, mascara, mascara_placeholder, subtipo, insertable, size, onchange, lazy, render, **kargs)
         self.auto_increment = auto_increment
         self.radio = radio
 
 
 class FpcDecimalField(models.DecimalField, FpcCustomField):
-    def __init__(self, verbose_name=None, subtipo=None, insertable=True, size=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, subtipo=None, insertable=True, size=None, onchange=False, lazy=False, render="input", **kargs):
         models.DecimalField.__init__(self, **kargs)
-        FpcCustomField.__init__(self, verbose_name, subtipo, insertable, size, onchange, **kargs)
+        FpcCustomField.__init__(self, verbose_name, None, None, subtipo, insertable, size, onchange, lazy, render, **kargs)
 
 
 class FpcDateField(models.DateField, FpcCustomField):
-    def __init__(self, verbose_name=None, subtipo=None, insertable=True, size=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, subtipo=None, insertable=True, size=None, onchange=False, lazy=False, render="input", **kargs):
         models.DateField.__init__(self, **kargs)
-        FpcCustomField.__init__(self, verbose_name, subtipo, insertable, size, onchange, **kargs)
+        FpcCustomField.__init__(self, verbose_name, None, None, subtipo, insertable, size, onchange, lazy, render, **kargs)
 
             
 class FpcDateTimeField(models.DateTimeField, FpcCustomField):
-    def __init__(self, verbose_name=None, subtipo=None, insertable=True, size=None, onchange=False, **kargs):
+    def __init__(self, verbose_name=None, subtipo=None, insertable=True, size=None, onchange=False, lazy=False, render="input", **kargs):
         models.DateTimeField.__init__(self, **kargs)
-        FpcCustomField.__init__(self, verbose_name, subtipo, insertable, size, onchange, **kargs)
+        FpcCustomField.__init__(self, verbose_name, None, None, subtipo, insertable, size, onchange, lazy, render, **kargs)
+
+
+class FpcForeignKey(models.ForeignKey, FpcCustomField):
+    def __init__(self, verbose_name=None, insertable=True, size=None, onchange=False, lazy=False, render="lookup", **kargs):
+        models.ForeignKey.__init__(self, **kargs)
+        FpcCustomField.__init__(self, verbose_name, None, None, None, insertable, size, onchange, lazy, render, **kargs)
 
 
 class FpcValidation(Exception):
