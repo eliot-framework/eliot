@@ -111,6 +111,30 @@ var fpc = fpcForm = {
     	}
     	return undefined;
     },
+
+    setRadioValue : function(radio, value){
+    	if (radio != null && value != null && value != ""){
+    		var inputName = radio.name;
+    		var radios = radio.form.querySelectorAll('[name='+ inputName + ']')	
+	    	for (var i = 0, length = radios.length; i < length; i++) {
+	    	    if (radios[i].value === value) {
+	    	        radios[i].checked = true;
+	    	        break;
+	    	    }
+	    	}
+    	}
+    },
+    
+    setComboboxValue : function(field, value){
+    	if (field != null && value != null && value != ""){ 
+        	  for (var j = 0, len_input = input.length; j < len_input; j++) {
+                  if (input[j].value === value) {
+                    input[j].selected = true;
+                    break;
+                  }
+              }
+    	}
+    },
     
     getValueFromSelect : function (select){
         if (select != undefined){
@@ -437,7 +461,7 @@ var fpc = fpcForm = {
     },
 
     updateFields : function(form, update_fields){
-    	if (form != undefined){
+    	if (form != undefined && update_fields != undefined){
 	    	try{
 		    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
 		    	for (field_update in update_fields){
@@ -445,13 +469,25 @@ var fpc = fpcForm = {
 		    		var is_object = typeof value  === "object";
 					for (var i = 0, len = list_fields.length; i < len; i++){
 						var field = list_fields[i];
+						var dat = field.dataset;
 						var field_name = field.dataset.field;
 						if (field_name === field_update || ((field_name === "id" && field_update == "pk") || (field_name === "pk" && field_update == "id"))){
 							if (is_object){
 								field.value = value.desc;
 								field.dataset.value = value.id;
 							}else{
-								field.value = value;	
+								switch (dat.type){
+									case "radio":
+										fpc.setRadioValue(field, value);
+										break;
+									case "combobox", "dropdown", "select":
+						            	value = dat.key;
+										fpc.setComboboxValue(field, value);
+							            break;
+							         default:
+							        	field.value = value;
+								}
+									
 							}
 							field.dataset.dirty = true;
 						}
@@ -696,18 +732,8 @@ var fpc = fpcForm = {
 		            		  	data_type === "dropdown" || 
 		            		  	data_type === "select"){
 		            	  dat.type = "combobox";
-		            	  var key = dat.value;
-		            	  if (key != null && key != ""){ 
-			            	  for (var j = 0, len_input = input.length; j < len_input; j++) {
-			                      if (input[j].value == key) {
-			                        input[j].selected = true;
-			                        break;
-			                      }
-			                  }
-		            	  }
 		              } else if (data_type === "grid"){
-		            	  dat.type = "grid";
-		            	// nada ainda pra fazer	  
+		            	  
 		              }
 	            } 
 	
@@ -1420,7 +1446,7 @@ var fpc = fpcForm = {
    		}
 
    		fpc.getJSON("/fpc.views.fpc_manter_cadastro", {ts : dados_pesquisa.dataset.ts, 
-   													 id : dados_pesquisa.dataset.id}
+   													   id : dados_pesquisa.dataset.id}
 			).done(function(msg) {
 				var doc = document;
 				var param = msg.params[0]; 
@@ -1447,22 +1473,20 @@ var fpc = fpcForm = {
    	
    	salvar : function (){
    		var divDadosPesquisa = document.getElementById("dados_pesquisa");
-   		var s_form = fpc.serializeForm(f_cadastro);
+   		var obj = fpc.getObject(f_cadastro);
 
 		// limpa as mensagens anteriores
    		fpc.mensagem("");
 
-   		if (divDadosPesquisa.dataset.id !== ""){
-	   		if (s_form.length === 0){
-	   			fpc.mensagem("Nenhuma alteração realizada no cadastro para salvar.", "info");
-	   			return;
-	   		}
+   		if (divDadosPesquisa.dataset.id !== "" && obj == undefined){
+   			fpc.mensagem("Nenhuma alteração realizada no cadastro para salvar.", "info");
+   			return;
    		}
    		
    		if (this.validaForm(f_cadastro)){
 			fpc.getJSON("/fpc.views.fpc_salvar_cadastro", { ts : divDadosPesquisa.dataset.ts, 
-														  id : divDadosPesquisa.dataset.id, 
-														  form : s_form } 
+		   												    id : divDadosPesquisa.dataset.id, 
+														    form : JSON.stringify(obj) } 
 			).done(function (msg) {
 					if (msg.tipo === "info"){
 						var doc = document;

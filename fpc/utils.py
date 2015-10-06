@@ -104,6 +104,10 @@ class EmsRest(object):
         return EmsRest.call("POST", url, body)
 
     @staticmethod
+    def put(url, body):
+        return EmsRest.call("PUT", url, body)
+
+    @staticmethod
     def call(method, url, body):
         conn = http.client.HTTPConnection(settings.IP_ERLANGMS, settings.PORT_ERLANGMS)
         conn.request(method, url, body)
@@ -118,5 +122,5 @@ def json_encode_java(obj):
         return str(obj)
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
         return obj.strftime("%d/%m/%Y")
-    raise TypeError(repr(obj) + " is not JSON serializable")
+    return str(obj)
         
