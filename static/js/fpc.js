@@ -82,8 +82,16 @@ var fpc = fpcForm = {
     
     fillComboboxFromArray : function(combobox, obj){
     	if (obj instanceof Array){
+    		jCombobox = $(combobox); 
 	    	for (var i=0; i < obj.length; i++) {
-	    		 $(combobox).append("<option value='"+ obj[i][0]+ "'>" + obj[i][1] + "</option>");
+	    		var item = obj[i];
+	    		if (item instanceof Object){
+	    			keys = Object.keys(item);
+	    			jCombobox.append("<option value='"+ item[keys[0]]+ "'>" + item[keys[1]] + "</option>");
+	    		}else{
+	    			jCombobox.append("<option value='"+ item[0]+ "'>" + item[1] + "</option>");	
+	    		}
+	    		
 	        }
     	}
     },

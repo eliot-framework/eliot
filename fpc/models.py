@@ -402,6 +402,7 @@ class FpcManager(models.Manager):
         return value
     
     def save(self, obj):
+        obj.setAutoIncrementFields()
         if not obj._state.adding and obj.pk != None and obj.update_fields != None and len(obj.update_fields) > 0:
             super(FpcModel, obj).save(force_insert=False, force_update=False, using=None,
                                        update_fields=obj.update_fields)
@@ -435,7 +436,6 @@ class FpcModel(models.Model):
 
     def save(self, *args, **kwargs):
         self.clean()
-        self.setAutoIncrementFields()
         manager = type(self).objects
         manager.save(self)
         self.update_fields = []
@@ -797,11 +797,12 @@ class EmsManager(FpcManager):
     
     def save(self, obj):
         obj_json = obj.get_update_values_json()  
-        if obj.pk > 0:
+        if obj.pk != None and obj.pk > 0:
             url = '%s/%d' % (self.model.service_url, obj.pk)
+            result = EmsRest.put(url, obj_json)
         else:
             url = '%s' % self.model.service_url
-        result = EmsRest.post(url, obj_json)
+            result = EmsRest.post(url, obj_json)
         if result != "":
             raise DatabaseError(result)
         obj.update_fields = []
