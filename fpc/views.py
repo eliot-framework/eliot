@@ -374,8 +374,9 @@ def fpc_novo_cadastro(request):
 def fpc_salvar_cadastro(request):
     ts = request.ts
     form = FpcForm.get_form(request)
+    model_class = form.model
     vId = request.GET["id"]
-    vForm = request.GET["form"]
+    obj_dict = json.loads(request.GET["form"])
     
     # Validações de segurança da operação
     if vId == "":
@@ -386,7 +387,12 @@ def fpc_salvar_cadastro(request):
             return FpcJsonMessage("Você não tem permissão para realizar esta edição.", "erro")
     
     try:
-        obj = form.DeSerializeForm(vId, values=vForm)
+        is_edicao = vId != ""
+        if is_edicao:
+            obj = model_class.objects.get(pk=vId)
+        else:
+            obj = model_class()
+        obj.set_values(obj_dict)        
         obj_copy = copy.deepcopy(obj)
         obj.save()
         obj.checkUpdateFields(obj_copy)

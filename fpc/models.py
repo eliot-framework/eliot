@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 
+from _io import StringIO
 from datetime import datetime
 from decimal import Decimal
 from django.conf import settings
@@ -13,10 +14,12 @@ from django.db.models.fields import FieldDoesNotExist
 from django.db.models.query_utils import Q
 from fpc.utils import EmsRest, json_encode_java
 from functools import reduce
+from io import StringIO
 import json
 import operator
 import os
 from urllib.parse import unquote
+
 
 
 class TransacaoDao(models.Manager):
@@ -499,7 +502,25 @@ class FpcModel(models.Model):
             field = self._meta.get_field_by_name(field_name)[0]
             result[field_name] = self.get_valor_formatado(field)
         return result
-           
+    
+    
+    def get_update_values_json(self):
+        result = StringIO()
+        use_virgula = False
+        try:
+            result.write("{")
+            for field_name in self.update_fields:
+                if use_virgula: 
+                    result.write(",")
+                field = self.field_by_name(field_name)
+                val = getattr(self, field.name)
+                result.write('"%s":%s' % (field.name, json_encode_java(val)))
+                use_virgula = True
+            result.write("}")
+            return result.getvalue()
+        finally:
+            result.close()
+        
 
     def get_values(self):
         result = {}
@@ -515,6 +536,7 @@ class FpcModel(models.Model):
         return result
     
     def set_values(self, values):
+        self.update_fields = []
         for field_name in values:
             try:
                 field = self.field_by_name(field_name)
@@ -523,6 +545,7 @@ class FpcModel(models.Model):
                     setattr(self, field_name + "_id", value)
                 else:
                     setattr(self, field_name, value)
+                self.update_fields.append(field_name)
             except FieldDoesNotExist:
                 pass
     
@@ -773,12 +796,12 @@ class EmsManager(FpcManager):
         return int(result)
     
     def save(self, obj):
-        update_fields = json.dumps(obj.get_update_values(), default=json_encode_java)
+        obj_json = obj.get_update_values_json()  
         if obj.pk > 0:
             url = '%s/%d' % (self.model.service_url, obj.pk)
         else:
             url = '%s' % self.model.service_url
-        result = EmsRest.post(url, update_fields)
+        result = EmsRest.post(url, obj_json)
         if result != "":
             raise DatabaseError(result)
         obj.update_fields = []
