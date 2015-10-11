@@ -88,6 +88,32 @@ var fpc = fpcForm = {
     	}
     },
     
+    setComboboxValue : function(field, value){
+    	if (typeof value != "string"){
+        	value = value.toString()
+    	}
+    	if (field != null && value != null && value != ""){ 
+        	  for (var j = 0, len_field = field.length; j < len_field; j++) {
+                  if (field[j].value === value) {
+                    field[j].selected = true;
+                    break;
+                  }
+              }
+    	}
+    },
+    
+    getValueFromCombobox : function (field){
+        if (field != undefined){
+	    	for (var i=0; i < field.length; i++) {
+	            if (field[i].fielded) {
+	            	var result = field[i].value;    
+	            	return result === "-" ? undefined : result;
+	            }
+	        }
+        }
+        return undefined;
+    },    
+
     getValueFromRadio : function(radio, form){
     	if (radio != undefined){
 	    	tipo = typeof radio;
@@ -112,41 +138,18 @@ var fpc = fpcForm = {
     	return undefined;
     },
 
-    setRadioValue : function(radio, value){
-    	if (radio != null && value != null && value != ""){
-    		var inputName = radio.name;
-    		var radios = radio.form.querySelectorAll('[name='+ inputName + ']')	
-	    	for (var i = 0, length = radios.length; i < length; i++) {
-	    	    if (radios[i].value === value) {
-	    	        radios[i].checked = true;
+    setRadioValue : function(field, value){
+    	if (field != null && value != null && value != ""){
+    		var inputName = field.name;
+    		var fields = field.form.querySelectorAll('[name='+ inputName + ']')	
+	    	for (var i = 0, length = fields.length; i < length; i++) {
+	    	    if (fields[i].value === value) {
+	    	        fields[i].checked = true;
 	    	        break;
 	    	    }
 	    	}
     	}
     },
-    
-    setComboboxValue : function(field, value){
-    	if (field != null && value != null && value != ""){ 
-        	  for (var j = 0, len_input = input.length; j < len_input; j++) {
-                  if (input[j].value === value) {
-                    input[j].selected = true;
-                    break;
-                  }
-              }
-    	}
-    },
-    
-    getValueFromSelect : function (select){
-        if (select != undefined){
-	    	for (var i=0; i < select.length; i++) {
-	            if (select[i].selected) {
-	            	var result = select[i].value;    
-	            	return result === "-" ? undefined : result;
-	            }
-	        }
-        }
-        return undefined;
-    },    
     
     postUrl : function (url, params) {
        if (url != undefined){
@@ -901,7 +904,7 @@ var fpc = fpcForm = {
        			return true;
     		}
 		} else if (field_type === "select-one"){
-			var field_value = fpc.getValueFromSelect(field);
+			var field_value = fpc.getValueFromCombobox(field);
     		if (field_value != undefined && field_value !== dat.value){
        			return true;
     		}
@@ -950,7 +953,7 @@ var fpc = fpcForm = {
 			    					obj[dfield] = value;
 			    				}
 			    			} else if (field_type === "select-one"){
-			    				value = fpc.getValueFromSelect(field);
+			    				value = fpc.getValueFromCombobox(field);
 			    				if (value != undefined){
 			    					obj[dfield] = value;
 			    				}
@@ -1005,7 +1008,7 @@ var fpc = fpcForm = {
 			    					result.push(escape(value));
 			    				}
 			    			} else if (field_type === "select-one"){
-			    				value = fpc.getValueFromSelect(field);
+			    				value = fpc.getValueFromCombobox(field);
 			    				if (value != undefined){
 			    					result.push(escape(value));
 			    				}
@@ -1454,16 +1457,17 @@ var fpc = fpcForm = {
 				var template = param.template;
 				var f_cadastro = document.getElementById("f_cadastro");
 				$(f_cadastro).html(template);
-				fpc.updateFields(f_cadastro, update_fields);
-				fpc.resetFields(f_cadastro);
 				$("#dados_pesquisa").css("display", "none");
 				$("#filtro_pesquisa").css("display", "none");
 				$(f_cadastro).css("display", "block");
 				fpc.montaBarraBotao("edicao");
 				fpc.configFields(f_cadastro, "edicao");
 				$(function () {
-					  // seta o focu na primeira aba após renderizar 
-			 	      $('#id_tab_registro a:first').tab('show');
+					// seta o focu na primeira aba após renderizar 
+  		 	        $('#id_tab_registro a:first').tab('show');
+		 	        fpc.updateFields(f_cadastro, update_fields);
+					fpc.resetFields(f_cadastro);
+
 				});
 				  
 			});
