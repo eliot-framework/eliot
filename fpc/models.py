@@ -774,9 +774,12 @@ class EmsManager(FpcManager):
     
     def save(self, obj):
         update_fields = json.dumps(obj.get_update_values(), default=json_encode_java)
-        url = '/fpc/save?db_table="%s"&pk=%s' % (self.model._meta.db_table, obj.pk)
+        if obj.pk > 0:
+            url = '%s/%d' % (self.model.service_url, obj.pk)
+        else:
+            url = '%s' % self.model.service_url
         result = EmsRest.post(url, update_fields)
-        if result != "ok":
+        if result != "":
             raise DatabaseError(result)
         obj.update_fields = []
 
