@@ -66,10 +66,10 @@ var fpc = fpcForm = {
             crossDomain: true,
             success: function(msg) {
 				var doc = document;
-				if (msg.tipo === "erro"){
+				if (msg.tipo === "erro" || msg.erro != undefined){
 					doc.body.style.cursor = "default"; 
-					msg_erro = fpc.mensagem(msg.messages, "erro");
-					throw new FpcError(JSON.stringify(msg.messages), url, params);
+					msg_erro = fpc.mensagem(msg.message, "erro");
+					throw new FpcError(JSON.stringify(msg.message), url, params);
 				}
             },
             error: function(xhr, textStatus, error) {
@@ -212,8 +212,8 @@ var fpc = fpcForm = {
     login : function login(){
     	var doc = document;
 		var f_login = doc.getElementById("f_login");
-		var s_form = fpc.serializeForm(f_login);
-    	fpc.postUrl("/fpc.views.fpc_login", { form : s_form });
+		var user = fpc.getObject(f_login);
+    	fpc.postUrl("/fpc.views.fpc_login", user);
     },
 
    	retornaRegistroConsulta : function (){
@@ -454,11 +454,11 @@ var fpc = fpcForm = {
 		var s_form = fpc.serializeForm(f_cadastro);
     	doc.body.style.cursor = "wait"; 
 		fpc.getJSON("/fpc.views.fpc_field_onchange", { ts : dat.ts, 
-													 id : dat.id, 
-													 form : s_form,
-													 field : field.dataset.field,
-													 field_id : field.id,
-													 operacao : operacao}
+		 											   id : dat.id, 
+													   form : s_form,
+													   field : field.dataset.field,
+													   field_id : field.id,
+													   operacao : operacao}
 		).done(function (msg) {
 			var doc = document;
 			doc.body.style.cursor = "default"; 
@@ -1554,8 +1554,8 @@ var fpc = fpcForm = {
 						fpc.resetFields(f_cadastro);
 						fpc.configFields(f_cadastro, "edicao");
 						
-						if (msg.messages != undefined){
-							fpc.mensagem(msg.messages, "info");
+						if (msg.message != undefined){
+							fpc.mensagem(msg.message, "info");
 						}else{
 							fpc.mensagem("Registro salvo com sucesso!", "info");
 						}
@@ -1576,7 +1576,7 @@ var fpc = fpcForm = {
 						}
 					}else if (msg.tipo === "erro"){
 						fpc.mensagem("Verifique os erros abaixo e tente salvar novamente.", "warn");
-						fpc.mensagem(msg.messages, msg.tipo);
+						fpc.mensagem(msg.message, msg.tipo);
 					}
 	        }).fail(function( jqxhr, textStatus, error ){
 	        	fpc.mensagem(error, "error");        

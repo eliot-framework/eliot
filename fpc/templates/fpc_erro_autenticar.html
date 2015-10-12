@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "fpc_base.html" %}
 
 {% block conteudo %}
 
@@ -32,17 +32,12 @@
   </style>
     
 	<div class="container">
-	 
 	  <div style="float:left">
       	<img width="100" src="http://activon.com.br/imagens/info/118/erro00.jpg" />
       </div>
-      <h4>Erro na autenticação, não foi possível realizar a autenticação com o usuário "{{ user_errado }}"</h4>
-      <h5>Verifique se o nome do usuário e a senha informada estão corretos e tente fazer login no sistema novamente!</h5>
-	  <a href="{% url fpc.views.fpc_autenticar %}" >Autenticar novamente</a>
-
-	 
-
-
+      <h4>Falha na autenticação"</h4>
+      <h5>Verifique o nome do usuário e a senha informada e tente novamente!</h5>
+	  <a href="{% url 'fpc.views.fpc_autenticar' %}" >Autenticar novamente</a>
     </div>
         
 

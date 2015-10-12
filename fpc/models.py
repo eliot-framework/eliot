@@ -324,6 +324,13 @@ class FpcValidation(Exception):
         self.errors = errors
         self.warnings = warnings
         self.infos = infos
+
+class EmsException(Exception):
+    """ 
+        Classe para validação ErlangMS.
+    """
+    def __init__(self, msg_json):
+        self.msg_json = msg_json
            
            
 class FpcManager(models.Manager):
@@ -825,6 +832,8 @@ class EmsManager(FpcManager):
         url = '%s' % self.model.service_url
         obj_json = EmsRest.post(url, obj_json)
         obj_dict = json.loads(obj_json)
+        if "erro" in obj_dict.keys():
+            raise EmsException(obj_json)
         obj = self.model()
         obj.set_values(obj_dict)
         return obj 
@@ -833,6 +842,8 @@ class EmsManager(FpcManager):
         url = '%s/%d' % (self.model.service_url, pk)
         obj_json = EmsRest.put(url, obj_json)
         obj_dict = json.loads(obj_json)
+        if "erro" in obj_dict.keys():
+            raise EmsException(obj_json)
         obj = self.model()
         obj.set_values(obj_dict)
         return obj 

@@ -15,7 +15,8 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from eliot import settings
 from fpc.forms import AutenticarForm, FpcOperacaoForm, FpcForm
-from fpc.models import Fpc, Transacao, FpcValidation, FpcModel, EmsModel
+from fpc.models import Fpc, Transacao, FpcValidation, FpcModel, EmsModel, \
+    EmsException
 from fpc.services import FpcService
 from fpc.utils import FpcCache
 from functools import reduce
@@ -38,21 +39,27 @@ def json_encode(obj):
 
 class FpcJsonMessage(HttpResponse):
     def __init__(self, *args):
-        # messages, tipo="info", params = {}
+        # message, tipo="info", params = {}
         if len(args) >= 2:
-            messages = args[0]
-            if isinstance(messages, FpcValidation): 
-                messages = {"errors" : messages.errors,
-                            "warnings" : messages.warnings,
-                            "infos" :  messages.infos}
-            messages_json = json.dumps(messages)
-            tipo = args[1]
-            if len(args) == 3:
-                params = args[2]
-                params_json = json.dumps(params, default=json_encode)
-                response_json = '{"messages":%s,"tipo":"%s", "params":[%s]}' % (messages_json, tipo, params_json)
+            message = args[0]
+            if isinstance(message, EmsException):
+                response_json = message
             else:
-                response_json = '{"messages":%s,"tipo":"%s"}' % (messages_json, tipo) 
+                if isinstance(message, FpcValidation): 
+                    message = {"errors" : message.errors,
+                                "warnings" : message.warnings,
+                                "infos" :  message.infos}
+                 
+                    message_json = message.msg_json
+                else:
+                    message_json = json.dumps(message)
+                tipo = args[1]
+                if len(args) == 3:
+                    params = args[2]
+                    params_json = json.dumps(params, default=json_encode)
+                    response_json = '{"message":%s,"tipo":"%s", "params":[%s]}' % (message_json, tipo, params_json)
+                else:
+                    response_json = '{"message":%s,"tipo":"%s"}' % (message_json, tipo) 
         # obj
         elif len(args) == 1:
             value = args[0]
@@ -91,7 +98,7 @@ def fpc_request(view_func):
         except FpcValidation as e:
             response = FpcJsonMessage(e, "erro")
         except ValidationError as e:
-            response = FpcJsonMessage(e.messages, "erro")
+            response = FpcJsonMessage(e.message, "erro")
         except IntegrityError as e:
             response = FpcJsonMessage("Atenção: %s" % e.args[0], "erro")
         except DatabaseError as e:
@@ -102,15 +109,6 @@ def fpc_request(view_func):
     return _wrapped_view_func
 
 
-
-def fpc_autenticar(request):
-    request.ts = Transacao.objects.get(transacao_url="/fpc.views.fpc_autenticar")
-    form = FpcForm.get_form(request)
-    template = form.createTemplate()
-    response = HttpResponse(template)
-    return response
-
-
 @fpc_request
 def fpc_sobre(request):
     request.ts = Transacao.objects.get(transacao_url="/fpc.views.fpc_sobre")
@@ -119,16 +117,26 @@ def fpc_sobre(request):
     response = HttpResponse(template)
     return response
 
+
+def fpc_autenticar(request):
+    request.ts = Transacao.objects.get(transacao_url="/fpc.views.fpc_autenticar")
+    form = FpcForm.get_form(request)
+    template = form.createTemplate()
+    response = HttpResponse(template)
+    return response
+
     
 def fpc_login(request):
     request.ts = Transacao.objects.get(transacao_url="/fpc.views.fpc_autenticar")
-    form = FpcForm.get_form(request)
-    s_form = request.POST["form"]
-    user_tmp = form.DeSerializeForm("", s_form)
-    
-    
-    #user = Usuario.objects.autentica(login=user_tmp.username, senha=user_tmp.password)
-    user = auth.authenticate(username=user_tmp.username, password=user_tmp.password)
+    user = None
+    try:
+        username = request.POST["username"]
+        password = request.POST["password"]
+        if username != "" and password != "":
+            #user = Usuario.objects.autentica(login=username, senha=password)
+            user = auth.authenticate(username=username, password=password)
+    except Exception:
+        pass
         
     if user is not None:
         if user.is_active:
@@ -138,16 +146,13 @@ def fpc_login(request):
         else:
             return HttpResponseRedirect("/eliot/erro_autenticar.html")
     else:
-        return render(request, "fpc_autenticar.html",  {'form' : form })
+        return HttpResponseRedirect("/eliot/erro_autenticar.html")
     
     
 def fpc_erro_autenticar(request):
-    form = AutenticarForm(request.POST)
-    username = ""
-    if form.is_valid:
-        username = request.POST["username"]
-   
-    return render(request, "fpc_erro_autenticar.html", { "user_errado" : username })    
+    return render(request, "fpc_erro_autenticar.html", {"html5_cache": settings.HTML5_CACHE,
+                                                       "fpc" : Fpc.getFpc(),
+                                                       "settings" : settings}) 
     
 
 @fpc_request
@@ -405,11 +410,13 @@ def fpc_salvar_cadastro(request):
     except FpcValidation as e:
         response = FpcJsonMessage(e, "erro")
     except ValidationError as e:
-        response = FpcJsonMessage(e.messages, "erro")
+        response = FpcJsonMessage(e.message, "erro")
     except IntegrityError as e:
         response = FpcJsonMessage("Atenção: %s" % e.args[0], "erro")
     except DatabaseError as e:
         response = FpcJsonMessage("Database erro: %s" % e.args[0], "erro")
+    except EmsException as e:
+        response = FpcJsonMessage(e, "erro")
     except Exception as e:
         response = FpcJsonMessage("Erro: %s" % e.args[0], "erro")
     return response
@@ -446,7 +453,7 @@ def fpc_exibe_ajax_tab(request):
                                                         "template" : template})
         return response
     except ValidationError as e:
-        response = FpcJsonMessage(e.messages, "erro")
+        response = FpcJsonMessage(e.message, "erro")
     except DatabaseError as e:
         response = FpcJsonMessage("Database erro: %s" % e.args[0], "erro")
     except Exception as e:
@@ -476,7 +483,7 @@ def fpc_field_onchange(request):
                                                         "field_id" : field_id,
                                                         "operacao" : operacao })
     except ValidationError as e:
-        response = FpcJsonMessage(e.messages, "erro")
+        response = FpcJsonMessage(e.message, "erro")
     except DatabaseError as e:
         response = FpcJsonMessage("Database erro: %s" % e.args[0], "erro")
     except Exception as e:
@@ -505,7 +512,7 @@ def fpc_lazy_field(request):
                                                     "field_id" : field_id,
                                                     "operacao" : operacao })
     except ValidationError as e:
-        response = FpcJsonMessage(e.messages, "erro")
+        response = FpcJsonMessage(e.message, "erro")
     except DatabaseError as e:
         response = FpcJsonMessage("Database erro: %s" % e.args[0], "erro")
     except Exception as e:
