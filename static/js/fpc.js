@@ -62,7 +62,7 @@ var fpc = fpcForm = {
             type: "GET",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: "json",
-            timeout: 6500,
+            //timeout: 6500,
             crossDomain: true,
             success: function(msg) {
 				var doc = document;
@@ -113,7 +113,7 @@ var fpc = fpcForm = {
     getValueFromCombobox : function (field){
         if (field != undefined){
 	    	for (var i=0; i < field.length; i++) {
-	            if (field[i].fielded) {
+	            if (field[i].selected) {
 	            	var result = field[i].value;    
 	            	return result === "-" ? undefined : result;
 	            }
@@ -1482,86 +1482,102 @@ var fpc = fpcForm = {
    		
    	},
    	
+   	updateGrid : function(obj_id, grid_dados){
+		// Atualiza a linha do registro selecionado na grid sem fazer request
+		var row_atual = null;
+		var doc = document;
+		// Se for uma edição atualiza o registro da grid com os dados atuais do registro   
+		if (obj_id !== ""){
+			row_atual = $("input[value='" + obj_id + "']").parent().parent();
+			var idx_col = -1;
+			row_atual.children("td").each(function(){ 
+				if (idx_col > -1){
+					$(this).text(grid_dados[idx_col]);
+				}
+				idx_col++;
+			});
+		}else{ // Se for inserção, adiciona o novo item na gride
+			row_atual = doc.createElement("tr"); 
+			fpcDataTable.forceRefresh = true;
+
+			if ($("#dados").find("tbody").children().length > 0){
+				if (fpcDataTable.idsNovos === ""){ 
+					fpcDataTable.idsNovos = obj_id;
+				}else{
+					fpcDataTable.idsNovos += "," + obj_id;
+				}
+
+				if ($("#dados").find("tbody").children().first().hasClass("odd")){
+					$(row_atual).addClass("even");
+				}else{
+					$(row_atual).addClass("odd");
+				}
+				$(row_atual).append('<td><input type="radio" name="f_id" onclick="fpc.selecionaRegistroConsultaEvent(this.value)" value="'+ obj_id + '"></td>');
+				for (i in grid_dados){
+					$(row_atual).append("<td>" + grid_dados[i] + "</td>");
+				}
+			
+				$("#dados").find("tbody").children().first().before($(row_atual));
+				$("#dados").find("tbody").children().first().find("input").click();
+			}
+		}
+   	},
    	
    	salvar : function (){
    		var divDadosPesquisa = document.getElementById("dados_pesquisa");
+   		var dat = divDadosPesquisa.dataset;
+   		var obj_id = dat.id;
    		var obj = fpc.getObject(f_cadastro);
 
 		// limpa as mensagens anteriores
    		fpc.mensagem("");
 
-   		if (divDadosPesquisa.dataset.id !== "" && obj == undefined){
+   		if (obj_id !== "" && !isNaN(obj_id) && obj == undefined){
    			fpc.mensagem("Nenhuma alteração realizada no cadastro para salvar.", "info");
    			return;
    		}
    		
    		if (this.validaForm(f_cadastro)){
-			fpc.getJSON("/fpc.views.fpc_salvar_cadastro", { ts : divDadosPesquisa.dataset.ts, 
-		   												    id : divDadosPesquisa.dataset.id, 
+			fpc.getJSON("/fpc.views.fpc_salvar_cadastro", { ts : dat.ts, 
+		   												    id : obj_id, 
 														    form : JSON.stringify(obj) } 
 			).done(function (msg) {
 					if (msg.tipo === "info"){
 						var doc = document;
 						var param = msg.params[0]; 
 						var update_fields = param.update_values;
-						var idObj = param.id; 
+						var obj_id = param.id; 
 						var divDadosPesquisa = doc.getElementById("dados_pesquisa");
-
-						divDadosPesquisa.dataset.id = param.id;
+				   		var is_insert = divDadosPesquisa.dataset.id == ""
+						divDadosPesquisa.dataset.id = obj_id;
 						fpc.updateFields(f_cadastro, update_fields);
 						fpc.resetFields(f_cadastro);
 						fpc.configFields(f_cadastro, "edicao");
-
+						
+						if (msg.messages != undefined){
+							fpc.mensagem(msg.messages, "info");
+						}else{
+							fpc.mensagem("Registro salvo com sucesso!", "info");
+						}
 						
 						// Força o focus para a primeira aba
 						$('#id_tab_registro a:first').tab('show');
 
 						// Atualiza a grid da pesquisa
-						var grid_dados = JSON.parse(param.grid_dados);
-						if (grid_dados != undefined){
-							// Atualiza a linha do registro selecionado na grid sem fazer request
-							var row_atual = null;
-							// Se for uma edição atualiza o registro da grid com os dados atuais do registro   
-							if (idObj !== ""){
-								row_atual = $("input[value='" + idObj + "']").parent().parent();
-								var idx_col = -1;
-								row_atual.children("td").each(function(){ 
-									if (idx_col > -1){
-										$(this).text(grid_dados[idx_col]);
-									}
-									idx_col++;
-								});
-							}else{ // Se for inserção, adiciona o novo item na gride
-								row_atual = doc.createElement("tr"); 
-								var ts = msg.params[0].ts;
-								fpcDataTable.forceRefresh = true;
-
-								if ($("#dados").find("tbody").children().length > 0){
-									if (fpcDataTable.idsNovos === ""){ 
-										fpcDataTable.idsNovos = idObj;
-									}else{
-										fpcDataTable.idsNovos += "," + idObj;
-									}
-	
-									if ($("#dados").find("tbody").children().first().hasClass("odd")){
-										$(row_atual).addClass("even");
-									}else{
-										$(row_atual).addClass("odd");
-									}
-									$(row_atual).append('<td><input type="radio" name="f_id" onclick="fpc.selecionaRegistroConsultaEvent(this.value)" value="'+ idObj + '"></td>');
-									for (i in grid_dados){
-										$(row_atual).append("<td>" + grid_dados[i] + "</td>");
-									}
-								
-									$("#dados").find("tbody").children().first().before($(row_atual));
-									$("#dados").find("tbody").children().first().find("input").click();
+						if (param.grid_dados != undefined){
+							var grid_dados = JSON.parse(param.grid_dados);
+							if (grid_dados != undefined){
+								if (is_insert){
+									fpc.updateGrid("", grid_dados);	
+								}else{
+									fpc.updateGrid(obj_id, grid_dados);
 								}
 							}
 						}
 					}else if (msg.tipo === "erro"){
 						fpc.mensagem("Verifique os erros abaixo e tente salvar novamente.", "warn");
+						fpc.mensagem(msg.messages, msg.tipo);
 					}
-					fpc.mensagem(msg.messages, msg.tipo);
 	        }).fail(function( jqxhr, textStatus, error ){
 	        	fpc.mensagem(error, "error");        
 	        });  

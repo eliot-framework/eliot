@@ -2,6 +2,7 @@
 
 
 from _io import StringIO
+import copy
 from datetime import datetime
 from decimal import Decimal
 from django.conf import settings
@@ -19,7 +20,6 @@ import json
 import operator
 import os
 from urllib.parse import unquote
-
 
 
 class TransacaoDao(models.Manager):
@@ -409,6 +409,22 @@ class FpcManager(models.Manager):
         else:
             super(FpcModel, obj).save()
 
+    def insert_json(self, obj_json):
+        obj_dict = json.loads(obj_json)
+        obj = self.model()
+        obj.set_values(obj_dict)        
+        obj_copy = copy.deepcopy(obj)
+        obj.save()
+        obj.checkUpdateFields(obj_copy)
+    
+    def update_json(self, pk, obj_json):
+        obj_dict = json.loads(obj_json)
+        obj = self.get(pk=pk)
+        obj.set_values(obj_dict)        
+        obj_copy = copy.deepcopy(obj)
+        obj.save()
+        obj.checkUpdateFields(obj_copy)
+    
     
 class FpcModel(models.Model):
     objects = FpcManager()
@@ -803,10 +819,23 @@ class EmsManager(FpcManager):
         else:
             url = '%s' % self.model.service_url
             result = EmsRest.post(url, obj_json)
-        if result != "":
-            raise DatabaseError(result)
-        obj.update_fields = []
+        return result
 
+    def insert_json(self, obj_json):
+        url = '%s' % self.model.service_url
+        obj_json = EmsRest.post(url, obj_json)
+        obj_dict = json.loads(obj_json)
+        obj = self.model()
+        obj.set_values(obj_dict)
+        return obj 
+    
+    def update_json(self, pk, obj_json):
+        url = '%s/%d' % (self.model.service_url, pk)
+        obj_json = EmsRest.put(url, obj_json)
+        obj_dict = json.loads(obj_json)
+        obj = self.model()
+        obj.set_values(obj_dict)
+        return obj 
 
 class EmsModel(FpcModel):
     """
@@ -824,6 +853,15 @@ class EmsModel(FpcModel):
             self.service_url = os.path.join(self.service_url, os.sep)
         else:
             self.service_url = os.path.join(settings.ERLANGMS_URL, os.sep)
+
+    def save(self, *args, **kwargs):
+        manager = type(self).objects
+        obj = manager.save(self)
+        obj_dict = json.loads(obj)
+        if hasattr(obj_dict, "erro"):
+            raise DatabaseError(obj_dict)
+        self.set_values(obj_dict)
+        self.update_fields = []
 
 
 class Fpc(FpcModel):

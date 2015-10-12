@@ -375,11 +375,11 @@ def fpc_salvar_cadastro(request):
     ts = request.ts
     form = FpcForm.get_form(request)
     model_class = form.model
-    vId = request.GET["id"]
-    obj_dict = json.loads(request.GET["form"])
-    
+    obj_id = request.GET["id"]
+    obj_json = request.GET["form"]
+    is_insert = obj_id == None or obj_id == "" 
     # Validações de segurança da operação
-    if vId == "":
+    if is_insert:
         if not form.permiteInclusao:
             return FpcJsonMessage("Você não tem permissão para realizar esta inclusão.", "erro")
     else:
@@ -387,15 +387,11 @@ def fpc_salvar_cadastro(request):
             return FpcJsonMessage("Você não tem permissão para realizar esta edição.", "erro")
     
     try:
-        is_edicao = vId != ""
-        if is_edicao:
-            obj = model_class.objects.get(pk=vId)
+        if is_insert:
+            obj = model_class.objects.insert_json(obj_json)
         else:
-            obj = model_class()
-        obj.set_values(obj_dict)        
-        obj_copy = copy.deepcopy(obj)
-        obj.save()
-        obj.checkUpdateFields(obj_copy)
+            obj = model_class.objects.update_json(int(obj_id), obj_json)
+        
         update_values = obj.get_update_values()
         grid_dados = "["
         for fld in form.campos_grid_pesquisa:

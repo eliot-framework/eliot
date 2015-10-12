@@ -118,9 +118,9 @@ class EmsRest(object):
             conn.close()
 
 def json_encode_java(obj):
-    if isinstance(obj, decimal.Decimal):
+    if isinstance(obj, decimal.Decimal) or isinstance(obj, int):
         return str(obj)
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
-        return obj.strftime("%d/%m/%Y")
-    return str(obj)
+        return obj.strftime('"%d/%m/%Y"')
+    return + '"%s"' % obj
         
