@@ -515,7 +515,7 @@ var fpc = fpcForm = {
 	    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
 			for (var i = 0, len = list_fields.length; i < len; i++){
 				var field = list_fields[i];
-				field.dataset.value = field.value;
+				field.dataset.value = fpc.getFieldValue(field);
 				if (field.dataset.dirty != undefined){
 					field.removeAttribute("data-dirty"); 
 				}
@@ -838,102 +838,113 @@ var fpc = fpcForm = {
     	return label;
     },
     
-    validaForm : function (f){
-        var fieldLabels = [];
-        var fieldRequeridos = $(f).find(':input[data-required]');
-        for (var i = 0, len = fieldRequeridos.length; i < len; i++){
-            var field = fieldRequeridos[i];
-            var field_value = fpc.getFieldValue(field);
-            if ((field_value === "" || field_value == undefined) && field.dataset.autoIncrement == undefined){
-            	var label = this.getLabelFromField(field);
-                if (label !== undefined && label !== null){
-                	var titulo = label.firstChild.textContent;
-                	if (fieldLabels.indexOf(titulo) == -1){
-                		fieldLabels.push(titulo);
-                		
-                		// Adiciona o marcador de erro no input
-                		$(field.parentElement.parentElement).addClass("has-error");
-                		$(field.parentElement.parentElement).addClass("has-feedback");
-                		$(field).after('<span class="glyphicon glyphicon-remove form-control-feedback"></span>')
-                	}
-                }
-            }
-        }
-
-        // limpar as mensagens anteriores se existir
-        fpc.mensagem(""); 
-
-        if (fieldLabels.length > 0){
-        	fpc.mensagem("Campos com o título em negrito são obrigatórios.", "warn");
-            if (fieldLabels.length == 1){
-            	fpc.mensagem(fieldLabels + ' não foi informado.', "erro");
-            }else{
-                fieldLabels = fieldLabels.join(", ");
-            	fpc.mensagem(fieldLabels + ' não foram informados.', "erro");
-            }
-
-			// Refaz a validação após realizada edição
-    		$(f).one("change", function(event){
-    			$(this.getElementsByClassName('form-control-feedback')).remove();
-    			$(this.getElementsByClassName('has-error')).removeClass("has-error has-feedback");
-    			fpc.validaForm(this);
-			});
-            
-            return false;
-        }
-        
-        return true;
+    validaForm : function (form){
+    	if (form != undefined){
+	        var fieldLabels = [];
+	        var fieldRequeridos = $(form).find(':input[data-required]');
+	        for (var i = 0, len = fieldRequeridos.length; i < len; i++){
+	            var field = fieldRequeridos[i];
+	            var field_value = fpc.getFieldValue(field);
+	            if ((field_value === "" || field_value == undefined) && field.dataset.autoIncrement == undefined){
+	            	var label = this.getLabelFromField(field);
+	                if (label !== undefined && label !== null){
+	                	var titulo = label.firstChild.textContent;
+	                	if (fieldLabels.indexOf(titulo) == -1){
+	                		fieldLabels.push(titulo);
+	                		
+	                		// Adiciona o marcador de erro no input
+	                		$(field.parentElement.parentElement).addClass("has-error");
+	                		$(field.parentElement.parentElement).addClass("has-feedback");
+	                		$(field).after('<span class="glyphicon glyphicon-remove form-control-feedback"></span>')
+	                	}
+	                }
+	            }
+	        }
+	
+	        // limpar as mensagens anteriores se existir
+	        fpc.mensagem(""); 
+	
+	        if (fieldLabels.length > 0){
+	        	fpc.mensagem("Campos com o título em negrito são obrigatórios.", "warn");
+	            if (fieldLabels.length == 1){
+	            	fpc.mensagem(fieldLabels + ' não foi informado.', "erro");
+	            }else{
+	                fieldLabels = fieldLabels.join(", ");
+	            	fpc.mensagem(fieldLabels + ' não foram informados.', "erro");
+	            }
+	
+				// Refaz a validação após realizada edição
+	    		$(form).one("change", function(event){
+	    			$(this.getElementsByClassName('form-control-feedback')).remove();
+	    			$(this.getElementsByClassName('has-error')).removeClass("has-error has-feedback");
+	    			fpc.validaForm(this);
+				});
+	            
+	            return false;
+	        }
+	        
+	        return true;
+    	}else{
+    		return undefined;
+    	}
     },    
     
     getQueryStringFromForm : function(form){
-    	var fields = $(form).find("input[type='text']");
-    	var result = "";
-    	for (var i = 0, len = fields.size(); i < len; i++){
-    		var f = fields[i];
-    		if (f.value.trim() !== ""){ 
-    			result += f.id + "=" + escape(f.value) + "&";
-    		}
+    	if (form != undefined){
+	    	var fields = $(form).find("input[type='text']");
+	    	var result = "";
+	    	for (var i = 0, len = fields.size(); i < len; i++){
+	    		var f = fields[i];
+	    		if (f.value.trim() !== ""){ 
+	    			result += f.id + "=" + escape(f.value) + "&";
+	    		}
+	    	}
+	    	if (result !== ""){
+	    		result = result.slice(0, result.length-1);
+	    	}
+	    	return result;
+    	}else{
+    		return undefined;
     	}
-    	if (result !== ""){
-    		result = result.slice(0, result.length-1);
-    	}
-    	return result;
     },
 
     isFieldChanged : function(field){
-    	var dat = field.dataset;
-    	var dfield = dat.field;
-    	if (dfield === "id" || dfield === "pk"){
-    		return true;
-    	}
-		var field_type = field.type;
-		if (field_type === "radio"){
-			var field_value = fpc.getValueFromRadio(field.name, field.form); 
-    		if (field_value != undefined){
-       			return true;
-    		}
-		} else if (field_type === "select-one"){
-			var field_value = fpc.getValueFromCombobox(field);
-    		if (field_value != undefined && field_value !== dat.value){
-       			return true;
-    		}
-		}else{
-	    	if (dat.type === "lookup"){
-				var dat_key = dat.key; 
-	    		if (dat_key != undefined && dat.value !== dat_key){
-					return true;
-				}
-			}else {
-				var field_value = field.value;
-				if (dat.type === "data" && field_value === "__/__/____"){
-					return false;
-				}  
-	    		if (field_value != undefined && field_value != "" && field_value !== dat.value){
+    	if (field != undefined){
+	    	var dat = field.dataset;
+	    	var dfield = dat.field;
+	    	if (dfield === "id" || dfield === "pk"){
+	    		return true;
+	    	}
+			var field_type = field.type;
+			if (field_type === "radio"){
+				var field_value = fpc.getValueFromRadio(field.name, field.form); 
+	    		if (field_value != undefined && field_value !== dat.value){
 	       			return true;
 	    		}
+			} else if (field_type === "select-one"){
+				var field_value = fpc.getValueFromCombobox(field);
+	    		if (field_value != undefined && field_value !== dat.value){
+	       			return true;
+	    		}
+			}else{
+		    	if (dat.type === "lookup"){
+					var dat_key = dat.key; 
+		    		if (dat_key != undefined && dat.value !== dat_key){
+						return true;
+					}
+				}else {
+					var field_value = field.value;
+					if (dat.type === "data" && field_value !== dat.value){
+						return true;
+					}else if (field_value != undefined && field_value !== dat.value){
+		       			return true;
+		    		}
+				}
 			}
-		}
-		return false;
+			return false;
+    	}else{
+    		return undefined;
+    	}
     },
 
     getFieldValue : function(field){

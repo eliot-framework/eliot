@@ -609,9 +609,9 @@ class FpcModel(models.Model):
                     else:
                         raise ValidationError()
                 elif tipo == FpcTipoField.decimal:
-                    if type(value) == str:
-                        value = float(value)
                     formata = lambda value, decimal : ("%.*f" % (decimal, value)).replace(".", ",")
+                    if type(value) == str:
+                        value = float(value.replace(",", ""))
                     value =  formata(value, field.decimal_places)
                     value = Decimal(value.replace(",", "."))
                 return value
