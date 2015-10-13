@@ -784,8 +784,10 @@ class EmsManager(FpcManager):
         if isinstance(pk, str):
             pk = int(pk)
         url = '%s/%d' % (self.model.service_url, pk)
-        json_str = EmsRest.get(url)
-        obj_dict = json.loads(json_str)
+        obj_json = EmsRest.get(url)
+        obj_dict = json.loads(obj_json)
+        if "erro" in obj_dict.keys():
+            raise EmsException(obj_json)
         obj = self.model()
         obj.set_values(obj_dict)
         return obj
@@ -869,8 +871,6 @@ class EmsModel(FpcModel):
         manager = type(self).objects
         obj = manager.save(self)
         obj_dict = json.loads(obj)
-        if hasattr(obj_dict, "erro"):
-            raise DatabaseError(obj_dict)
         self.set_values(obj_dict)
         self.update_fields = []
 

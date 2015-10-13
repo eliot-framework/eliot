@@ -843,7 +843,8 @@ var fpc = fpcForm = {
         var fieldRequeridos = $(f).find(':input[data-required]');
         for (var i = 0, len = fieldRequeridos.length; i < len; i++){
             var field = fieldRequeridos[i];
-            if (field.value === "" && field.dataset.autoIncrement == undefined){
+            var field_value = fpc.getFieldValue(field);
+            if ((field_value === "" || field_value == undefined) && field.dataset.autoIncrement == undefined){
             	var label = this.getLabelFromField(field);
                 if (label !== undefined && label !== null){
                 	var titulo = label.firstChild.textContent;
@@ -935,6 +936,30 @@ var fpc = fpcForm = {
 		return false;
     },
 
+    getFieldValue : function(field){
+    	var dat = field.dataset;
+		var field_type = field.type;
+		if (field_type === "radio"){
+			var field_value = fpc.getValueFromRadio(field.name, field.form); 
+    		return field_value;
+		} else if (field_type === "select-one"){
+			var field_value = fpc.getValueFromCombobox(field);
+    		return field_value;
+		}else{
+	    	if (dat.type === "lookup"){
+				var dat_key = dat.key; 
+	    		return dat_key;
+			}else {
+				var field_value = field.value;
+				if (dat.type === "data" && field_value === "__/__/____"){
+					return undefined;
+				}
+				return field_value;
+			}
+		}
+		return false;
+    },
+    
     getObject : function(form){
     	if (form != undefined){
 	    	try{
@@ -1175,80 +1200,90 @@ var fpc = fpcForm = {
 
     mensagem : function mensagem(msg, tipo){
 		var alerta = $("#alerta");
-    	
-		if (msg !== "") {
-			var msg_text = "";
-			
-			// Cria a tag do alerta se necessário
-			if (alerta.length === 0){
-				$("#sep_breadcrumb").after("<div id='alerta' style='display:none'/>");
-				alerta = $("#alerta");
-			}
-
-			// adiciona todas as mensagens na tag alerta
-			if (msg instanceof Object){
-				var warnings = msg.warnings; 
-				if (warnings != undefined){
-					for (i in warnings){
-						str = '<i class="glyphicon glyphicon-warning-sign"/>' + warnings[i].msg;
-						msg_text += "<span>"+ str + "</span>";
-					}
+    	if (alerta != undefined) {
+			if (msg != undefined && msg !== "") {
+				var msg_text = "";
+				
+				// Cria a tag do alerta se necessário
+				if (alerta.length === 0){
+					$("#sep_breadcrumb").after("<div id='alerta' style='display:none'/>");
+					alerta = $("#alerta");
 				}
-
-				var infos = msg.infos; 
-				if (infos != undefined){
-					for (i in infos){
-						str = '<i class="glyphicon glyphicon-ok"/>' + infos[i].msg;
+	
+				// adiciona todas as mensagens na tag alerta
+				if (msg instanceof Array){
+					for (i in msg){
+						str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + msg[i];
 						msg_text += "<span>"+ str + "</span>";
 					}
-				}
-
-				var errors = msg.errors; 
-				if (errors != undefined){
-					for (i in errors){
-						str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + errors[i].msg;
-						msg_text += "<span>"+ str + "</span>";
+					if (msg_text != ""){
+						alerta.append(unescape(msg_text));
 					}
+				}else if (msg instanceof Object){
+					var warnings = msg.warnings; 
+					if (warnings != undefined){
+						for (i in warnings){
+							str = '<i class="glyphicon glyphicon-warning-sign"/>' + warnings[i].msg;
+							msg_text += "<span>"+ str + "</span>";
+						}
+					}
+	
+					var infos = msg.infos; 
+					if (infos != undefined){
+						for (i in infos){
+							str = '<i class="glyphicon glyphicon-ok"/>' + infos[i].msg;
+							msg_text += "<span>"+ str + "</span>";
+						}
+					}
+	
+					var errors = msg.errors; 
+					if (errors != undefined){
+						for (i in errors){
+							str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + errors[i].msg;
+							msg_text += "<span>"+ str + "</span>";
+						}
+					}
+					
+					if (msg_text != ""){
+						alerta.append(unescape(msg_text));
+					}
+					
+				}else {
+					msg = unescape(msg);
+					if (tipo === "info" || tipo == undefined || tipo === "") {
+						msg_text = '<i class="glyphicon glyphicon-ok"/>' + msg;
+					} else if (tipo === "erro" || tipo === "error") { 
+						msg_text = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + msg;
+					} else if (tipo === "warn" || tipo === "atencao") { 
+						msg_text = '<i class="glyphicon glyphicon-warning-sign"/>' + msg;
+					}
+					alerta.append("<span>"+ msg_text + "</span>");
 				}
 				
-				if (msg_text != ""){
-					alerta.append(msg_text);
-				}
 				
-			}else {
-				if (tipo === "info" || tipo == undefined || tipo === "") {
-					msg_text = '<i class="glyphicon glyphicon-ok"/>' + msg;
-				} else if (tipo === "erro" || tipo === "error") { 
-					msg_text = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + msg;
-				} else if (tipo === "warn" || tipo === "atencao") { 
-					msg_text = '<i class="glyphicon glyphicon-warning-sign"/>' + msg;
-				}
-				alerta.append("<span>"+ msg_text + "</span>");
-			}
-			
-			
-			alerta.css("display", "block");
-            $('html, body').animate({
-                scrollTop: $("#painel_conteudo").offset().top-80}, 700);
-			$("#f_cadastro").one("change", function(event){
-				fpc.mensagem("");
-			});
-			
-			return msg_text;
-   		}
-   		else
-   		{
-			if (alerta.length > 0){
-				alerta.remove();
-   			}
-			return "";
-   		}
+				alerta.css("display", "block");
+	            $('html, body').animate({
+	                scrollTop: $("#painel_conteudo").offset().top-80}, 700);
+				$("#f_cadastro").one("change", function(event){
+					fpc.mensagem("");
+				});
+				
+				return msg_text;
+	   		}
+	   		else
+	   		{
+				if (alerta.length > 0){
+					alerta.remove();
+	   			}
+				return "";
+	   		}
+    	}
    	},
    	
    	
    	limparMensagem : function(){
 		var alerta = $("#alerta");
-		if (alerta.length > 0){
+		if (alerta != undefined && alerta.length > 0){
 			alerta.remove();
 		}
    	},
