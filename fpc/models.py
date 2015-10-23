@@ -855,6 +855,7 @@ class EmsModel(FpcModel):
         Classe base para os objetos de modelo ErlangMS
     """
     objects = EmsManager()
+    service_url = ""
 
     class Meta:
         abstract = True

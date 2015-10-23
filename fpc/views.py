@@ -371,7 +371,7 @@ def fpc_novo_cadastro(request):
     template = form.createTemplate(FpcOperacaoForm.novo)
     response = FpcJsonMessage("", "info", {"template" : template, 
                                            "update_values" : obj.get_values(), 
-                                           "ts" : ts.pk })
+                                           "ts" : ts.pk})
     return response
 
 

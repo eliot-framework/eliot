@@ -18,13 +18,14 @@ var fpc = fpcForm = {
     lazyFields : null,
     erlangms_url: "http://localhost:2301",
 
-    callRest : function(url, params){
+    callRest : function(url, params, method){
     	var url = this.erlangms_url + url;
     	var params = (params == undefined ? {} : params);
+    	var method = (method == undefined ? "GET" : method);
 	    return $.ajax({
             url:  url,
             data : params,
-            type: "GET",
+            type: method,
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: "json",
             timeout: 6500,
@@ -1570,6 +1571,7 @@ var fpc = fpcForm = {
    	},
    	
    	salvar : function (){
+   		var doc = document;
    		var divDadosPesquisa = document.getElementById("dados_pesquisa");
    		var dat = divDadosPesquisa.dataset;
    		var obj_id = dat.id;
@@ -1578,55 +1580,79 @@ var fpc = fpcForm = {
 		// limpa as mensagens anteriores
    		fpc.mensagem("");
 
-   		if (obj_id !== "" && !isNaN(obj_id) && obj == undefined){
+   		if (obj == undefined){
    			fpc.mensagem("Nenhuma alteração realizada no cadastro para salvar.", "info");
    			return;
-   		}
+		}
    		
    		if (this.validaForm(f_cadastro)){
-			fpc.getJSON("/fpc.views.fpc_salvar_cadastro", { ts : dat.ts, 
-		   												    id : obj_id, 
-														    form : JSON.stringify(obj) } 
-			).done(function (msg) {
-					if (msg.tipo === "info"){
-						var doc = document;
-						var param = msg.params[0]; 
-						var update_fields = param.update_values;
-						var obj_id = param.id; 
-						var divDadosPesquisa = doc.getElementById("dados_pesquisa");
-				   		var is_insert = divDadosPesquisa.dataset.id == ""
-						divDadosPesquisa.dataset.id = obj_id;
-						fpc.updateFields(f_cadastro, update_fields);
-						fpc.resetFields(f_cadastro);
-						fpc.configFields(f_cadastro, "edicao");
-						
-						if (msg.message != undefined){
-							fpc.mensagem(msg.message, "info");
-						}else{
-							fpc.mensagem("Registro salvo com sucesso!", "info");
-						}
-						
-						// Força o focus para a primeira aba
-						$('#id_tab_registro a:first').tab('show');
+   			var f_state = doc.getElementById("f_state");
+   			var  service_url = f_state.dataset.serviceUrl;
+   			var obj = JSON.stringify(obj);
+			var metodo = "GET";
 
-						// Atualiza a grid da pesquisa
-						if (param.grid_dados != undefined){
-							var grid_dados = JSON.parse(param.grid_dados);
-							if (grid_dados != undefined){
-								if (is_insert){
-									fpc.updateGrid("", grid_dados);	
-								}else{
-									fpc.updateGrid(obj_id, grid_dados);
+   			if (service_url != "" && service_url != undefined){
+   				params = obj;
+   				// Eh uma edição se possui id
+   				if (obj_id != "" && obj_id != undefined){
+   					service_url += "/" + obj_id;
+   					metodo = "PUT";
+   				}else{
+					metodo = "POST";
+				}
+   			}else{
+   				service_url = "/fpc.views.fpc_salvar_cadastro";
+   				params = { ts : dat.ts, 
+   						   id : obj_id, 
+   						   form : obj };
+   			}
+   			
+   			fpc.callRest(service_url, params, metodo 
+				).done(function (msg) {
+						var doc = document;
+						if (msg.tipo === "info" || msg.tipo == undefined){
+							if (msg.tipo == undefined){
+								var update_fields = msg;
+								var obj_id = msg.id; 
+							}else{
+								var param = msg.params[0]; 
+								var update_fields = param.update_values;
+								var obj_id = param.id; 
+							}
+							var divDadosPesquisa = doc.getElementById("dados_pesquisa");
+							var is_insert = divDadosPesquisa.dataset.id == ""
+							divDadosPesquisa.dataset.id = obj_id;
+							fpc.updateFields(f_cadastro, update_fields);
+							fpc.resetFields(f_cadastro);
+							fpc.configFields(f_cadastro, "edicao");
+							
+							if (msg.message != undefined){
+								fpc.mensagem(msg.message, "info");
+							}else{
+								fpc.mensagem("Registro salvo com sucesso!", "info");
+							}
+							
+							// Força o focus para a primeira aba
+							$('#id_tab_registro a:first').tab('show');
+
+							// Atualiza a grid da pesquisa
+							if (param != undefined && param.grid_dados != undefined){
+								var grid_dados = JSON.parse(param.grid_dados);
+								if (grid_dados != undefined){
+									if (is_insert){
+										fpc.updateGrid("", grid_dados);	
+									}else{
+										fpc.updateGrid(obj_id, grid_dados);
+									}
 								}
 							}
+						}else if (msg.tipo === "erro"){
+							fpc.mensagem("Verifique os erros abaixo e tente salvar novamente.", "warn");
+							fpc.mensagem(msg.message, msg.tipo);
 						}
-					}else if (msg.tipo === "erro"){
-						fpc.mensagem("Verifique os erros abaixo e tente salvar novamente.", "warn");
-						fpc.mensagem(msg.message, msg.tipo);
-					}
-	        }).fail(function( jqxhr, textStatus, error ){
-	        	fpc.mensagem(error, "error");        
-	        });  
+				}).fail(function( jqxhr, textStatus, error ){
+					fpc.mensagem(error, "error");        
+			});  
 		}
    	},
 

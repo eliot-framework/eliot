@@ -584,12 +584,17 @@ class FpcLayout(object):
             
         
     def render_template(self):
+        if hasattr(self.form, "model") and hasattr(self.form.model, "service_url"):
+            service_url = self.form.model.service_url
+        else:
+            service_url = ""
         context_params = {"layout" : self, 
                           "form" : self.form, 
                           "ts" : self.form.ts, 
                           "modo_lazy" : self.modo_lazy, 
                           "opcao" : "layout",
-                          "settings" : settings }
+                          "settings" : settings,
+                          "service_url" : service_url }
         if hasattr(self.form, "get_context_params"):
             context_params.update(self.form.get_context_params())
         context = RequestContext(self.form.request, context_params)
