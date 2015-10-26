@@ -28,7 +28,6 @@ var fpc = fpcForm = {
             type: method,
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: "json",
-            timeout: 6500,
             crossDomain: true,
             success: function(response) {
 				return response;
@@ -147,6 +146,15 @@ var fpc = fpcForm = {
     	return undefined;
     },
 
+    getValueFromRadioAsBoolean : function(radio, form){
+    	var value = fpc.getValueFromRadio(radio, form);
+    	if (value != undefined){
+    		return value == true || value === "true" || value === "1" || value === "sim" || value === "yes";
+    	}else{
+    		return undefined;
+    	}
+    },
+
     setRadioValue : function(field, value){
     	if (field != null && value != null && value != ""){
     		var inputName = field.name;
@@ -159,7 +167,7 @@ var fpc = fpcForm = {
 	    	}
     	}
     },
-    
+
     postUrl : function (url, params) {
        if (url != undefined){
 	    	var doc = document;
@@ -405,7 +413,7 @@ var fpc = fpcForm = {
    
     fieldChanged : function (field){
     	$(field).on("change", function() {
-    		if (fpc.isFieldChanged(this)){
+    		if (fpc.isFieldChanged(this) || this.type == "radio"){
     			if (this.dataset.default != undefined && this.value === ""){
     				this.value = this.dataset.default;
     			}
@@ -705,7 +713,6 @@ var fpc = fpcForm = {
 	        	var input = list_fields[i];
 	            var dat = input.dataset;
 	            var data_type = dat.type;
-	            var data_listener = dat.listener;
 	            input.style.backgroundColor="white";
 	            if (data_type != undefined && data_type !== null){
 		              data_type = data_type.toLowerCase();
@@ -763,11 +770,7 @@ var fpc = fpcForm = {
 	          	    input.style.backgroundColor="LightYellow";
 	           }
 	          
-	           if (data_listener != undefined){
-	        	  if (data_listener.indexOf("onready") > -1){
-	            	  fpc.fireOnReadyEvent(input, operacao);
-	        	  } 
-	           }
+           	  fpc.fireOnReadyEvent(input, operacao);
 	
 	           if (dat.required != undefined){
 	        	  var label = fpc.getLabelFromField(input);
@@ -972,12 +975,13 @@ var fpc = fpcForm = {
 		return false;
     },
     
-    getObject : function(form){
+    getObject : function(form, all_fields){
     	if (form != undefined){
 	    	try{
 		    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
 		    	var obj = {};
 		    	var fields_dirty = [];
+		    	var all_fields = all_fields != undefined && all_fields;
 		    	for (var i = 0, len = list_fields.length; i < len; i++){
 		    		var field = list_fields[i];
 		    		// se o field estiver em outro form ou for undefined não serializar 
@@ -987,7 +991,7 @@ var fpc = fpcForm = {
 		    		var dat = field.dataset;
 		    		var dfield = dat.field;
 		    		var dtype = dat.type;
-		    		if (dfield != undefined && fpc.isFieldChanged(field) && fields_dirty.indexOf(dfield) == -1) {
+		    		if (dfield != undefined && (fpc.isFieldChanged(field) || all_fields) && fields_dirty.indexOf(dfield) == -1) {
 		    			if (dtype === "lookup"){
 		    				obj[dfield] = escape(dat.key);
 			    		}else {
@@ -1575,7 +1579,13 @@ var fpc = fpcForm = {
    		var divDadosPesquisa = document.getElementById("dados_pesquisa");
    		var dat = divDadosPesquisa.dataset;
    		var obj_id = dat.id;
-   		var obj = fpc.getObject(f_cadastro);
+
+   		if (obj_id === "" || obj_id === "undefined"){
+   			obj_id = undefined;
+   		}
+
+   		var is_edicao = (obj_id != undefined);
+   		var obj = fpc.getObject(f_cadastro, !is_edicao);
 
 		// limpa as mensagens anteriores
    		fpc.mensagem("");
@@ -1584,7 +1594,7 @@ var fpc = fpcForm = {
    			fpc.mensagem("Nenhuma alteração realizada no cadastro para salvar.", "info");
    			return;
 		}
-   		
+
    		if (this.validaForm(f_cadastro)){
    			var f_state = doc.getElementById("f_state");
    			var  service_url = f_state.dataset.serviceUrl;
@@ -1594,7 +1604,7 @@ var fpc = fpcForm = {
    			if (service_url != "" && service_url != undefined){
    				params = obj;
    				// Eh uma edição se possui id
-   				if (obj_id != "" && obj_id != undefined){
+   				if (is_edicao){
    					service_url += "/" + obj_id;
    					metodo = "PUT";
    				}else{
@@ -1610,7 +1620,9 @@ var fpc = fpcForm = {
    			fpc.callRest(service_url, params, metodo 
 				).done(function (msg) {
 						var doc = document;
-						if (msg.tipo === "info" || msg.tipo == undefined){
+						if (msg.tipo === "erro" || msg.erro != undefined){
+							fpc.mensagem(msg.message, "erro");
+						}else{
 							if (msg.tipo == undefined){
 								var update_fields = msg;
 								var obj_id = msg.id; 
@@ -1646,9 +1658,6 @@ var fpc = fpcForm = {
 									}
 								}
 							}
-						}else if (msg.tipo === "erro"){
-							fpc.mensagem("Verifique os erros abaixo e tente salvar novamente.", "warn");
-							fpc.mensagem(msg.message, msg.tipo);
 						}
 				}).fail(function( jqxhr, textStatus, error ){
 					fpc.mensagem(error, "error");        
@@ -1747,7 +1756,7 @@ var fpc = fpcForm = {
 							}else{
 								type_data = typeof data;
 								switch (type_data){
-									case "boolean": return data == true ? "Sim" : "Não";
+									case "boolean": return data == true || data === "true" || data === "1" || data === "sim" || data === "yes" ? "Sim" : "Não";
 									default: return data;
  								}
 							}
