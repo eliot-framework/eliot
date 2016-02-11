@@ -1,10 +1,12 @@
+'use strict';
+
 /*!
  * fpc -- Framework de primeira camada
  * Copyright 2011-2015 Everton de Vargas Agilar.
  * Project: https://github.com/eliot-framework/eliot
  */
 
-"use strict";
+
 
 function FpcError(message, url, params) {
     this.name = "FpcError";
@@ -13,13 +15,24 @@ function FpcError(message, url, params) {
 FpcError.prototype = Error.prototype;
 
 
-var fpc = fpcForm = {
+class FpcCrudController {
+		constructor(){
+			this.about = "Controller for cruds";
+	} 
+};
+  
+
+var fpc = {
     csrftoken : "",
     lazyFields : null,
     erlangms_url: "http://localhost:2301",
+    username : "everton",
+    password : "123456",
 
     callRest : function(url, params, method){
-    	var url = this.erlangms_url + url;
+    	if (!url.startsWith("/")){
+    		var url = this.erlangms_url + url;
+    	}
     	var params = (params == undefined ? {} : params);
     	var method = (method == undefined ? "GET" : method);
 	    return $.ajax({
@@ -32,7 +45,8 @@ var fpc = fpcForm = {
             success: function(response) {
 				return response;
             },
-            error: function(xhr, textStatus, error) {
+            error: function(xhr, textStatus) {
+		    	var error = xhr.responseJSON;
 		    	document.body.style.cursor = "default";
 				fpc.mensagem(error, "erro");
 				throw new FpcError(error, url, params);
@@ -68,7 +82,7 @@ var fpc = fpcForm = {
 				var doc = document;
 				if (msg.tipo === "erro" || msg.erro != undefined){
 					doc.body.style.cursor = "default"; 
-					msg_erro = fpc.mensagem(msg.message, "erro");
+					var msg_erro = fpc.mensagem(msg.message, "erro");
 					throw new FpcError(JSON.stringify(msg.message), url, params);
 				}
             },
@@ -82,11 +96,11 @@ var fpc = fpcForm = {
     
     fillComboboxFromArray : function(combobox, obj){
     	if (obj instanceof Array){
-    		jCombobox = $(combobox); 
+    		var jCombobox = $(combobox); 
 	    	for (var i=0; i < obj.length; i++) {
 	    		var item = obj[i];
 	    		if (item instanceof Object){
-	    			keys = Object.keys(item);
+	    			var keys = Object.keys(item);
 	    			jCombobox.append("<option value='"+ item[keys[0]]+ "'>" + item[keys[1]] + "</option>");
 	    		}else{
 	    			jCombobox.append("<option value='"+ item[0]+ "'>" + item[1] + "</option>");	
@@ -124,7 +138,7 @@ var fpc = fpcForm = {
 
     getValueFromRadio : function(radio, form){
     	if (radio != undefined){
-	    	tipo = typeof radio;
+	    	var tipo = typeof radio;
 	    	if (tipo === "object"){
 	    		var inputName = radio.name;
 	    	}else if (tipo === "string"){
@@ -174,16 +188,14 @@ var fpc = fpcForm = {
 	    	var form = doc.createElement('form');
 	        form.action = url;
 	        form.method = 'POST';
-	        
 	        var input = doc.createElement('input');
 	        input.type = 'hidden';
 	        input.name = "csrfmiddlewaretoken";
 	        input.value = fpc.csrftoken;
 	        form.appendChild(input);
-	        
 	        for (var i in params) {
 	            if (params.hasOwnProperty(i)) {
-	                input = doc.createElement('input');
+	                var input = doc.createElement('input');
 	                input.type = 'hidden';
 	                input.name = i;
 	                input.value = params[i];
@@ -484,7 +496,7 @@ var fpc = fpcForm = {
     	if (form != undefined && update_fields != undefined){
 	    	try{
 		    	var list_fields = $.makeArray(form.querySelectorAll('[data-field]'));
-		    	for (field_update in update_fields){
+		    	for (var field_update in update_fields){
 		    		var value = update_fields[field_update];
 		    		var is_object = typeof value  === "object";
 					for (var i = 0, len = list_fields.length; i < len; i++){
@@ -533,25 +545,34 @@ var fpc = fpcForm = {
     },
 
     fireOnReadyEvent : function(field, operacao){
-		var js_class = document.getElementById("dados_pesquisa").dataset.jsclass;
-		if (js_class != undefined){
-			var js_controller = this.findController(js_class);
-			if (js_controller != undefined && js_controller.onready != undefined){
-				try{
-					js_controller.onready(field, operacao);
-				}catch (e){
-					fpc.mensagem("Erro no evento onready do campo " + field + ". " + e + ".", "erro");
-				}
+		var controller = fpc.findController();
+		if (controller != undefined && controller.onready != undefined){
+			try{
+				controller.onready(field, operacao);
+			}catch (e){
+				fpc.mensagem("Erro no evento onready do campo " + field + ". " + e + ".", "erro");
 			}
+		}
+    },
+    
+    fireOnGetFiltroPesquisa : function(controller, filtro_atual){
+		if (controller != undefined && controller.ongetfiltropesquisa != undefined){
+			try{
+				return controller.ongetfiltropesquisa(filtro_atual);
+			}catch (e){
+				fpc.mensagem("Erro no evento ongetfiltropesquisa:" + e + ".", "erro");
+			}
+		}else{
+			return filtro_atual;
 		}
     },
     
     fireOnChange : function(js_class, field, operacao){
 		if (js_class != undefined && field != undefined){
-			var js_controller = this.findController(js_class);
-			if (js_controller != undefined && js_controller.onchange != undefined){
+			var controller = fpc.findController(js_class);
+			if (controller != undefined && controller.onchange != undefined){
 				try{
-					js_controller.onchange(field, operacao);
+					controller.onchange(field, operacao);
 				}catch (e){
 					fpc.mensagem("Erro no evento onchange do campo " + field + ". " + e + ".", "erro");
 				}
@@ -559,14 +580,14 @@ var fpc = fpcForm = {
 		}
     },
 
-    fireOnFormatObject : function(obj, js_controller){
+    fireOnFormatObject : function(obj, controller){
 		if (obj != undefined){
-	    	if (js_controller == undefined){
-				js_controller = this.findController(js_class);
+	    	if (controller == undefined){
+				var controller = fpc.findController(js_class);
 			}
-			if (js_controller != undefined && js_controller.on_format_object != undefined){
+			if (controller != undefined && controller.on_format_object != undefined){
 				try{
-					js_controller.on_format_object(obj);
+					controller.on_format_object(obj);
 				}catch (e){
 					fpc.mensagem("Erro na formatação dos campos do objeto (no evento on_format_object). " + e + ".", "erro");
 				}
@@ -574,14 +595,14 @@ var fpc = fpcForm = {
 		}
     },
     
-    fireOnFormatCellDataTable : function(field, type, value, row, col, html_row, js_controller){
+    fireOnFormatCellDataTable : function(field, type, value, row, col, html_row, controller){
     	if (field != undefined && value != undefined){ 
-	    	if (js_controller == undefined){
-				js_controller = this.findController(js_class);
+	    	if (controller == undefined){
+				var controller = fpc.findController(js_class);
 			}
-			if (js_controller != undefined && js_controller.on_format_cell_datable != undefined){
+			if (controller != undefined && controller.on_format_cell_datable != undefined){
 				try{
-					return js_controller.on_format_cell_datable(field, type, value, row, col, html_row);
+					return controller.on_format_cell_datable(field, type, value, row, col, html_row);
 				}catch (e){
 					fpc.mensagem("Erro na formatação dos dados ("+ value + ") do campo "+ field + " da grid (no evento on_format_cell_datable). " + e + ".", "erro");
 				}
@@ -594,10 +615,10 @@ var fpc = fpcForm = {
 
     fireOnOpenForm : function(js_class, response){
     	if (js_class != undefined){
-			var js_controller = this.findController(js_class);
-			if (js_controller != undefined && js_controller.on_open_form != undefined){
+			var controller = fpc.findController(js_class);
+			if (controller != undefined && controller.on_open_form != undefined){
 				try{
-					js_controller.on_open_form(response);
+					controller.on_open_form(response);
 				}catch (e){
 					fpc.mensagem("Erro ao abrir formulário (no evento on_open_form). " + e + ".", "erro");
 				}
@@ -606,10 +627,10 @@ var fpc = fpcForm = {
     },
     
     fireOnRenderLazyField : function(field){
-		var js_controller = this.findController();
-		if (js_controller != undefined && js_controller.on_render_lazy_field != undefined){
+		var controller = fpc.findController();
+		if (controller != undefined && controller.on_render_lazy_field != undefined){
 			try{
-				js_controller.on_render_lazy_field(field);
+				controller.on_render_lazy_field(field);
 			}catch (e){
 				fpc.mensagem("Erro ao renderizar campo lazy (no evento on_render_lazy_field). " + e + ".", "erro");
 			}
@@ -620,9 +641,36 @@ var fpc = fpcForm = {
 		var doc = document;
 		try{
 			if (js_class == undefined){
-	    		f_state = doc.getElementById("f_state");
+	    		var f_state = doc.getElementById("f_state");
 	    		if (f_state != undefined){
-	    			js_class = f_state.dataset.jsclass;
+	    			var js_class = f_state.dataset.jsclass;
+	    		}
+			}
+	    	if (js_class != undefined && js_class.length > 4){
+				var js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1); 
+				var js_obj = window[js_var];
+				if (js_obj == undefined){
+					js_var = js_class.substr(0,1).toLowerCase() + js_class.substr(1,js_class.length-5) + "Controller";
+					var js_obj = window[js_var];
+					if (js_obj == undefined){
+						var js_obj = window[js_class];
+					}
+				}
+				return js_obj;
+			}
+		}catch (e){
+			fpc.mensagem("Erro ao localizar controller do formulário. " + e + ".", "erro");
+			return undefined;
+		}
+    },
+    
+    findBaseController : function(js_class){
+		var doc = document;
+		try{
+			if (js_class == undefined){
+	    		var f_state = doc.getElementById("f_state");
+	    		if (f_state != undefined){
+	    			var js_class = f_state.dataset.jsclassBase;
 	    		}
 			}
 	    	if (js_class != undefined && js_class.length > 4){
@@ -709,81 +757,86 @@ var fpc = fpcForm = {
 
         // Configura cada field conforme seu tipo (data-type) 
         for (var i = 0, len = list_fields.length; i < len; i++){
-            try{
-	        	var input = list_fields[i];
-	            var dat = input.dataset;
-	            var data_type = dat.type;
-	            input.style.backgroundColor="white";
-	            if (data_type != undefined && data_type !== null){
-		              data_type = data_type.toLowerCase();
-		              if (data_type === "numero"  || 
-		            	  data_type === "number"  || 
-		            	  data_type === "integer" || 
-		            	  data_type === "int"){
-		            	  	dat.type = "numero";
-			 	         	this.somenteNumeros(input);
-		              } 
-		              else if (data_type === "decimal"  || 
-		            		   data_type === "money"    || 
-		            		   data_type === "currency" || 
-		            		   data_type === "real"     || 
-		            		   data_type === "double") {
-		            	  dat.type = "decimal";
-		        	  	  this.somenteDecimal(input);
-		              }
-		              else if (data_type === "data" || data_type === "date"){
-		            	  $(input).mask("99/99/9999");
-		            	  dat.type = "data";
-		            	  input.setAttribute("size", 12);
-		            	  this.somenteData(input);
-		              }else if (data_type === "text"    || 
-		            		  	data_type === "texto"   || 
-		            		  	data_type === "string"  ||
-		            		  	data_type === "char"){
-		            	  dat.type = "text";
-		            	  if (dat.caixaAlta != undefined){
-		            		  this.somenteCaixaAlta(input);
-		            	  }
-		            	  if (dat.mascara != undefined){
-		            		  $(input).mask(dat.mascara, {placeholder: dat.mascaraPlaceholder});
-		            	  }
-		              }else if (data_type === "combobox" || 
-		            		  	data_type === "dropdown" || 
-		            		  	data_type === "select"){
-		            	  dat.type = "combobox";
-		              } else if (data_type === "grid"){
-		            	  
-		              }
-	            } 
-	
-	           if (dat.lazy != undefined){
-	        	  fpc.lazyFields.push(input);
-	           }
-	          
-	           if (operacao === "put" && dat.noEditable != undefined){
-	            	input.setAttribute("readonly", "readonly");
-	            	input.style.backgroundColor="LightYellow";
-	           }
-	
-	           if (operacao === "post" && dat.noInsertable != undefined){
-	            	input.setAttribute("readonly", "readonly");
-	          	    input.style.backgroundColor="LightYellow";
-	           }
-	          
-           	  fpc.fireOnReadyEvent(input, operacao);
-	
-	           if (dat.required != undefined){
+        	var input = list_fields[i];
+            if (input.type != undefined){
+	        	try{
+		        	var dat = input.dataset;
+		            var data_type = dat.type;
+		            input.style.backgroundColor="white";
+		            if (data_type != undefined && data_type !== null){
+			              data_type = data_type.toLowerCase();
+			              if (data_type === "numero"  || 
+			            	  data_type === "number"  || 
+			            	  data_type === "integer" || 
+			            	  data_type === "int"){
+			            	  	dat.type = "numero";
+				 	         	this.somenteNumeros(input);
+			              } 
+			              else if (data_type === "decimal"  || 
+			            		   data_type === "money"    || 
+			            		   data_type === "currency" || 
+			            		   data_type === "real"     || 
+			            		   data_type === "double") {
+			            	  dat.type = "decimal";
+			        	  	  this.somenteDecimal(input);
+			              }
+			              else if (data_type === "data" || data_type === "date"){
+			            	  $(input).mask("99/99/9999");
+			            	  dat.type = "data";
+			            	  input.setAttribute("size", 12);
+			            	  this.somenteData(input);
+			              }else if (data_type === "text"    || 
+			            		  	data_type === "texto"   || 
+			            		  	data_type === "string"  ||
+			            		  	data_type === "char"){
+			            	  dat.type = "text";
+			            	  if (dat.caixaAlta != undefined){
+			            		  this.somenteCaixaAlta(input);
+			            	  }
+			            	  if (dat.mascara != undefined){
+			            		  $(input).mask(dat.mascara, {placeholder: dat.mascaraPlaceholder});
+			            	  }
+			              }else if (data_type === "combobox" || 
+			            		  	data_type === "dropdown" || 
+			            		  	data_type === "select"){
+			            	  dat.type = "combobox";
+			              } else if (data_type === "grid"){
+			            	  
+			              }
+		            } 
+		
+		           if (dat.lazy != undefined){
+		        	  fpc.lazyFields.push(input);
+		           }
+		          
+		           if (operacao === "put" && dat.noEditable != undefined){
+		            	input.setAttribute("readonly", "readonly");
+		            	input.style.backgroundColor="LightYellow";
+		           }
+		
+		           if (operacao === "post" && dat.noInsertable != undefined){
+		            	input.setAttribute("readonly", "readonly");
+		          	    input.style.backgroundColor="LightYellow";
+		           }
+		          
+	           	  fpc.fireOnReadyEvent(input, operacao);
+		
 	        	  var label = fpc.getLabelFromField(input);
-	        	  if (label != undefined){
-	        	      label.style.fontWeight="bold";
+	           	  if (label != undefined){
+	        	      label.style.fontWeight="";
 	        	  }
-	           }
-	          
-	           this.fieldChanged(input);
-
-            }catch (e){
-				fpc.mensagem("Erro ao configurar campo " + input.id + " (no metodo configFields). " + e + ".", "erro");
-			}
+	           	  if (dat.required != undefined && (operacao == "post" || operacao == "putt")){
+		        	  if (label != undefined){
+		        	      label.style.fontWeight="bold";
+		        	  }
+		           }
+		          
+		           this.fieldChanged(input);
+	
+	            }catch (e){
+					fpc.mensagem("Erro ao configurar campo " + input.id + " (no metodo configFields). " + e + ".", "erro");
+				}
+            }
         }
 
         // Configura datatimepicker
@@ -975,6 +1028,11 @@ var fpc = fpcForm = {
 		return false;
     },
     
+    getObjectAsJson : function(form, all_fields){
+    	var obj = this.getObject(form, all_fields);
+    	return obj == undefined ? "{}" : JSON.stringify(obj);
+    },
+    
     getObject : function(form, all_fields){
     	if (form != undefined){
 	    	try{
@@ -997,12 +1055,12 @@ var fpc = fpcForm = {
 			    		}else {
 			    			var field_type = field.type;
 			    			if (field_type === "radio"){
-			    				value = fpc.getValueFromRadio(field.name, form);
+			    				var value = fpc.getValueFromRadio(field.name, form);
 			    				if (value != undefined){ 
 			    					obj[dfield] = value;
 			    				}
 			    			} else if (field_type === "select-one"){
-			    				value = fpc.getValueFromCombobox(field);
+			    				var value = fpc.getValueFromCombobox(field);
 			    				if (value != undefined){
 			    					obj[dfield] = value;
 			    				}
@@ -1163,7 +1221,7 @@ var fpc = fpcForm = {
     },
     
     refreshCurrentTab : function(){
-    	h_tab_a = $("#id_tab_registro li[class='active'").children().first(); 
+    	var h_tab_a = $("#id_tab_registro li[class='active'").children().first(); 
     	h_tab_a[0].removeAttribute("data-ajax");
     	h_tab_a.click();    	
     },
@@ -1189,11 +1247,15 @@ var fpc = fpcForm = {
 				$(function () {
 			 	      $('#id_tab_registro a:first').tab('show');
 			 	      var dat = document.body.dataset;
-			 	      var state = doc.getElementById("f_state");
+			 	      var f_state = doc.getElementById("f_state");
 			 	      dat.ts = ts_id;
 			 	      dat.tipoTs = tipoTs;
-			 	      if (state != undefined){
-						 js_class = state.dataset.jsclass;
+			 	      if (f_state != undefined){
+						 var js_class = f_state.dataset.jsclass;
+						 var js_class_base = f_state.dataset.jsclassBase;
+						 if (js_class_base != undefined && js_class_base === "FpcCrud"){
+							fpc.montaBarraBotao("pesquisa"); 
+						 }
 						 if (js_class != undefined){
 							fpc.fireOnOpenForm(js_class, msg);		
 						 }
@@ -1228,35 +1290,40 @@ var fpc = fpcForm = {
 	
 				// adiciona todas as mensagens na tag alerta
 				if (msg instanceof Array){
-					for (i in msg){
-						str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + msg[i];
+					for (var i in msg){
+						var str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + msg[i];
 						msg_text += "<span>"+ str + "</span>";
 					}
 					if (msg_text != ""){
 						alerta.append(unescape(msg_text));
 					}
 				}else if (msg instanceof Object){
-					var warnings = msg.warnings; 
-					if (warnings != undefined){
-						for (i in warnings){
-							str = '<i class="glyphicon glyphicon-warning-sign"/>' + warnings[i].msg;
-							msg_text += "<span>"+ str + "</span>";
+					var message = msg.message;
+					if (message != undefined){
+						var msg_text = '<span><i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + message + '</span>';
+					}else{
+						var warnings = msg.warnings; 
+						if (warnings != undefined){
+							for (var i in warnings){
+								var str = '<i class="glyphicon glyphicon-warning-sign"/>' + warnings[i].msg;
+								msg_text += "<span>"+ str + "</span>";
+							}
 						}
-					}
-	
-					var infos = msg.infos; 
-					if (infos != undefined){
-						for (i in infos){
-							str = '<i class="glyphicon glyphicon-ok"/>' + infos[i].msg;
-							msg_text += "<span>"+ str + "</span>";
+		
+						var infos = msg.infos; 
+						if (infos != undefined){
+							for (var i in infos){
+								var str = '<i class="glyphicon glyphicon-ok"/>' + infos[i].msg;
+								msg_text += "<span>"+ str + "</span>";
+							}
 						}
-					}
-	
-					var errors = msg.errors; 
-					if (errors != undefined){
-						for (i in errors){
-							str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + errors[i].msg;
-							msg_text += "<span>"+ str + "</span>";
+		
+						var errors = msg.errors; 
+						if (errors != undefined){
+							for (var i in errors){
+								var str = '<i class="glyphicon glyphicon-remove" style="color: #a94442;"/>' + errors[i].msg;
+								msg_text += "<span>"+ str + "</span>";
+							}
 						}
 					}
 					
@@ -1307,7 +1374,7 @@ var fpc = fpcForm = {
    	parcialUpdate : function parcialUpdate(parcial_update){
    		for (i in parcial_update){
    			var obj = parcial_update[i];
-   			for (id in obj){
+   			for (var id in obj){
    				$("#"+ id).html(obj[id]);
    			}
    		}
@@ -1501,7 +1568,7 @@ var fpc = fpcForm = {
    	},
    	
    	editar : function (){
-   		dados_pesquisa = document.getElementById("dados_pesquisa");
+   		var dados_pesquisa = document.getElementById("dados_pesquisa");
    		if (dados_pesquisa.dataset.id === ""){
    			alert('Selecione um registro primeiro!');
    			return;
@@ -1574,13 +1641,50 @@ var fpc = fpcForm = {
 		}
    	},
    	
+   	excluir : function(){
+   		var doc = document;
+   		var divDadosPesquisa = document.getElementById("dados_pesquisa");
+   		var dat = divDadosPesquisa.dataset;
+   		var obj_id = dat.id;
+		var f_state = doc.getElementById("f_state");
+		var  service_url = f_state.dataset.serviceUrl;
+
+		if (obj_id === "" || obj_id === "undefined"){
+   			alert('Selecione um registro primeiro!');
+   		}
+
+		if (confirm("Confirma a exclusão?")){
+			if (service_url != "" && service_url != undefined){
+				service_url += "/" + obj_id;
+				var params = {};
+			}else{
+				service_url = "/fpc.views.fpc_excluir_cadastro";
+				var params = { ts : dat.ts, 
+						   	   id : obj_id};			
+			}
+			
+			fpc.callRest(service_url, params, "DELETE" 
+				).done(function (msg) {
+						var doc = document;
+						if (msg.tipo === "erro" || msg.erro != undefined){
+							fpc.mensagem(msg.message, "erro");
+						}else{
+							fpc.mensagem("Registro excluído com sucesso!", "info");
+						}
+				}).fail(function( jqxhr, textStatus, error ){
+					fpc.mensagem(error, "error");        
+			});
+		}
+		
+   	},
+   	
    	salvar : function (){
    		var doc = document;
    		var divDadosPesquisa = document.getElementById("dados_pesquisa");
    		var dat = divDadosPesquisa.dataset;
    		var obj_id = dat.id;
 
-   		if (obj_id === "" || obj_id === "undefined"){
+   		if (obj_id === "undefined" || obj_id === ""){
    			obj_id = undefined;
    		}
 
@@ -1602,7 +1706,7 @@ var fpc = fpcForm = {
 			var metodo = "GET";
 
    			if (service_url != "" && service_url != undefined){
-   				params = obj;
+   				var params = obj;
    				// Eh uma edição se possui id
    				if (is_edicao){
    					service_url += "/" + obj_id;
@@ -1612,9 +1716,9 @@ var fpc = fpcForm = {
 				}
    			}else{
    				service_url = "/fpc.views.fpc_salvar_cadastro";
-   				params = { ts : dat.ts, 
-   						   id : obj_id, 
-   						   form : obj };
+   				var params = { ts : dat.ts, 
+   							   id : obj_id, 
+   							   form : obj };
    			}
    			
    			fpc.callRest(service_url, params, metodo 
@@ -1668,26 +1772,20 @@ var fpc = fpcForm = {
     pesquisar : function (ts, is_consulta){
 		var doc = document;
     	var frmFiltro = is_consulta ? doc.getElementById("filtro_consulta") : doc.getElementById("filtro");
-			//var filtro = this.serializeFormParaPesquisa(frmFiltro);
-    	var filtro = this.getObject(frmFiltro);
-    	filtro = filtro == undefined ? "" : JSON.stringify(filtro)
-		var id_dados_wrapper_jquery = null;
-		var id_dados_pesquisa_jquery = null;
-		var id_filtro_pesquisa_jquery = null;
-		var id_dados_jquery = null;
+    	var controller = fpc.findController();
+    	var filtro = this.getObjectAsJson(frmFiltro);
 		if (is_consulta){
-				id_dados_wrapper_jquery = "#dados_consulta_wrapper";
-				id_dados_pesquisa_jquery = "#dados_pesquisa_consulta";
-				id_filtro_pesquisa_jquery = "#filtro_pesquisa_consulta";
-				id_dados_jquery = "#dados_consulta";
-				event_selecionaRegistro = "' onclick='fpc.selecionaRegistroConsulta(this)'";
+				var id_dados_wrapper_jquery = "#dados_consulta_wrapper";
+				var id_dados_pesquisa_jquery = "#dados_pesquisa_consulta";
+				var id_filtro_pesquisa_jquery = "#filtro_pesquisa_consulta";
+				var id_dados_jquery = "#dados_consulta";
+				var event_selecionaRegistro = "' onclick='fpc.selecionaRegistroConsulta(this)'";
 			}else{
-				id_dados_wrapper_jquery = "#dados_wrapper";
-				id_dados_pesquisa_jquery = "#dados_pesquisa";
-				id_id_selecionado = "f_id";
-				id_filtro_pesquisa_jquery = "#filtro_pesquisa";
-				id_dados_jquery = "#dados";
-				event_selecionaRegistro = "' onclick='fpc.selecionaRegistro(this)'";
+				var id_dados_wrapper_jquery = "#dados_wrapper";
+				var id_dados_pesquisa_jquery = "#dados_pesquisa";
+				var id_filtro_pesquisa_jquery = "#filtro_pesquisa";
+				var id_dados_jquery = "#dados";
+				var event_selecionaRegistro = "' onclick='fpc.selecionaRegistro(this)'";
 			}
 		
 		var tbl_dados = $(id_dados_jquery);
@@ -1719,12 +1817,21 @@ var fpc = fpcForm = {
 			fpcDataTable.idsNovos = "";
 		}
 		
+		var f_state = doc.getElementById("f_state");
+		var service_url = f_state.dataset.serviceUrl;
+		if (service_url != "" && service_url != undefined){
+			filtro = this.fireOnGetFiltroPesquisa(controller, filtro);
+			service_url += "?ts="+ ts + "&filtro=" + filtro + "&fields=" + f_state.dataset.fieldsGrid;
+			service_url = this.erlangms_url + service_url;
+		}else{
+			service_url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=" + is_consulta;
+		}
 		
 		fpcDataTable.createDataTable(
-				tbl = tbl_dados,
-				url = "/fpc.views.fpc_pesquisar?ts="+ ts + "&filtro='" + filtro + "'&filtroIds=''&isconsulta=" + is_consulta,
-				is_consulta = is_consulta,
-				row = function( nRow, aData, iDataIndex ) {
+				tbl_dados,
+				service_url,
+				is_consulta,
+				function( nRow, aData, iDataIndex ) {
 					if (nRow.firstChild != undefined){
 						if (fpcDataTable.is_consulta){
 			        		  nRow.onclick = function(){
@@ -1745,16 +1852,16 @@ var fpc = fpcForm = {
 			   	   			}
 						}
 					},
-					col = function ( data, type, row, meta ) {
+				function ( data, type, row, meta ) {
 						var dat = meta.settings.aoHeader[0][meta.col].cell.dataset;
 						var tipo = dat.type;
 						if (meta.col == 0){
 							return "<input class='fpc-option-grid' type='radio' name='f_id' value='"+ data + "'/>";
 						}else{
 							if (fpcDataTable.hasOnFormatCellDatatable){
-								return fpc.fireOnFormatCellDataTable(dat.field, dat.type, data, meta.row, meta.col, row, fpcDataTable.js_controller);
+								return fpc.fireOnFormatCellDataTable(dat.field, dat.type, data, meta.row, meta.col, row, fpcDataTable.controller);
 							}else{
-								type_data = typeof data;
+								var type_data = typeof data;
 								switch (type_data){
 									case "boolean": return data == true || data === "true" || data === "1" || data === "sim" || data === "yes" ? "Sim" : "Não";
 									default: return data;
@@ -1762,8 +1869,7 @@ var fpc = fpcForm = {
 							}
 						}
 					},
-					js_controller = fpc.findController()
-					
+					fpc.findController()
 		);
 
 		if (is_consulta){
@@ -1787,13 +1893,13 @@ var fpcDataTable = {
 		idsNovos: "",
 		selecionaPrimeiroReg: false,
 		is_consulta: false,
-		js_controller: undefined,
+		controller: undefined,
 		hasOnFormatCellDatatable : false,
 		
-	    createDataTable : function(tbl, url, is_consulta, row, col, js_controller){
+	    createDataTable : function(tbl, a_url, is_consulta, row, col, controller){
 			fpcDataTable.is_consulta = is_consulta;
-			fpcDataTable.js_controller = js_controller;
-			fpcDataTable.hasOnFormatCellDatatable = js_controller != undefined && js_controller.on_format_cell_datable != undefined ? true : false;
+			fpcDataTable.controller = controller;
+			fpcDataTable.hasOnFormatCellDatatable = controller != undefined && controller.on_format_cell_datable != undefined ? true : false;
 			
 			tbl.dataTable( {
 				"deferRender": true,
@@ -1820,7 +1926,7 @@ var fpcDataTable = {
 					    }
 		          },
 		          "ajax": $.fn.dataTable.pipeline( {
-		              url: url,
+		              url: a_url,
 		              pages: 5 
 		          }),
 		          "autoWidth": false,
@@ -1912,15 +2018,15 @@ $.fn.dataTable.pipeline = function ( opts ) {
                 "dataType": "json",
                 "cache":    false,
                 "success":  function ( json ) {
-                    var js_controller = fpc.findController();
-                    var hasOnFormatObject = (js_controller != undefined && js_controller.on_format_object != undefined);
-                	obj_json = new Object();
+                    var controller = fpc.findController();
+                    var hasOnFormatObject = (controller != undefined && controller.on_format_object != undefined);
+                	var obj_json = new Object();
                     obj_json.draw = 1;
                     obj_json.recordsTotal = 1;
                     obj_json.recordsFiltered = 1;
                     /*for (row in json){
                     	if (hasOnFormatObject){
-                    		fpc.fireOnFormatObject(json[row], js_controller);
+                    		fpc.fireOnFormatObject(json[row], controller);
                     	}	
                     	json[row][0] = "<input class='fpc-option-grid' type='radio' name='f_id' value='"+ json[row][0] + "'/>"; 
                     }*/
@@ -2001,5 +2107,6 @@ $(this).ready(function(){
  	$(document).ajaxSend(function(event, xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", fpc.csrftoken);
         xhr.setRequestHeader("Accept", "application/json,application/zip");
+        xhr.setRequestHeader ("Authorization", "Basic " + btoa(fpc.username + ":" + fpc.password));
  	});
 });

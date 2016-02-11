@@ -74,10 +74,14 @@ class EliotConfig(AppConfig):
             static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static/")
             js_path = "%sjs%s" % (static_path, os.sep)
             css_path = "%scss%s" % (static_path, os.sep)
-            css_concat_path = "%sfpc_concat.css" % css_path
-            js_concat_path = "%sfpc_concat.js" % js_path
-            css_concat_gz_path = "%sfpc_concat.css.gz" % css_path
-            js_concat_gz_path = "%sfpc_concat.js.gz" % js_path
+            css_dep_path = "%sfpc_dep.css" % css_path
+            css_app_path = "%sfpc_app.css" % css_path
+            js_dep_path = "%sfpc_dep.js" % js_path
+            js_app_path = "%sfpc_app.js" % js_path
+            js_dep_gz_path = "%sfpc_dep.js.gz" % js_path
+            js_app_gz_path = "%sfpc_app.js.gz" % js_path
+            css_dep_gz_path = "%sfpc_dep.css.gz" % css_path
+            css_app_gz_path = "%sfpc_app.css.gz" % css_path
             manifest_file = "%sfpc.manifest" % static_path
             css_file = static_path + "css%sfpc.css" % (os.sep)
             css_file_dinamico = static_path + "css%sfpc_dinamico.css" % (os.sep)
@@ -99,13 +103,13 @@ class EliotConfig(AppConfig):
             
             
             """
-                Gera o arquivo fpc_concat.css
+                Gera o arquivo de css
             """
             
-            print("Criando arquivo %s." % css_concat_gz_path)
+            print("Deploy css files...")
             
-            # lista de arquivos css para concatenar
-            css_files_para_concat = (static_path + "js%sbootstrap%scss%sbootstrap.min.css" % (os.sep, os.sep, os.sep),
+            # lista de arquivos css dependentes
+            css_files_para_dep = (static_path + "js%sbootstrap%scss%sbootstrap.min.css" % (os.sep, os.sep, os.sep),
                                      static_path + "js%sbootstrap%scss%sbootstrap-docs.min.css" % (os.sep, os.sep, os.sep),
                                      static_path + "js%sDT_bootstrap%sDT_bootstrap.css" % (os.sep, os.sep),
                                      static_path + "js%sbootstrap-datetimepicker%scss%sbootstrap-datetimepicker.min.css" % (os.sep, os.sep, os.sep),
@@ -114,42 +118,47 @@ class EliotConfig(AppConfig):
                                      static_path + "css%sfpc_dinamico.css" % (os.sep)
                                      #static_path + "font-awesome%scss%sfont-awesome.min.css" % (os.sep, os.sep)
                                      )
-            #print("Arquivos css: ", css_files_para_concat)
             
-            # Concatena cada arquivo no arquivo fpc_concat.css
-            css_concat_file = open(css_concat_path, 'w')
-            for filename in css_files_para_concat:
-                shutil.copyfileobj(open(filename, 'r'), css_concat_file)
-            css_concat_file.close()
+            # Reune os css dependentes
+            css_dep_file = open(css_dep_path, 'w')
+            for filename in css_files_para_dep:
+                shutil.copyfileobj(open(filename, 'r'), css_dep_file)
+            css_dep_file.close()
             
-            
-            # Utiliza o cssminifier para otimizar o css
-            if settings.USE_CSSMINIFIER:
-                with open(css_concat_path, 'rb') as f_in:
-                    params = urlencode([
-                        ('input', f_in.read() ),
-                      ])
-                
-                
-                headers = { "Content-type": "application/x-www-form-urlencoded" }
-                conn = HTTPConnection('cssminifier.com')
-                conn.request('POST', '/raw', params, headers)
-                response = conn.getresponse()
-                css_compilado = response.read()
-                conn.close()
-                with open(css_concat_path, 'wb') as f_out:
-                    f_out.write(css_compilado)
+
+            # lista de arquivos css do app
+            css_files_para_app = (static_path + "css%sfpc_img.css" % (os.sep),
+                                  static_path + "css%sfpc_dinamico.css" % (os.sep)
+                                  #static_path + "font-awesome%scss%sfont-awesome.min.css" % (os.sep, os.sep)
+                                 )
+
+            # Reune os css do app
+            css_app_file = open(css_app_path, 'w')
+            for filename in css_files_para_app:
+                shutil.copyfileobj(open(filename, 'r'), css_app_file)
+            css_app_file.close()
             
             
-            # Compacta o arquivo css para gzip
-            utils.fpcDeleteFileSeguro(css_concat_gz_path)
+            
+            # Compacta o arquivo css_dep
+            utils.fpcDeleteFileSeguro(css_dep_gz_path)
             if settings.USE_GZIP:
-                f_in = open(css_concat_path, 'rb')
-                f_out = gzip.open(css_concat_gz_path, 'wb')
+                f_in = open(css_dep_path, 'rb')
+                f_out = gzip.open(css_dep_gz_path, 'wb')
                 f_out.writelines(f_in)
                 f_out.close()
                 f_in.close()
             
+
+            # Compacta o arquivo css_app
+            utils.fpcDeleteFileSeguro(css_app_gz_path)
+            if settings.USE_GZIP:
+                f_in = open(css_app_path, 'rb')
+                f_out = gzip.open(css_app_gz_path, 'wb')
+                f_out.writelines(f_in)
+                f_out.close()
+                f_in.close()
+
             
             # Gera o manifesto de cache do HTML5
             utils.fpcDeleteFileSeguro(manifest_file)
@@ -159,8 +168,10 @@ class EliotConfig(AppConfig):
                                     "#%s\n" % str(datetime.today()),
                                     "CACHE:\n",
                                     "/eliot/static/img/fpc/fpc_img.png\n", 
-                                    "/eliot/static/js/fpc_concat.js\n",
-                                    "/eliot/static/css/fpc_concat.css\n",
+                                    "/eliot/static/js/fpc_dep.js\n",
+                                    "/eliot/static/js/fpc_app.js\n",
+                                    "/eliot/static/css/fpc_dep.css\n",
+                                    "/eliot/static/css/fpc_app.css\n",
                                     "/eliot/static/css/bootstrap.css.map\n",
                                     "/eliot/static/fonts/glyphicons-halflings-regular.woff\n",
                                     "/eliot/static/images/sort_asc.png\n",
@@ -174,75 +185,89 @@ class EliotConfig(AppConfig):
                 
             
             """
-                Gera o arquivo fpc_concat.js
+                Gera os arquivos de javascript
             """
             
-            print("Criando arquivo %s." % js_concat_gz_path)
+            print("Deploy javascript files...")
             
             # lista de arquivos js para concatenar
-            js_files_para_concat = (static_path + "js%sjquery%sjquery-2.1.3.min.js" % (os.sep, os.sep),
+            js_files_para_concat = (
+                                    static_path + "js%sjquery%sjquery-2.1.3.min.js" % (os.sep, os.sep),
                                     static_path + "js%sjquery.maskedinput.min.js" % (os.sep),
                                     static_path + "js%sbootstrap%sjs%sbootstrap.min.js" % (os.sep, os.sep, os.sep),
                                     static_path + "js%sbootstrap-datetimepicker%sjs%sbootstrap-datetimepicker.min.js" % (os.sep, os.sep, os.sep),
                                     static_path + "js%sbootstrap-datetimepicker%sjs%slocales%sbootstrap-datetimepicker.pt-BR.js" % (os.sep, os.sep, os.sep, os.sep),
                                     static_path + "js%sDataTables%smedia%sjs%sjquery.dataTables.min.js" % (os.sep, os.sep, os.sep, os.sep),
-                                    static_path + "js%sDT_bootstrap%sDT_bootstrap.js" % (os.sep, os.sep),
-                                    static_path + "js%sfpc.js" % (os.sep))
+                                    static_path + "js%sDT_bootstrap%sDT_bootstrap.js" % (os.sep, os.sep)
+                                    )
             #print("Arquivos js fixos do header: ", js_files_para_concat)
             
             # Gera a lista dos js dos módulos
             js_modulos = []
+            js_modulos.append("%sjs%sfpc.js" % (static_path, os.sep))
             for m in settings.STATIC_SCRIPTS: 
                 js_modulos.append(m),                           
             
 
-            # Concatena cada arquivo no arquivo fpc_concat.js
-            js_concat_file = open(js_concat_path, 'w')
+            # Reune os arquivos de dependência do app
+            js_dep_file = open(js_dep_path, 'w')
             for filename in js_files_para_concat:
                 try:
-                    shutil.copyfileobj(open(filename, 'r'), js_concat_file)
+                    shutil.copyfileobj(open(filename, 'r'), js_dep_file)
                 except:
                     print("Atenção: Falha ao acessar aquivo %s." % filename)
+            js_dep_file.close()
+            
+            # Reune os arquivos do app
+            js_app_file = open(js_app_path, 'w')
             for filename in js_modulos:
                 try:
-                    shutil.copyfileobj(open(filename, 'r'), js_concat_file)
+                    shutil.copyfileobj(open(filename, 'r'), js_app_file)
                 except:
                     print("Atenção: Falha ao acessar aquivo %s." % filename)
-            js_concat_file.close()
+            js_app_file.close()
             
             
             
             # Utiliza o compilador closure para otimizar o javascript
-            if settings.USE_CLOSURE_COMPILE:
-                with open(js_concat_path, 'rb') as f_in:
-                    js_code = f_in.read()
-                    params = urlencode([
-                        ('js_code', js_code ),
-                        ('compilation_level', 'SIMPLE_OPTIMIZATIONS'),  #WHITESPACE_ONLY
-                        ('output_format', 'text'),
-                        ('output_info', 'compiled_code'),
-                      ])
-                
-                headers = { "Content-type": "application/x-www-form-urlencoded" }
-                conn = HTTPConnection('closure-compiler.appspot.com')
-                conn.request('POST', '/compile', params, headers)
-                response = conn.getresponse()
-                js_compilado = response.read()
-                conn.close()
-                with open(js_concat_path, 'wb') as f_out:
-                    f_out.write(js_compilado)
+            #if settings.USE_CLOSURE_COMPILE:
+            #    with open(js_concat_path, 'rb') as f_in:
+            #        js_code = f_in.read()
+            #        params = urlencode([
+            #            ('js_code', js_code ),
+            #            ('compilation_level', 'SIMPLE_OPTIMIZATIONS'),  #WHITESPACE_ONLY
+            #            ('output_format', 'text'),
+            #            ('output_info', 'compiled_code'),
+            #          ])
+            #    
+            #    headers = { "Content-type": "application/x-www-form-urlencoded" }
+            #    conn = HTTPConnection('closure-compiler.appspot.com')
+            #    conn.request('POST', '/compile', params, headers)
+            #    response = conn.getresponse()
+            #    js_compilado = response.read()
+            #    conn.close()
+            #    with open(js_concat_path, 'wb') as f_out:
+            #        f_out.write(js_compilado)
                 
             
             
-            # Compacta o arquivo js para gzip
-            utils.fpcDeleteFileSeguro(js_concat_gz_path)
+            # Compacta o arquivo js_dep
+            utils.fpcDeleteFileSeguro(js_dep_gz_path)
             if settings.USE_GZIP:
-                f_in = open(js_concat_path, 'rb')
-                f_out = gzip.open(js_concat_gz_path, 'wb')
+                f_in = open(js_dep_path, 'rb')
+                f_out = gzip.open(js_dep_gz_path, 'wb')
                 f_out.writelines(f_in)
                 f_out.close()
                 f_in.close()        
                 
+            # Compacta o arquivo js_app
+            utils.fpcDeleteFileSeguro(js_app_gz_path)
+            if settings.USE_GZIP:
+                f_in = open(js_app_path, 'rb')
+                f_out = gzip.open(js_app_gz_path, 'wb')
+                f_out.writelines(f_in)
+                f_out.close()
+                f_in.close()        
             
             
             """

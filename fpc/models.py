@@ -378,7 +378,8 @@ class FpcManager(models.Manager):
 
     
     def existe_campo_duplicado(self, obj, field):
-        if type(field) == tuple:
+        type_field = type(field); 
+        if type_field == tuple:
             q_expr = []
             for fld in field:
                 value = getattr(obj, fld)
@@ -392,10 +393,12 @@ class FpcManager(models.Manager):
             else:
                 return self.filter(q_expr).exists()
         else:
-            value = getattr(obj, field.name) 
+            value = getattr(obj, field.name)
+            if field.primary_key and type(value) == str:
+                value = None
             if value != None: 
                 q = Q(("%s__exact" % field.name, value))
-                if obj.pk != None and obj.pk > 0 and not obj._state.adding:
+                if field != obj.pk and obj.pk != None and obj.pk > 0 and not obj._state.adding:
                     return self.filter(q).exclude(pk=obj.pk).exists()
                 else:
                     return self.filter(q).exists()
@@ -415,6 +418,7 @@ class FpcManager(models.Manager):
                                        update_fields=obj.update_fields)
         else:
             super(FpcModel, obj).save()
+        return obj
 
     def insert_json(self, obj_json):
         obj_dict = json.loads(obj_json)
@@ -423,6 +427,7 @@ class FpcManager(models.Manager):
         obj_copy = copy.deepcopy(obj)
         obj.save()
         obj.checkUpdateFields(obj_copy)
+        return obj
     
     def update_json(self, pk, obj_json):
         obj_dict = json.loads(obj_json)
@@ -431,6 +436,7 @@ class FpcManager(models.Manager):
         obj_copy = copy.deepcopy(obj)
         obj.save()
         obj.checkUpdateFields(obj_copy)
+        return obj
     
     
 class FpcModel(models.Model):
@@ -462,13 +468,14 @@ class FpcModel(models.Model):
         manager = type(self).objects
         manager.save(self)
         self.update_fields = []
+        return self
     
     def clean(self):
         errors = []
         manager = type(self).objects
         # Validação para os campos unique a nível de coluna
         for field in self._meta.fields: 
-            if field.unique and type(field) != models.AutoField and getattr(self, field.name) != None:
+            if field.unique and type(field) != models.AutoField and getattr(self, field.name) not in (None, ""):
                 if manager.existe_campo_duplicado(self, field):
                     msg = 'Campo "%s" já está cadastrado.' % field.verbose_name
                     errors.append({'msg' : msg, 'field' : field.name})
@@ -588,7 +595,7 @@ class FpcModel(models.Model):
             field -> referência do campo do modelo
         """
         if value == None or value == "":
-            return ""
+            return None
         else:
             try:
                 tipo = FpcModel.get_tipo_field(field)

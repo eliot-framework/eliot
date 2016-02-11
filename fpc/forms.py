@@ -594,7 +594,9 @@ class FpcLayout(object):
                           "modo_lazy" : self.modo_lazy, 
                           "opcao" : "layout",
                           "settings" : settings,
-                          "service_url" : service_url }
+                          "service_url" : service_url,
+                          "form_base" : self.form.__class__.__base__.__name__
+                           }
         if hasattr(self.form, "get_context_params"):
             context_params.update(self.form.get_context_params())
         context = RequestContext(self.form.request, context_params)
@@ -889,7 +891,9 @@ class FpcCrud(FpcForm):
         return { "menus" : menus,
                  "lista_sistemas" : lista_sistemas,
                  "breadcrumb" : breadcrumb,
-                 "settings" : settings}
+                 "settings" : settings,
+                 "fields_grid_pesquisa" : ",".join(self.getTuplaCamposGrid())
+                }
 
     
 class AutenticarForm(FpcForm):

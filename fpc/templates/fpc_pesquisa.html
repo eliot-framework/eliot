@@ -22,7 +22,7 @@
  		<button id="btn_cancelar" style="display:none" type="button" class="btn btn-default btn-xs">
  			<i class="glyphicon glyphicon-remove"></i>Cancelar
  		</button>
- 		<button id="btn_excluir" class="visible-lg-inline visible-md-inline visible-sm-inline btn btn-default btn-xs" style="display:none" type="button">
+ 		<button id="btn_excluir" style="display:none" class="btn btn-default btn-xs" type="button" onclick="fpc.excluir()">
  			<i class="glyphicon glyphicon-trash"></i>Excluir 
  		</button>
  		<span>&nbsp;&nbsp;</span>
@@ -48,7 +48,17 @@
 	</div>
 </div>
 {% endblock %}
-
+{% block f_state %}
+<div id="f_state" data-model="{{ form.name }}" 
+     data-service-url="{{ service_url }}" 
+     data-id="" 
+     data-jsclass="{{ form.js_class }}" 
+     data-ts="{{ ts.id }}" 
+     data-perm="{{ form.perm }}"
+     data-fields-grid="{{ fields_grid_pesquisa }}"
+     data-jsclass-base={{form_base}}>
+     </div>
+{% endblock %}
 {% block f_content_form %}
 <form id="filtro" role="form">
 	<div id="filtro_pesquisa">
@@ -76,3 +86,8 @@
 </form>
 <form id="f_cadastro" style="display: none" ></form>
 {% endblock %}
+
+
+<script>
+	fpc.montaBarraBotao();
+</script>

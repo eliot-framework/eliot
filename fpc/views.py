@@ -49,10 +49,7 @@ class FpcJsonMessage(HttpResponse):
                     message = {"errors" : message.errors,
                                 "warnings" : message.warnings,
                                 "infos" :  message.infos}
-                 
-                    message_json = message.msg_json
-                else:
-                    message_json = json.dumps(message)
+                message_json = json.dumps(message)
                 tipo = args[1]
                 if len(args) == 3:
                     params = args[2]
@@ -199,6 +196,7 @@ def fpc_exibe_pesquisa(request):
     template = form.createTemplate(FpcOperacaoForm.pesquisa)
     return FpcJsonMessage("", "info", {"template" : template, 
                                        "ts" : ts.pk, 
+                                       "operacao" : "pesquisa",
                                        "tipoTs" : ts.tipoTransacao})
 
 
@@ -380,7 +378,10 @@ def fpc_salvar_cadastro(request):
     ts = request.ts
     form = FpcForm.get_form(request)
     model_class = form.model
-    obj_id = request.GET["id"]
+    if "id" in request.GET:
+        obj_id = request.GET["id"]
+    else:
+        obj_id = None
     obj_json = request.GET["form"]
     is_insert = obj_id == None or obj_id == "" 
     # Validações de segurança da operação
