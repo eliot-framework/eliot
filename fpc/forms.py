@@ -19,12 +19,11 @@ from django.http import HttpResponse, QueryDict
 from django.shortcuts import render
 from django.template.context import RequestContext
 from django.template.loader import render_to_string
-import json
-from threading import RLock
-
 from eliot import settings
 from fpc.models import Transacao, FpcTipoField, FpcModel, Fpc, FpcValidation
 from fpc.utils import FpcException
+import json
+from threading import RLock
 
 
 class FpcCssStyle(object):
@@ -693,7 +692,12 @@ class FpcForm(FpcWidget):
 
     @staticmethod
     def get_form(request):
-        return FpcForm.create_form(request, request.ts.formModel, request.ts, request.user)
+        ts = request.ts
+        if (ts.pageController != None and ts.formModel == None):
+            formModel = "fpc.forms.FpcPageForm"
+        else:
+            formModel = ts.formModel
+        return FpcForm.create_form(request, formModel, ts, request.user)
     
     
     @staticmethod
@@ -931,4 +935,18 @@ class PainelForm(FpcForm):
         breadcrumb = ts.get_breadcrumb()
         return {"lista_sistemas" : lista, 
                 "breadcrumb" : breadcrumb}
+    
+    
+class FpcPageForm(FpcForm):
+    class Meta:
+        template = "fpc_page.html"
+    
+    def get_context_params(self):
+        ts = self.ts
+        lista = ts.getFilhos()
+        breadcrumb = ts.get_breadcrumb()
+        return {"lista_sistemas" : lista, 
+                "breadcrumb" : breadcrumb,
+                "page_controller" : ts.pageController}
+    
     

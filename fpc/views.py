@@ -25,6 +25,7 @@ from io import StringIO
 import json
 import operator
 from urllib.parse import unquote
+from django.contrib.gis.shortcuts import render_to_text
 
 
 def json_encode(obj):
@@ -79,30 +80,41 @@ class FpcJsonMessage(HttpResponse):
 __ts_cache = FpcCache()
 def fpc_request(view_func):
     def _wrapped_view_func(request, *args, **kwargs): 
-        if not request.user.is_authenticated(): 
-            return fpc_autenticar(request)
-        Fpc.setCurrentUser(request.user)
-        if "ts" in request.GET:
-            ts_id = request.GET['ts']
-            ts = __ts_cache.get(ts_id)
-            if ts == None:
-                request.ts = Transacao.objects.get(id=ts_id)
-                __ts_cache.set(ts_id, request.ts)
+        if request.user.is_authenticated(): 
+            Fpc.setCurrentUser(request.user)
+            if "nome" in kwargs:
+                    nome = kwargs["nome"]
+                    kwargs.pop("nome")
+                    ts = __ts_cache.get(nome)
+                    if ts == None:
+                        request.ts = Transacao.objects.get(nome=nome)
+                        __ts_cache.set(nome, request.ts)
+                    else:
+                        request.ts = ts
             else:
-                request.ts = ts
-        try:
-            response = view_func(request, *args, **kwargs)
-        except FpcValidation as e:
-            response = FpcJsonMessage(e, "erro")
-        except ValidationError as e:
-            response = FpcJsonMessage(e.message, "erro")
-        except IntegrityError as e:
-            response = FpcJsonMessage("Atenção: %s" % e.args[0], "erro")
-        except DatabaseError as e:
-            response = FpcJsonMessage("Database erro: %s" % e.args[0], "erro")
-        except Exception as e:
-            response = FpcJsonMessage("Erro: %s" % e.args[0], "erro")
-        return response
+                if "ts" in request.GET:
+                    ts_id = request.GET['ts']
+                    ts = __ts_cache.get(ts_id)
+                    if ts == None:
+                        request.ts = Transacao.objects.get(id=ts_id)
+                        __ts_cache.set(ts_id, request.ts)
+                    else:
+                        request.ts = ts
+            try:
+                response = view_func(request, *args, **kwargs)
+            except FpcValidation as e:
+                response = FpcJsonMessage(e, "erro")
+            except ValidationError as e:
+                response = FpcJsonMessage(e.message, "erro")
+            except IntegrityError as e:
+                response = FpcJsonMessage("Atenção: %s" % e.args[0], "erro")
+            except DatabaseError as e:
+                response = FpcJsonMessage("Database erro: %s" % e.args[0], "erro")
+            except Exception as e:
+                response = FpcJsonMessage("Erro: %s" % e.args[0], "erro")
+            return response
+        else:
+            return fpc_autenticar(request)
     return _wrapped_view_func
 
 
@@ -187,7 +199,8 @@ def fpc_executa_transacao(request):
         return FpcJsonMessage("Tipo de transação inválido", "erro")
     return FpcJsonMessage("", "info", {"template" : template, 
                                        "ts" : ts.pk, 
-                                       "tipoTs" : ts.tipoTransacao})
+                                       "tipoTs" : ts.tipoTransacao,
+                                       "isPage" : ts.pageController != None})
 
 @fpc_request
 def fpc_exibe_pesquisa(request):
@@ -206,7 +219,6 @@ def fpc_consultar(request):
     template = form.createTemplate(FpcOperacaoForm.consulta)
     return FpcJsonMessage("", "info", {"template" : template, "ts" : request.ts.pk})
     
-
 
 @fpc_request
 def fpc_index(request): 

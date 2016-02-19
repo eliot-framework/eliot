@@ -97,6 +97,8 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(ELIOT_DIR, "static/"),
+    os.path.join(ELIOT_DIR, "/eliot/app/"),
+    os.path.join(ELIOT_DIR, "/eliot/web/"),
 )
 
 
@@ -104,7 +106,7 @@ STATICFILES_DIRS = (
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    #'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 

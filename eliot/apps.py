@@ -71,9 +71,10 @@ class EliotConfig(AppConfig):
                 ************* Geração dos arquivos js e css compactados da aplicação ***********************
             """
             
+            os_sep = os.sep
             static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static/")
-            js_path = "%sjs%s" % (static_path, os.sep)
-            css_path = "%scss%s" % (static_path, os.sep)
+            js_path = "%sjs%s" % (static_path, os_sep)
+            css_path = "%scss%s" % (static_path, os_sep)
             css_dep_path = "%sfpc_dep.css" % css_path
             css_app_path = "%sfpc_app.css" % css_path
             js_dep_path = "%sfpc_dep.js" % js_path
@@ -83,8 +84,8 @@ class EliotConfig(AppConfig):
             css_dep_gz_path = "%sfpc_dep.css.gz" % css_path
             css_app_gz_path = "%sfpc_app.css.gz" % css_path
             manifest_file = "%sfpc.manifest" % static_path
-            css_file = static_path + "css%sfpc.css" % (os.sep)
-            css_file_dinamico = static_path + "css%sfpc_dinamico.css" % (os.sep)
+            css_file = static_path + "css%sfpc.css" % (os_sep)
+            css_file_dinamico = static_path + "css%sfpc_dinamico.css" % (os_sep)
             
             
             """
@@ -109,14 +110,14 @@ class EliotConfig(AppConfig):
             print("Deploy css files...")
             
             # lista de arquivos css dependentes
-            css_files_para_dep = (static_path + "js%sbootstrap%scss%sbootstrap.min.css" % (os.sep, os.sep, os.sep),
-                                     static_path + "js%sbootstrap%scss%sbootstrap-docs.min.css" % (os.sep, os.sep, os.sep),
-                                     static_path + "js%sDT_bootstrap%sDT_bootstrap.css" % (os.sep, os.sep),
-                                     static_path + "js%sbootstrap-datetimepicker%scss%sbootstrap-datetimepicker.min.css" % (os.sep, os.sep, os.sep),
-                                     static_path + "js%sDataTables%smedia%scss%sjquery.dataTables.css" % (os.sep, os.sep, os.sep, os.sep),
-                                     static_path + "css%sfpc_img.css" % (os.sep),
-                                     static_path + "css%sfpc_dinamico.css" % (os.sep)
-                                     #static_path + "font-awesome%scss%sfont-awesome.min.css" % (os.sep, os.sep)
+            css_files_para_dep = (static_path + "js%sbootstrap%scss%sbootstrap.min.css" % (os_sep, os_sep, os_sep),
+                                     static_path + "js%sbootstrap%scss%sbootstrap-docs.min.css" % (os_sep, os_sep, os_sep),
+                                     static_path + "js%sDT_bootstrap%sDT_bootstrap.css" % (os_sep, os_sep),
+                                     static_path + "js%sbootstrap-datetimepicker%scss%sbootstrap-datetimepicker.min.css" % (os_sep, os_sep, os_sep),
+                                     static_path + "js%sDataTables%smedia%scss%sjquery.dataTables.css" % (os_sep, os_sep, os_sep, os_sep),
+                                     static_path + "css%sfpc_img.css" % (os_sep),
+                                     static_path + "css%sfpc_dinamico.css" % (os_sep)
+                                     #static_path + "font-awesome%scss%sfont-awesome.min.css" % (os_sep, os_sep)
                                      )
             
             # Reune os css dependentes
@@ -127,9 +128,9 @@ class EliotConfig(AppConfig):
             
 
             # lista de arquivos css do app
-            css_files_para_app = (static_path + "css%sfpc_img.css" % (os.sep),
-                                  static_path + "css%sfpc_dinamico.css" % (os.sep)
-                                  #static_path + "font-awesome%scss%sfont-awesome.min.css" % (os.sep, os.sep)
+            css_files_para_app = (static_path + "css%sfpc_img.css" % (os_sep),
+                                  static_path + "css%sfpc_dinamico.css" % (os_sep)
+                                  #static_path + "font-awesome%scss%sfont-awesome.min.css" % (os_sep, os_sep)
                                  )
 
             # Reune os css do app
@@ -191,27 +192,44 @@ class EliotConfig(AppConfig):
             print("Deploy javascript files...")
             
             # lista de arquivos js para concatenar
-            js_files_para_concat = (
-                                    static_path + "js%sjquery%sjquery-2.1.3.min.js" % (os.sep, os.sep),
-                                    static_path + "js%sjquery.maskedinput.min.js" % (os.sep),
-                                    static_path + "js%sbootstrap%sjs%sbootstrap.min.js" % (os.sep, os.sep, os.sep),
-                                    static_path + "js%sbootstrap-datetimepicker%sjs%sbootstrap-datetimepicker.min.js" % (os.sep, os.sep, os.sep),
-                                    static_path + "js%sbootstrap-datetimepicker%sjs%slocales%sbootstrap-datetimepicker.pt-BR.js" % (os.sep, os.sep, os.sep, os.sep),
-                                    static_path + "js%sDataTables%smedia%sjs%sjquery.dataTables.min.js" % (os.sep, os.sep, os.sep, os.sep),
-                                    static_path + "js%sDT_bootstrap%sDT_bootstrap.js" % (os.sep, os.sep)
-                                    )
-            #print("Arquivos js fixos do header: ", js_files_para_concat)
+            all_js_files_dep = (
+                                    # IE required polyfills, in this exact order
+                                    #static_path + "js%spolyfills%ses6-shim.min.js" % (os_sep, os_sep),
+                                    static_path + "js%spolyfills%ssystem-polyfills.js" % (os_sep, os_sep),
+
+                                    # jquery    
+                                    static_path + "js%sjquery%sjquery-2.1.3.min.js" % (os_sep, os_sep),
+                                    
+                                    # angular 2
+                                    static_path + "js%sangular%sangular2-polyfills.js" % (os_sep, os_sep),
+                                    static_path + "js%sangular%stools%ssystem.js" % (os_sep, os_sep, os_sep),
+                                    static_path + "js%sangular%stools%stypescript.js" % (os_sep, os_sep, os_sep),
+                                    static_path + "js%sangular%sRx.js" % (os_sep, os_sep),
+                                    static_path + "js%sangular%sangular2.dev.js" % (os_sep, os_sep),
+
+                                    # bootstrap
+                                    static_path + "js%sbootstrap%sjs%sbootstrap.min.js" % (os_sep, os_sep, os_sep),
+                                    static_path + "js%sbootstrap-datetimepicker%sjs%sbootstrap-datetimepicker.min.js" % (os_sep, os_sep, os_sep),
+                                    static_path + "js%sbootstrap-datetimepicker%sjs%slocales%sbootstrap-datetimepicker.pt-BR.js" % (os_sep, os_sep, os_sep, os_sep),
+                                    static_path + "js%sDataTables%smedia%sjs%sjquery.dataTables.min.js" % (os_sep, os_sep, os_sep, os_sep),
+                                    static_path + "js%sDT_bootstrap%sDT_bootstrap.js" % (os_sep, os_sep),
+                                    
+                                    static_path + "js%sjquery_pluguin%sjquery.maskedinput.min.js" % (os_sep, os_sep),
+                                
+                                )
+            
+            #print("Arquivos js fixos do header: ", all_js_files_dep)
             
             # Gera a lista dos js dos módulos
             js_modulos = []
-            js_modulos.append("%sjs%sfpc.js" % (static_path, os.sep))
+            js_modulos.append("%sjs%sfpc%sfpc.js" % (static_path, os_sep, os_sep))
             for m in settings.STATIC_SCRIPTS: 
                 js_modulos.append(m),                           
             
 
             # Reune os arquivos de dependência do app
             js_dep_file = open(js_dep_path, 'w')
-            for filename in js_files_para_concat:
+            for filename in all_js_files_dep:
                 try:
                     shutil.copyfileobj(open(filename, 'r'), js_dep_file)
                 except:
@@ -312,8 +330,8 @@ class EliotConfig(AppConfig):
         ###################################### Módulo de administração ######################################
 
         # Módulo de administração
-        ts_adm = Transacao.objects.get_or_new(nome='ts_adm')
-        ts_adm.nome = 'ts_adm'
+        ts_adm = Transacao.objects.get_or_new(nome='admin')
+        ts_adm.nome = 'admin'
         ts_adm.titulo = 'Módulo de Administração'
         ts_adm.tipoTransacao = 'S'
         ts_adm.posicao = 1
@@ -428,7 +446,7 @@ class EliotConfig(AppConfig):
 
         # Sistema Estoque
         ts = Transacao()
-        ts.nome = 'mod_estoque'
+        ts.nome = 'estoque'
         ts.titulo = 'Estoque'
         ts.tipoTransacao = 'S'
         ts.posicao = 2
@@ -448,7 +466,7 @@ class EliotConfig(AppConfig):
         ts.posicao = 1
         ts.formModel = 'fpc.forms.PainelForm'
         ts.image_url = 'class glyphicon glyphicon-list-alt'
-        ts.transacaoPai = Transacao.objects.get(nome='mod_estoque')
+        ts.transacaoPai = Transacao.objects.get(nome='estoque')
         try:
             ts.save()
         except:

@@ -4,30 +4,30 @@
 <div class="bs-docs-section">
   <div class="bs-glyphicons">
     <ul class="bs-glyphicons-list">
-		{% for sistema in lista_sistemas %}
-		  {% if sistema.tipoTransacao != "L" %}
-		  <li class="fpc-round-box" onclick="{% if sistema.tipoTransacao == 'S' %}location.href='{% url 'exibe_sistema' %}?ts={{ sistema.id }}'{% else %} {% if sistema.transacao_url == None %}fpc.execTs({{ sistema.id }}){% else %}fpc.exibeForm('{{ sistema.transacao_url }}',{'ts':{{ sistema.id }}}){% endif %}{% endif %}">
-		        {% if sistema.image_url|slice:'0:5' == "class" %}
-				<span class="{{ sistema.image_url|slice:'6:' }}"></span>        
-		        {% elif sistema.image_url == "" %}
+		{% for ts in lista_sistemas %}
+		  {% if ts.tipoTransacao != "L" %}
+		  <li class="fpc-round-box" onclick="{% if ts.tipoTransacao == 'S' %}location.href='/portal/{{ ts.nome }}'{% else %} {% if ts.transacao_url == None %}fpc.execTs({{ ts.id }}){% else %}fpc.exibeForm('{{ ts.transacao_url }}',{'ts':{{ ts.id }}}){% endif %}{% endif %}">
+		        {% if ts.image_url|slice:'0:5' == "class" %}
+				<span class="{{ ts.image_url|slice:'6:' }}"></span>        
+		        {% elif ts.image_url == "" %}
 		        <span class="glyphicon glyphicon-flash"></span>
 		        {% else %}
-		        <img style="height:90%;width: 100%" src="{{ STATIC_URL }}img/sistemas/{{ sistema.image_url }}" />
+		        <img style="height:90%;width: 100%" src="{{ STATIC_URL }}img/sistemas/{{ ts.image_url }}" />
 		        {% endif %}
 				<span class="glyphicon-class">
-				    <strong>{{ sistema.titulo }}</strong>
+				    <strong>{{ ts.titulo }}</strong>
 				</span>
 	      </li>
 	      {% else %}
-		        {% if sistema.image_url|slice:'0:5' == "class" %}
-				<span class="{{ sistema.image_url|slice:'6:' }}"></span>        
-		        {% elif sistema.image_url == "" %}
+		        {% if ts.image_url|slice:'0:5' == "class" %}
+				<span class="{{ ts.image_url|slice:'6:' }}"></span>        
+		        {% elif ts.image_url == "" %}
 		        <span class="glyphicon glyphicon-flash"></span>
 		        {% else %}
-		        <img style="height:90%;width: 100%" src="{{ STATIC_URL }}img/sistemas/{{ sistema.image_url }}" />
+		        <img style="height:90%;width: 100%" src="{{ STATIC_URL }}img/sistemas/{{ ts.image_url }}" />
 		        {% endif %}
 				<span class="glyphicon-class">
-				    <strong>{{ sistema.titulo }}</strong>
+				    <strong>{{ ts.titulo }}</strong>
 				</span>
 	      {% endif %}
 		{% endfor %}

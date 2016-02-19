@@ -28,13 +28,13 @@
 					
 					{% endblock %}					
 					</div>
-					<div id="fpc_menu_user">
+					<div id="fpc_menu_user" style="text-align: left;">
 						<ul>
-							<li style="padding: 0 0 2px 8px;">Seja bem-vindo!</li>
-							<li><span class="glyphicon glyphicon-user"></span>{{ fpc.user.get_full_name }}</li>
-							<li>
-								<a href="#" onclick="fpc.exibeSistemas()"><span class="glyphicon glyphicon-asterisk"></span>Sistemas</a>&nbsp;
-								<a href="fpc.views.fpc_logout"><span class="glyphicon glyphicon-off" ></span>Logout</a>
+							<li style="padding: 0 0 2px 8px;">Seja bem vindo!!!</li>
+							<li style="padding: 0 0 2px 8px;"><span class="glyphicon glyphicon-user"></span>Usuário atual: {{ user.username }}</li>
+							<li style="padding: 0 0 2px 8px;">
+								<a href="/portal"><span class="glyphicon glyphicon-asterisk"></span>Meus Sistemas</a>&nbsp;
+								<a href="/portal/logout"><span class="glyphicon glyphicon-off" ></span>Logout</a>
 							</li>
 						</ul>
 					</div>

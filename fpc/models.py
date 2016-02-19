@@ -54,20 +54,20 @@ class Transacao(models.Model):
      )
 
     nome = models.CharField(max_length=30, unique=True, blank=False, null=False)
-    titulo = models.CharField(max_length=60, blank=False, null=False)
+    titulo = models.CharField(max_length=80, blank=False, null=False)
     transacaoPai = models.ForeignKey("Transacao", blank=True, null=True)
-    tipoTransacao = models.CharField(max_length=1, null=False, choices=TIPO_TRANSACAO)
-    posicao = models.IntegerField(null=False)
-    image_url = models.CharField(max_length=250, null=True, blank=True)
+    tipoTransacao = models.CharField(max_length=1, null=False, choices=TIPO_TRANSACAO, default="T")
+    posicao = models.IntegerField(null=False, default=1)
+    image_url = models.CharField(max_length=250, null=True, blank=True, default="class glyphicon glyphicon glyphicon-asterisk")
     transacao_url = models.CharField(max_length=250, null=True, blank=True)
     classePermissao = models.ForeignKey(ContentType, null=True, blank=True)
     formModel = models.CharField(max_length=100, null=True, blank=True)
     model = models.CharField(max_length=100, null=True, blank=True)
     service_api = models.CharField(max_length=60, null=True, blank=True)
+    pageController = models.CharField(max_length=60, null=True, blank=True)
     
     # Private vars
     _filhos = None 
-
 
     
     """
@@ -117,7 +117,7 @@ class Transacao(models.Model):
     
 
     """
-        Obtém uma lista de todos os menus principais por sistema que o usuário tem eliot
+        Obtém uma lista de todos os menus principais por sistema que o usuário tem
     """
     @classmethod
     def getMenuPrincipaisPorSistema(self, sistema):

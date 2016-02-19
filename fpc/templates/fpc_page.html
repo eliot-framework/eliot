@@ -1,0 +1,17 @@
+{% load fpc_tags %} 
+<div id="f_header_form">
+	{% include "fpc_breadcrumb.html" %}
+	<div id="f_botoes" style="height:32px">
+	</div>
+</div>
+<hr id="sep_breadcrumb" />
+<div id="alerta" style="display:none; min-height: 35px">
+	<span id="alerta_text" /></span>
+</div>
+{% block f_state %}
+<div id="f_state" data-ts="{{ ts.id }}" data-page-controller="{{page_controller}}" ></div>
+{% endblock %}
+
+{% block f_content_form %}
+	<{{page_controller}}>Loading...</{{page_controller}}>
+{% endblock %}

@@ -1,8 +1,22 @@
+from django import views
+from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.staticfiles import views
+import os
+
 
 urlpatterns = patterns('',
      url(r'^admin/', include(admin.site.urls)),
+                      
+     (r'^portal$', 'fpc.views.fpc_index'),
+     (r'^portal/$', 'fpc.views.fpc_index'),
+     (r'^portal/index.html$', 'fpc.views.fpc_index'),
+     (r'^portal/logout$', 'fpc.views.fpc_logout'),
+     url(r'^portal/(?P<nome>[a-zA-Z][a-zA-Z0-9_]+)$', 'fpc.views.fpc_exibe_sistema'),
+     
+                       
      (r'^eliot/index.html', 'fpc.views.fpc_index'),
      (r'^eliot/autenticar.html/$', 'fpc.views.fpc_autenticar'),
      (r'^eliot/erro_autenticar.html/$', 'fpc.views.fpc_erro_autenticar'),
@@ -23,6 +37,7 @@ urlpatterns = patterns('',
      url(r'fpc.views.fpc_field_onchange', 'fpc.views.fpc_field_onchange'),
      url(r'fpc.views.fpc_lazy_field', 'fpc.views.fpc_lazy_field'),
      
+     
      # camada de serviço
      
      url(r'^eliot/(?P<api>(api)[0-9]\/[a-zA-Z0-9_\s\+]+\/[a-zA-Z0-9_\s\+]+)/(?P<persist>(insert|update))$', 'fpc.views.fpc_service_persist'),
@@ -37,7 +52,11 @@ urlpatterns = patterns('',
      url(r'adm.views.usuario_telefone', 'adm.views.usuario_telefone'),
      url(r'adm.views.personalizar_framework', 'adm.views.personalizar_framework'),
      
-)
+     
+     url(r'/app/(?P<path>.*)$', views.serve),     
+     url(r'/web/(?P<path>.*)$', views.serve),
+     
+) 
 
      
     
