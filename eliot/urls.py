@@ -14,8 +14,8 @@ urlpatterns = patterns('',
      (r'^portal/$', 'fpc.views.fpc_index'),
      (r'^portal/index.html$', 'fpc.views.fpc_index'),
      (r'^portal/logout$', 'fpc.views.fpc_logout'),
-     url(r'^portal/(?P<nome>[a-zA-Z][a-zA-Z0-9_]+)$', 'fpc.views.fpc_exibe_sistema'),
-     
+     url(r'^portal/(?P<sistema>[a-zA-Z][a-zA-Z0-9_]+)$', 'fpc.views.fpc_exibe_sistema'),
+     url(r'^portal/(?P<sistema>[a-zA-Z][a-zA-Z0-9_]+)/(?P<breadcrumb>[a-zA-Z][a-zA-Z0-9_]+)$', 'fpc.views.fpc_exibe_sistema'),
                        
      (r'^eliot/index.html', 'fpc.views.fpc_index'),
      (r'^eliot/autenticar.html/$', 'fpc.views.fpc_autenticar'),

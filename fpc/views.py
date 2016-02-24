@@ -82,15 +82,25 @@ def fpc_request(view_func):
     def _wrapped_view_func(request, *args, **kwargs): 
         if request.user.is_authenticated(): 
             Fpc.setCurrentUser(request.user)
-            if "nome" in kwargs:
-                    nome = kwargs["nome"]
-                    kwargs.pop("nome")
-                    ts = __ts_cache.get(nome)
+            if "sistema" in kwargs:
+                    nome_sistema = kwargs["sistema"]
+                    kwargs.pop("sistema")
+                    ts = __ts_cache.get(nome_sistema)
                     if ts == None:
-                        request.ts = Transacao.objects.get(nome=nome)
-                        __ts_cache.set(nome, request.ts)
+                        request.ts = Transacao.objects.get(nome=nome_sistema)
+                        __ts_cache.set(nome_sistema, request.ts)
                     else:
                         request.ts = ts
+            
+                    if "breadcrumb" in kwargs:
+                        breadcrumb = nome_sistema + "/" + kwargs["breadcrumb"]
+                        kwargs.pop("breadcrumb")
+                        ts_breadcrumb = __ts_cache.get(breadcrumb)
+                        if ts_breadcrumb == None:
+                            request.ts_breadcrumb = Transacao.objects.get(nome=breadcrumb)
+                            __ts_cache.set(breadcrumb, request.ts_breadcrumb)
+                        else:
+                            request.ts_breadcrumb = ts_breadcrumb
             else:
                 if "ts" in request.GET:
                     ts_id = request.GET['ts']
@@ -171,7 +181,7 @@ def fpc_logout(request):
 
 
 @fpc_request 
-def fpc_exibe_sistema(request):
+def fpc_exibe_sistema(request):    
     return fpc_executa_transacao(request)
 
 
@@ -185,22 +195,18 @@ def fpc_exibe_sistemas(request):
 def fpc_executa_transacao(request):
     ts = request.ts
     if ts.tipoTransacao == "S":
-        form = FpcForm.get_form(request)
-        template = form.createTemplate()
-        response = HttpResponse(template)
-        return response
+        template = FpcForm.get_form(request).createTemplate()
+        return HttpResponse(template)
     elif ts.tipoTransacao == "T":
-        form = FpcForm.get_form(request)
-        template = form.createTemplate(FpcOperacaoForm.pesquisa)
+        template = FpcForm.get_form(request).createTemplate()
     elif ts.tipoTransacao == "F": 
-        form = FpcForm.get_form(request)
-        template = form.createTemplate()
+        template = FpcForm.get_form(request).createTemplate()
     else:
         return FpcJsonMessage("Tipo de transação inválido", "erro")
     return FpcJsonMessage("", "info", {"template" : template, 
-                                       "ts" : ts.pk, 
-                                       "tipoTs" : ts.tipoTransacao,
-                                       "isPage" : ts.pageController != None})
+                                       "ts"       : ts.pk, 
+                                       "tipoTs"   : ts.tipoTransacao,
+                                       "isPage"   : ts.pageController != None})
 
 @fpc_request
 def fpc_exibe_pesquisa(request):

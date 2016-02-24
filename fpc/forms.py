@@ -654,22 +654,8 @@ class FpcForm(FpcWidget):
                  "fpc" : Fpc.getFpc() }
 
 
-    def createTemplate(self, operacao=None, ajax_tab=None, modo_lazy=True, field_id=None):
-        nome_template_cache = "fpc_%s%s%s%s%s" % (self.ts.id, operacao, ajax_tab, modo_lazy, field_id)
-        template = cache.get(nome_template_cache, None)
-        if template is None:
-            meta_layout, meta_template = self.get_meta_layout_and_template_by_operacao(operacao)
-            if meta_layout != None:
-                self.layout = FpcLayout(self, meta_layout, meta_template, operacao, ajax_tab, modo_lazy)
-            else:
-                self.layout = FpcLayout(self, (), meta_template, operacao, ajax_tab, modo_lazy)
-            if field_id is not None:
-                template = self.layout.getWidgetById(field_id).tag()
-            else:
-                template = self.layout.render_template()
-            cache.set(nome_template_cache, template)
-            self.layout = None
-        return template
+    def get_operacao_default(self):
+        return None
 
 
     def _createTag(self):
@@ -724,6 +710,26 @@ class FpcForm(FpcWidget):
                     FpcForm.__form_instances[nome_form_cache] = form
                 
         return form 
+
+
+    def createTemplate(self, operacao=None, ajax_tab=None, modo_lazy=True, field_id=None):
+        if (operacao == None):
+            operacao = self.get_operacao_default()
+        nome_template_cache = "fpc_%s%s%s%s%s" % (self.ts.id, operacao, ajax_tab, modo_lazy, field_id)
+        template = cache.get(nome_template_cache, None)
+        if template is None:
+            meta_layout, meta_template = self.get_meta_layout_and_template_by_operacao(operacao)
+            if meta_layout != None:
+                self.layout = FpcLayout(self, meta_layout, meta_template, operacao, ajax_tab, modo_lazy)
+            else:
+                self.layout = FpcLayout(self, (), meta_template, operacao, ajax_tab, modo_lazy)
+            if field_id is not None:
+                template = self.layout.getWidgetById(field_id).tag()
+            else:
+                template = self.layout.render_template()
+            cache.set(nome_template_cache, template)
+            self.layout = None
+        return template
 
 
     def carregaFormularioFilho(self, nome_field):
@@ -830,9 +836,13 @@ class FpcCrud(FpcForm):
             self._field_names = [c.name for c in self.campos if not c.name in ['id', 'controle']]
         return self._field_names
     
+
+    def get_operacao_default(self):
+        return FpcOperacaoForm.pesquisa
+
     
     def get_meta_layout_and_template_by_operacao(self, operacao):
-        if operacao == FpcOperacaoForm.pesquisa:
+        if operacao == FpcOperacaoForm.pesquisa or operacao == None:
             try:
                 meta_layout = self.Meta.layout_pesquisa
             except:
